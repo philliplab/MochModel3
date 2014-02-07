@@ -1,0 +1,36 @@
+
+parameters 
+{
+	double MinInfWait;
+	double MaxInfWait;
+};
+
+actor Mother            //EN Individual
+{
+	logical infected = {FALSE};
+
+	event timeInfectionEvent, InfectionEvent;
+};
+
+TIME Mother::timeInfectionEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (infected == FALSE){
+		double phi = RandUniform(2);
+		tEventTime = phi * MinInfWait + (1-phi)*MaxInfWait;
+	};
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Mother::InfectionEvent()
+{
+	infected = TRUE;
+
+	int nIndex = {-1};
+	Child *prChild = {NULL};
+	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))
+	{
+		prChild->Mother_Infect();
+	}
+};

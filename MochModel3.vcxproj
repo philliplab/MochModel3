@@ -97,6 +97,9 @@
     <None Include="app.ico" />
     <None Include="Base(MotherCore).dat" />
     <None Include="Base.scex" />
+    <None Include="ChildCore.mpp" />
+    <None Include="MFertility.mpp" />
+    <None Include="MInfection.mpp" />
     <None Include="MochModel3.mpp" />
     <None Include="ModelStrings.mpp" />
     <None Include="MotherCore.mpp" />
@@ -106,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actors.cpp" />
+    <ClCompile Include="ChildCore.cpp" />
+    <ClCompile Include="MFertility.cpp" />
+    <ClCompile Include="MInfection.cpp" />
     <ClCompile Include="MochModel3.cpp" />
     <ClCompile Include="ModelStrings.cpp" />
     <ClCompile Include="MotherCore.cpp" />

@@ -1,5 +1,9 @@
 parameters {
-	double	MortalityHazard = .02; //EN Annual hazard of death
-	int	StartingPopulationSize = 1000; //EN Starting population size
+	int	StartingPopulationSize = 1000; //EN StartingPopulationSize
+	double	MinBirthWait = 1; //EN MinBirthWait
+	double	MaxBirthWait = 10; //EN MaxBirthWait
+	int	MaxChildren = 2; //EN MaxChildren
+	double	MinInfWait = 5; //EN MinInfWait
+	double	MaxInfWait = 5; //EN MaxInfWait
 };
 

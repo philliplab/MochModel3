@@ -1,0 +1,38 @@
+
+link Child.lMother Mother.mlChild[];
+
+parameters 
+{
+	double MinBirthWait;
+	double MaxBirthWait;
+	int MaxChildren;
+};
+
+actor Mother            //EN Individual
+{
+	int number_children = {0};
+
+	event timeBirthEvent, BirthEvent;
+};
+
+TIME Mother::timeBirthEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (number_children < MaxChildren){
+		double phi = RandUniform(1);
+		tEventTime = phi * MinBirthWait + (1-phi)*MaxBirthWait;
+	};
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Mother::BirthEvent()
+{
+	number_children++;
+	Child *prChild = new Child();
+	mlChild->Add(prChild);
+	prChild->Start();
+	if (infected == TRUE){
+		prChild->Mother_Infect();
+	}
+};

@@ -2,10 +2,19 @@
 static int HaveAGoodDay;
 namespace mm {
 #line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+//range LIFE
+//{
+//	0, 100
+//};
+
+//partition INFECTION_AGES
+//{
+//	0,1,2,3,4,5,10,20,30,40,50,75,100
+//};
+
 //parameters 
 //{
 //	int		StartingPopulationSize;
-//	double MortalityHazard;
 //};
 
 //actor_set Mother asAllMother; //EN All Mother actors
@@ -14,23 +23,10 @@ namespace mm {
 //{
 //	REPORT_TIME report_time = { 0 };
 //	logical alive = {TRUE};
-//	event timeMortalityEvent, MortalityEvent;	//EN Mortality event
+//
 //	void Start();
 //	void Finish();
 //};
-
-TIME Mother::timeMortalityEvent()
-{
-	TIME tEventTime = TIME_INFINITE;
-	tEventTime = WAIT( - TIME( log( RandUniform(1) ) / gprParam->MortalityHazard ) );
-	return tEventTime;
-}
-
-void Mother::MortalityEvent()
-{
-	 poStateFunctions->Set_alive(  FALSE );
-	Finish();
-}
 
 void Mother::Start()
 { if (__finished) {StartAfterFinish(); return; }; StartSpecial1();
@@ -50,5 +46,24 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //		max_value_out(duration()),		//EN Maximum duration of life decimals=4
 //		duration() / value_in(alive)	//EN Life expectancy decimals=4
 //	}	//EN Demographic characteristics
+//};
+
+//table Mother InfectionAge
+//{
+//	{
+//		event(value_at_changes(infected, age)) / event(changes(infected))
+//	}
+//	*
+//	infected
+//};
+
+//table Mother InfectionAgeHist
+//{
+//	self_scheduling_split(age, INFECTION_AGES)+
+//	*
+//	{
+//		entrances(alive, FALSE),
+//		entrances(infected, TRUE)
+//	}
 //};
 } // namespace 

@@ -38,6 +38,15 @@
     </None>
     <None Include="Base.scex" />
     <None Include="ReadMe.txt" />
+    <None Include="MFertility.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="MInfection.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="ChildCore.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MochModel3.cpp">
@@ -56,6 +65,15 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="Tabinit.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MFertility.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MInfection.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildCore.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
   </ItemGroup>
