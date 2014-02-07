@@ -6,7 +6,7 @@ parameters {
 	double	MinInfWait = 5; //EN MinInfWait
 	double	MaxInfWait = 5; //EN MaxInfWait
 
-	double	MaxLife = 100; //EN MaxLife
+	double	MaxLife = 90; //EN MaxLife
 	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
 
 	 //EN IncidenceRates

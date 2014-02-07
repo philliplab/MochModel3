@@ -434,6 +434,9 @@ class Mother : public ActorClass {
 		void __fastcall	InfectionEvent();
 		TIME __fastcall	timeInfectionEvent();
 		Event	*poInfectionEvent;
+		void __fastcall	MortalityEvent();
+		TIME __fastcall	timeMortalityEvent();
+		Event	*poMortalityEvent;
 
 		// event processing functions
 		double	EventTime( int nEventNum, int *pnEventInfo );

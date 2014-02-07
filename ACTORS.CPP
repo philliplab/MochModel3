@@ -1258,7 +1258,7 @@ void Mother::InitializeStates()
 	actor_subsample_weight = (double) 0;
 	actor_weight = (double) 0;
 	age = (TIME) 0;
-#line 22 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 8 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MMortality.mpp"
 	alive = TRUE != 0;
 #line 1264 "ACTORS.CPP"
 	case_id = (long) 0;
@@ -1270,7 +1270,7 @@ void Mother::InitializeStates()
 	CHKLMT(0, number_children, r_min_LIFE, r_max_LIFE);
 	number_children = 0 < r_min_LIFE ? r_min_LIFE : 0 > r_max_LIFE ? r_max_LIFE : (LIFE) 0;
 #line 1273 "ACTORS.CPP"
-#line 21 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 20 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
 #line 1277 "ACTORS.CPP"
@@ -1338,32 +1338,33 @@ void Mother::StartSpecial1()
 	// initialization of events
 	poBirthEvent = gpoEventQueue->NewEvent( this, 0, 0 );
 	poInfectionEvent = gpoEventQueue->NewEvent( this, 1, 0 );
-	poScheduleEvent = gpoEventQueue->NewEvent( this, 2, 255 );
+	poMortalityEvent = gpoEventQueue->NewEvent( this, 2, 0 );
+	poScheduleEvent = gpoEventQueue->NewEvent( this, 3, 255 );
 	schedule_event_time = TIME_INFINITE;
 	//Initalize derived states
-#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_alive_value_in( logical( alive ) );
-#line 1347 "ACTORS.CPP"
-#line 55 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1348 "ACTORS.CPP"
+#line 53 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_changes_infected_event( counter( poDerivedStates->changes_infected ) );
-#line 1350 "ACTORS.CPP"
-#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1351 "ACTORS.CPP"
+#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
-#line 1353 "ACTORS.CPP"
-#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1354 "ACTORS.CPP"
+#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
-#line 1356 "ACTORS.CPP"
-#line 23 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1357 "ACTORS.CPP"
+#line 21 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_integer_age( LIFE( poDerivedStates->ssint_age ) );
-#line 1359 "ACTORS.CPP"
+#line 1360 "ACTORS.CPP"
 	integer_age = integer_age < r_min_LIFE ? r_min_LIFE : integer_age > r_max_LIFE ? r_max_LIFE : integer_age;
 #line 19 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_number_children_link( LIFE( count_mlChild ) );
-#line 1363 "ACTORS.CPP"
+#line 1364 "ACTORS.CPP"
 	number_children_link = number_children_link < r_min_LIFE ? r_min_LIFE : number_children_link > r_max_LIFE ? r_max_LIFE : number_children_link;
-#line 55 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 53 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_value_at_changes_infected_age_event( real( poDerivedStates->value_at_changes_infected_age ) );
-#line 1367 "ACTORS.CPP"
+#line 1368 "ACTORS.CPP"
 	CountActor(1);
 }
 
@@ -1376,9 +1377,9 @@ void Mother::StartSpecial2()
 	poStateFunctions->Set_age(TIME( CoarsenMantissa( age ) ), true);
 	gdThreadCurrentTime = time;
 	__time = time;
-#line 17 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 16 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_actorset_filter_asAllMother( logical( 1 ) );
-#line 1382 "ACTORS.CPP"
+#line 1383 "ACTORS.CPP"
 	poDerivedStates->Set_changes_infected( (counter) 0 );
 	poDerivedStates->Set_changes_number_children( (counter) 0 );
 	poDerivedStates->Set_duration_( (TIME) 0 );
@@ -1387,25 +1388,25 @@ void Mother::StartSpecial2()
 	poDerivedStates->Set_entrances_infected_TRUE( (counter) 0 );
 #line 49 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_ageAtBirth( logical( 1 ) );
-#line 1391 "ACTORS.CPP"
-#line 39 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1392 "ACTORS.CPP"
+#line 37 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_DurationOfLife( logical( 1 ) );
-#line 1394 "ACTORS.CPP"
+#line 1395 "ACTORS.CPP"
 #line 60 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetails( logical( alive== FALSE ) );
-#line 1397 "ACTORS.CPP"
+#line 1398 "ACTORS.CPP"
 #line 69 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetailsLink( logical( 1 ) );
-#line 1400 "ACTORS.CPP"
+#line 1401 "ACTORS.CPP"
 #line 76 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetailsSum( logical( 1 ) );
-#line 1403 "ACTORS.CPP"
-#line 49 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1404 "ACTORS.CPP"
+#line 47 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAge( logical( 1 ) );
-#line 1406 "ACTORS.CPP"
-#line 58 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1407 "ACTORS.CPP"
+#line 56 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAgeHist( logical( 1 ) );
-#line 1409 "ACTORS.CPP"
+#line 1410 "ACTORS.CPP"
 	poDerivedStates->Set_value_at_changes_infected_age( (real) 0 );
 	poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children( (integer) 0 );
 	poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children_link( (integer) 0 );
@@ -1449,6 +1450,7 @@ void Mother::FinishSpecial()
 	bUpdates = FALSE;
 	gpoEventQueue->DestroyEvent( poBirthEvent );
 	gpoEventQueue->DestroyEvent( poInfectionEvent );
+	gpoEventQueue->DestroyEvent( poMortalityEvent );
 	gpoEventQueue->DestroyEvent(poScheduleEvent);
 
 	// close all updates
@@ -1650,7 +1652,7 @@ void Mother::ScheduleEvent()
 
 	if (poDerivedStates->ssint_age_time == schedule_event_time)
 	{
-		CHKSUM(time, 14);
+		CHKSUM(time, 15);
 		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 0", time);
 		gszRuntimeEventName = "Mother.scheduled - 0";
 		poDerivedStates->Set_ssint_age( poDerivedStates->ssint_age + 1 );
@@ -1659,7 +1661,7 @@ void Mother::ScheduleEvent()
 
 	if (poDerivedStates->sssplit_age_INFECTION_AGES_time == schedule_event_time)
 	{
-		CHKSUM(time, 15);
+		CHKSUM(time, 16);
 		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 1", time);
 		gszRuntimeEventName = "Mother.scheduled - 1";
 		poDerivedStates->Set_sssplit_age_INFECTION_AGES( poDerivedStates->sssplit_age_INFECTION_AGES + 1 );
@@ -1691,6 +1693,11 @@ double Mother::EventTime( int nEventNum, int *pnEventInfo )
 			TRCEVNT(case_seed, "Mother", actor_id, "timeInfectionEvent", event_time);
 			break;
 		case 2:
+			gszRuntimeEventName = "Mother.MortalityEvent(time)";
+			event_time = (double) timeMortalityEvent();
+			TRCEVNT(case_seed, "Mother", actor_id, "timeMortalityEvent", event_time);
+			break;
+		case 3:
 			gszRuntimeEventName = "ScheduleEvent(time)";
 			event_time = (double) timeScheduleEvent();
 			break;
@@ -1720,6 +1727,12 @@ void Mother::Implement( int nEventNum, int nEventInfo )
 			InfectionEvent();
 			break;
 		case 2:
+			CHKSUM(time, 2);
+			TRCEVNT(case_seed, "Mother", actor_id, "Mother.MortalityEvent", time);
+			gszRuntimeEventName = "Mother.MortalityEvent(implement)";
+			MortalityEvent();
+			break;
+		case 3:
 			ScheduleEvent();
 			break;
 		case -1:
@@ -1789,7 +1802,7 @@ logical MotherStateFunctions::Set_alive( logical value )
 		}
 #line 60 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 		Set_table_filter_FertDetails( value== FALSE );
-#line 1793 "ACTORS.CPP"
+#line 1806 "ACTORS.CPP"
 		if ( value == FALSE ) {
 			poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children( poDerivedStates->value_at_entrances_alive_FALSE_number_children + poParent->number_children );
 		}
@@ -1802,9 +1815,9 @@ logical MotherStateFunctions::Set_alive( logical value )
 		OldValue = poParent->alive;
 		poParent->alive = value;
 
-#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 		Set_alive_value_in( poParent->alive );
-#line 1808 "ACTORS.CPP"
+#line 1821 "ACTORS.CPP"
 	}
 	return poParent->alive = value;
 }
@@ -2420,7 +2433,7 @@ counter MotherStateFunctions::Set_count_mlChild( counter value )
 
 #line 19 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 		Set_number_children_link( poParent->count_mlChild );
-#line 2424 "ACTORS.CPP"
+#line 2437 "ACTORS.CPP"
 	}
 	return poParent->count_mlChild = value;
 }
@@ -2682,7 +2695,7 @@ void Ticker::InitializeStates()
 #line 18 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/TickerCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 2686 "ACTORS.CPP"
+#line 2699 "ACTORS.CPP"
 	time = (TIME) gdThreadCurrentTime;
 	__finished = FALSE;
 	__time = (TIME) gdThreadCurrentTime;

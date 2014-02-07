@@ -1,0 +1,23 @@
+
+parameters{
+	double MaxLife;
+};
+
+actor Mother            //EN Individual
+{
+	logical alive = {TRUE};
+	event timeMortalityEvent, MortalityEvent;	//EN Mortality event
+};
+
+TIME Mother::timeMortalityEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	tEventTime = WAIT(MaxLife);
+	return tEventTime;
+};
+
+void Mother::MortalityEvent()
+{
+	alive = FALSE;
+	Finish();
+};

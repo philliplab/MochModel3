@@ -15,7 +15,6 @@ namespace mm {
 //parameters 
 //{
 //	int		StartingPopulationSize;
-//	double MaxLife;
 //};
 
 //actor_set Mother asAllMother; //EN All Mother actors
@@ -23,7 +22,6 @@ namespace mm {
 //actor Mother            //EN Individual
 //{
 //	REPORT_TIME report_time = { 0 };
-//	logical alive = {TRUE};
 //	LIFE integer_age = self_scheduling_int(age);
 //
 //	void Start();
