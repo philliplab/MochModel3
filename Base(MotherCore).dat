@@ -1,0 +1,5 @@
+parameters {
+	double	MortalityHazard = .02; //EN Annual hazard of death
+	int	StartingPopulationSize = 1000; //EN Starting population size
+};
+

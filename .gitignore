@@ -1,0 +1,7 @@
+*.swp
+*.sdf
+*.exe
+*.ilk
+*.pdb
+Debug/*
+*.opensdf

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="C++ Files">
+      <UniqueIdentifier>{b2be884b-24ac-42bc-9dd4-9f07c818b0bd}</UniqueIdentifier>
+      <Extensions>cpp;h;ico;inf;rc</Extensions>
+    </Filter>
+    <Filter Include="Modules %28mpp%29">
+      <UniqueIdentifier>{0c2a3344-6f77-42f0-a334-ed0339aaf26b}</UniqueIdentifier>
+      <Extensions>mpp</Extensions>
+    </Filter>
+    <Filter Include="Scenarios">
+      <UniqueIdentifier>{1226d596-f0d7-494c-b08c-75eb771c97e0}</UniqueIdentifier>
+      <Extensions>sce;dat</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MochModel3.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="MotherCore.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="TickerCore.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="ModelStrings.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="app.ico">
+      <Filter>C++ Files</Filter>
+    </None>
+    <None Include="parse.inf">
+      <Filter>C++ Files</Filter>
+    </None>
+    <None Include="Base(MotherCore).dat">
+      <Filter>Scenarios</Filter>
+    </None>
+    <None Include="Base.scex" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MochModel3.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotherCore.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TickerCore.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelStrings.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tabinit.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Actors.h">
+      <Filter>C++ Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tabinit.h">
+      <Filter>C++ Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>C++ Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="model.rc">
+      <Filter>C++ Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

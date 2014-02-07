@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScenarioView>
+	<General Language="EN" LongNames="1" SortedGroups="0" Parsed="1" MaximizeChild="0"></General>
+	<TreeView GroupView="0" Type="410">DurationOfLife</TreeView>
+	<TreeExpansions>
+		<TreeExpansion>TABLES</TreeExpansion>
+		<TreeExpansion>PARAMETER_FILES|MotherCore</TreeExpansion>
+		<TreeExpansion>PARAMETER_FILES</TreeExpansion>
+	</TreeExpansions>
+	<ParameterSymbols></ParameterSymbols>
+	<ExportGeneral NoSE="1" NoCV="1" TableType="EXCEL_ONESHEET" Sparse="0" Lines="66"></ExportGeneral>
+	<ExportSubSamples>
+		<ExportSubSample Value="0">0</ExportSubSample>
+	</ExportSubSamples>
+	<ExportTables>
+		<ExportTable Present="1">DurationOfLife</ExportTable>
+	</ExportTables>
+</ScenarioView>
