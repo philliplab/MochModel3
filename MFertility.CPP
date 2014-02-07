@@ -12,9 +12,15 @@ namespace mm {
 //	double FertilityRates[LIFE];
 //};
 
+//partition TIME_PART
+//{
+//	0,10,20,30,40,50,60,70,100
+//};
+
 //actor Mother            //EN Individual
 //{
-//	int number_children = {0};
+//	LIFE number_children = {0};
+//	LIFE number_children_link = count(mlChild);
 //
 //	event timeBirthEvent, BirthEvent;
 //};
@@ -22,12 +28,15 @@ namespace mm {
 TIME Mother::timeBirthEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if ( number_children < gprParam->MaxChildren){
-		double phi = RandUniform(1);
-		tEventTime = phi * gprParam->MinBirthWait + (1-phi)*gprParam->MaxBirthWait;
+	double curr_fertility = gprParam->FertilityRates[CHKBND(integer_age ,101,"FertilityRates",0)];
+	if (curr_fertility >= 1){
+		tEventTime = 0;
+	} else if (curr_fertility > 0)
+	{
+		tEventTime = -log(RandUniform(4)) / -log(1 - curr_fertility);
 	};
 	tEventTime = WAIT(tEventTime);
-	return(tEventTime);
+	return tEventTime;
 };
 
 void Mother::BirthEvent()
@@ -48,5 +57,30 @@ void Mother::BirthEvent()
 //	{
 //		changes(number_children)
 //	}
+//};
+
+
+//table Mother FertDetails
+//[alive == FALSE]
+//{
+//	number_children+
+//	*
+//	{
+//		unit
+//	}	//EN Demographic characteristics
+//};
+
+//table Mother FertDetailsLink
+//{
+//	{
+//		value_at_entrances(alive, FALSE, number_children_link)
+//	}	//EN Demographic characteristics
+//};
+
+//table Mother FertDetailsSum
+//{
+//	{
+//		value_at_entrances(alive, FALSE, number_children)
+//	}	//EN Demographic characteristics
 //};
 } // namespace 

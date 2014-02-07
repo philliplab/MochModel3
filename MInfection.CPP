@@ -23,7 +23,6 @@ namespace mm {
 //actor Mother            //EN Individual
 //{
 //	logical infected = {FALSE};
-//
 //	event timeInfectionEvent, InfectionEvent;
 //};
 
@@ -44,7 +43,6 @@ TIME Mother::timeInfectionEvent()
 void Mother::InfectionEvent()
 {
 	 poStateFunctions->Set_infected(  TRUE );
-
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

@@ -57,6 +57,9 @@ extern real p_points_INCIDENCE_AGE_GROUPS[];
 typedef uint INFECTION_AGES;
 CONSTANT( int, rc_size_INFECTION_AGES, 14 );
 extern real p_points_INFECTION_AGES[];
+typedef uint TIME_PART;
+CONSTANT( int, rc_size_TIME_PART, 10 );
+extern real p_points_TIME_PART[];
 
 class Parameters {
 	public:
@@ -317,30 +320,39 @@ class MotherTable {
 		double	tab5events;
 		double	tab6events;
 		double	tab7events;
-		double	tab7events0;
-		double	tab7events1;
 		double	tab8events;
+		double	tab9events;
+		double	tab10events;
+		double	tab10events0;
+		double	tab10events1;
+		double	tab11events;
 		//   group=float
 		real	tab5open0;
 		real	tab5close0;
 		real	tab6open0;
 		real	tab6close0;
-		real	tab6open1;
-		real	tab6close1;
-		real	tab6open2;
-		real	tab6close2;
-		real	tab6open3;
-		real	tab6close3;
 		real	tab7open0;
 		real	tab7close0;
-		real	tab7prev0;
-		real	tab7open1;
-		real	tab7close1;
-		real	tab7prev1;
 		real	tab8open0;
 		real	tab8close0;
-		real	tab8open1;
-		real	tab8close1;
+		real	tab9open0;
+		real	tab9close0;
+		real	tab9open1;
+		real	tab9close1;
+		real	tab9open2;
+		real	tab9close2;
+		real	tab9open3;
+		real	tab9close3;
+		real	tab10open0;
+		real	tab10close0;
+		real	tab10prev0;
+		real	tab10open1;
+		real	tab10close1;
+		real	tab10prev1;
+		real	tab11open0;
+		real	tab11close0;
+		real	tab11open1;
+		real	tab11close1;
 		//   group=long
 		//   group=ulong
 		index	tab5cell;
@@ -351,12 +363,21 @@ class MotherTable {
 		index	tab7total_cell;
 		index	tab8cell;
 		index	tab8total_cell;
+		index	tab9cell;
+		index	tab9total_cell;
+		index	tab10cell;
+		index	tab10total_cell;
+		index	tab11cell;
+		index	tab11total_cell;
 		//   group=int
 		//   group=uint
 		logical	tab5dim_filter : 1;
 		logical	tab6dim_filter : 1;
 		logical	tab7dim_filter : 1;
 		logical	tab8dim_filter : 1;
+		logical	tab9dim_filter : 1;
+		logical	tab10dim_filter : 1;
+		logical	tab11dim_filter : 1;
 		//   group=short
 		//   group=ushort
 		//   group=char
@@ -440,22 +461,28 @@ class Mother : public ActorClass {
 		long	case_id;
 		//   group=ulong
 		//   group=int
-		int	number_children;
 		//   group=uint
 		logical	alive : 1;
 		logical	infected : 1;
+		LIFE	number_children : 7;
 		REPORT_TIME	report_time : 8;
 		logical	actorset_filter_asAllMother : 1;
 		logical	alive_value_in : 1;
 		LIFE	integer_age : 7;
+		LIFE	number_children_link : 7;
 		logical	table_filter_ageAtBirth : 1;
 		logical	table_filter_DurationOfLife : 1;
+		logical	table_filter_FertDetails : 1;
+		logical	table_filter_FertDetailsLink : 1;
+		logical	table_filter_FertDetailsSum : 1;
 		logical	table_filter_InfectionAge : 1;
 		logical	table_filter_InfectionAgeHist : 1;
 		logical	__finished : 1;
 		//   group=short
 		//   group=ushort
+		counter	table_unit_FertDetails;
 		counter	changes_infected_event;
+		counter	count_mlChild;
 		//   group=char
 		//   group=uchar
 		// end MembersDump
@@ -474,10 +501,11 @@ class MotherStateFunctions {
 		TIME	Set_age( TIME value, bool bStartFunction = false );
 		logical	Set_alive( logical value );
 		logical	Set_infected( logical value );
-		int	Set_number_children( int value );
-		int	PlusPlusSet_number_children() { int old_value; old_value = poParent->number_children;
-			Set_number_children((int) (poParent->number_children + 1)); return old_value; };
+		LIFE	Set_number_children( LIFE value );
+		LIFE	PlusPlusSet_number_children() { LIFE old_value; old_value = poParent->number_children;
+			Set_number_children((LIFE) (poParent->number_children + 1)); return old_value; };
 		REPORT_TIME	Set_report_time( REPORT_TIME value );
+		counter	Set_table_unit_FertDetails( counter value );
 		TIME	Set_time( TIME value, bool bStartFunction = false ){ return poParent->time = value; };
 		logical	Set_actorset_filter_asAllMother( logical value );
 		logical	Set_alive_value_in( logical value );
@@ -487,11 +515,16 @@ class MotherStateFunctions {
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
 		LIFE	Set_integer_age( LIFE value );
+		LIFE	Set_number_children_link( LIFE value );
 		logical	Set_table_filter_ageAtBirth( logical value );
 		logical	Set_table_filter_DurationOfLife( logical value );
+		logical	Set_table_filter_FertDetails( logical value );
+		logical	Set_table_filter_FertDetailsLink( logical value );
+		logical	Set_table_filter_FertDetailsSum( logical value );
 		logical	Set_table_filter_InfectionAge( logical value );
 		logical	Set_table_filter_InfectionAgeHist( logical value );
 		real	Set_value_at_changes_infected_age_event( real value );
+		counter	Set_count_mlChild( counter value );
 };
 
 class MotherDerivedStates {
@@ -510,6 +543,8 @@ class MotherDerivedStates {
 		counter	Set_ssint_age( counter value );
 		INFECTION_AGES	Set_sssplit_age_INFECTION_AGES( INFECTION_AGES value );
 		real	Set_value_at_changes_infected_age( real value );
+		integer	Set_value_at_entrances_alive_FALSE_number_children( integer value );
+		integer	Set_value_at_entrances_alive_FALSE_number_children_link( integer value );
 
 		// begin MembersDump
 		//   group=<unknown token type>
@@ -526,6 +561,8 @@ class MotherDerivedStates {
 		//   group=uint
 		INFECTION_AGES	sssplit_age_INFECTION_AGES : 4;
 		//   group=short
+		integer	value_at_entrances_alive_FALSE_number_children;
+		integer	value_at_entrances_alive_FALSE_number_children_link;
 		//   group=ushort
 		counter	changes_infected;
 		counter	changes_number_children;
@@ -669,6 +706,7 @@ class Mother_mlChild : public CObject {
 		void	Finish();
 		void	FinishAll();
 		Child	*GetNext( int nInitPos, int *pnPos );
+		counter	Count();
 		void	UpdateReferences();
 		Mother	*prParentMother;
 		ChildArray	arData;
