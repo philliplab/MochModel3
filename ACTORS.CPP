@@ -41,9 +41,13 @@ BOOL VerifyParameters( CString *pszError)
 	BOOL	bResult = TRUE;
 
 	(*pszError).Empty();
+	if ( !VerifyParameter( pszError, "FertilityRates" ) ) bResult = FALSE;
+	if ( !VerifyParameter( pszError, "IncidenceRates" ) ) bResult = FALSE;
+	if ( !VerifyParameter( pszError, "IncidenceRatesSource" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MaxBirthWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MaxChildren" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MaxInfWait" ) ) bResult = FALSE;
+	if ( !VerifyParameter( pszError, "MaxLife" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MinBirthWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MinInfWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "StartingPopulationSize" ) ) bResult = FALSE;
@@ -66,14 +70,20 @@ void SetCaseWeight( double dCaseWeight, double dCaseSubsampleWeight )
 }
 
 // partitions
+real p_points_INCIDENCE_AGE_GROUPS[] = { 0, 15, 20, 24, 29, 34, 39, 44, 49, 54,
+	 59, 100 };
 real p_points_INFECTION_AGES[] = { 0, 1, 2, 3, 4, 5, 10, 20, 30, 40,
 	 50, 75, 100 };
 
 Parameters::Parameters()
 {
+	Initializer( &FertilityRates, "FertilityRates" );
+	Initializer( &IncidenceRates, "IncidenceRates" );
+	Initializer( &IncidenceRatesSource, "IncidenceRatesSource" );
 	Initializer( &MaxBirthWait, "MaxBirthWait" );
 	Initializer( &MaxChildren, "MaxChildren" );
 	Initializer( &MaxInfWait, "MaxInfWait" );
+	Initializer( &MaxLife, "MaxLife" );
 	Initializer( &MinBirthWait, "MinBirthWait" );
 	Initializer( &MinInfWait, "MinInfWait" );
 	Initializer( &StartingPopulationSize, "StartingPopulationSize" );
@@ -198,18 +208,18 @@ void Child::InitializeStates()
 	actor_subsample_weight = (double) 0;
 	actor_weight = (double) 0;
 	age = (TIME) 0;
-#line 7 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 6 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	alive = TRUE != 0;
-#line 204 "ACTORS.CPP"
+#line 214 "ACTORS.CPP"
 	case_id = (long) 0;
 	case_seed = (double) 0;
-#line 9 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 8 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	mother_infected_fm = FALSE != 0;
-#line 209 "ACTORS.CPP"
-#line 6 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 219 "ACTORS.CPP"
+#line 5 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 213 "ACTORS.CPP"
+#line 223 "ACTORS.CPP"
 	table_unit_Infection_count_dl = (counter) 0;
 	table_unit_Infection_count_fm = (counter) 0;
 	time = (TIME) gdThreadCurrentTime;
@@ -265,18 +275,18 @@ void Child::StartSpecial1()
 	poScheduleEvent = gpoEventQueue->NewEvent( this, 0, 255 );
 	schedule_event_time = TIME_INFINITE;
 	//Initalize derived states
-#line 36 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 35 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_alive_value_in( logical( alive ) );
-#line 271 "ACTORS.CPP"
-#line 36 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 281 "ACTORS.CPP"
+#line 35 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
-#line 274 "ACTORS.CPP"
-#line 36 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 284 "ACTORS.CPP"
+#line 35 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
-#line 277 "ACTORS.CPP"
-#line 8 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 287 "ACTORS.CPP"
+#line 7 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_mother_infected_dl( logical( lMother_infected ) );
-#line 280 "ACTORS.CPP"
+#line 290 "ACTORS.CPP"
 	CountActor(0);
 }
 
@@ -289,29 +299,29 @@ void Child::StartSpecial2()
 	poStateFunctions->Set_age(TIME( CoarsenMantissa( age ) ), true);
 	gdThreadCurrentTime = time;
 	__time = time;
-#line 2 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_actorset_filter_asAllChild( logical( 1 ) );
-#line 295 "ACTORS.CPP"
+#line 305 "ACTORS.CPP"
 	poDerivedStates->Set_duration_( (TIME) 0 );
 	poDerivedStates->duration__time = time;
 	poDerivedStates->Set_entrances_alive_FALSE( (counter) 0 );
 	poDerivedStates->Set_entrances_mother_infected_dl_TRUE( (counter) 0 );
 	poDerivedStates->Set_entrances_mother_infected_fm_TRUE( (counter) 0 );
-#line 30 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 29 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_table_filter_DurationOfLifea( logical( 1 ) );
-#line 303 "ACTORS.CPP"
-#line 50 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 313 "ACTORS.CPP"
+#line 49 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_table_filter_Infection_count_dl( logical( 1 ) );
-#line 306 "ACTORS.CPP"
-#line 69 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 316 "ACTORS.CPP"
+#line 68 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_table_filter_Infection_count_fm( logical( 1 ) );
-#line 309 "ACTORS.CPP"
-#line 40 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 319 "ACTORS.CPP"
+#line 39 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAgeHist_dl( logical( 1 ) );
-#line 312 "ACTORS.CPP"
-#line 59 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 322 "ACTORS.CPP"
+#line 58 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAgeHist_fm( logical( 1 ) );
-#line 315 "ACTORS.CPP"
+#line 325 "ACTORS.CPP"
 
 	// initialization of cross-tabulation updates
 	tableinfo.tab0events = -1;
@@ -614,9 +624,9 @@ logical ChildStateFunctions::Set_alive( logical value )
 		OldValue = poParent->alive;
 		poParent->alive = value;
 
-#line 36 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 35 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 		Set_alive_value_in( poParent->alive );
-#line 620 "ACTORS.CPP"
+#line 630 "ACTORS.CPP"
 	}
 	return poParent->alive = value;
 }
@@ -1057,9 +1067,9 @@ logical ChildStateFunctions::Set_lMother_infected( logical value )
 		OldValue = poParent->lMother_infected;
 		poParent->lMother_infected = value;
 
-#line 8 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 7 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
 		Set_mother_infected_dl( poParent->lMother_infected );
-#line 1063 "ACTORS.CPP"
+#line 1073 "ACTORS.CPP"
 	}
 	return poParent->lMother_infected = value;
 }
@@ -1247,34 +1257,39 @@ void Mother::InitializeStates()
 	actor_subsample_weight = (double) 0;
 	actor_weight = (double) 0;
 	age = (TIME) 0;
-#line 21 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 22 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	alive = TRUE != 0;
-#line 1253 "ACTORS.CPP"
+#line 1263 "ACTORS.CPP"
 	case_id = (long) 0;
 	case_seed = (double) 0;
-#line 10 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MInfection.mpp"
+#line 21 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MInfection.mpp"
 	infected = FALSE != 0;
-#line 1258 "ACTORS.CPP"
+#line 1268 "ACTORS.CPP"
 #line 13 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
 	number_children = (int) 0;
-#line 1261 "ACTORS.CPP"
-#line 20 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1271 "ACTORS.CPP"
+#line 21 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 1265 "ACTORS.CPP"
+#line 1275 "ACTORS.CPP"
 	time = (TIME) gdThreadCurrentTime;
 	actorset_filter_asAllMother = FALSE;
 	alive_value_in = FALSE;
 	poDerivedStates->changes_infected = (counter) 0;
 	changes_infected_event = (counter) 0;
+	poDerivedStates->changes_number_children = (counter) 0;
 	poDerivedStates->duration_ = (TIME) 0;
 	poDerivedStates->duration__time = (TIME) gdThreadCurrentTime;
 	duration__max_value_out = (TIME) 0;
 	duration__min_value_out = (TIME) 0;
 	poDerivedStates->entrances_alive_FALSE = (counter) 0;
 	poDerivedStates->entrances_infected_TRUE = (counter) 0;
+	integer_age = r_min_LIFE;
+	poDerivedStates->ssint_age = (counter) 0;
+	poDerivedStates->ssint_age_time = (TIME) TIME_INFINITE;
 	poDerivedStates->sssplit_age_INFECTION_AGES = (INFECTION_AGES) 0;
 	poDerivedStates->sssplit_age_INFECTION_AGES_time = (TIME) TIME_INFINITE;
+	table_filter_ageAtBirth = FALSE;
 	table_filter_DurationOfLife = FALSE;
 	table_filter_InfectionAge = FALSE;
 	table_filter_InfectionAgeHist = FALSE;
@@ -1310,21 +1325,25 @@ void Mother::StartSpecial1()
 	poScheduleEvent = gpoEventQueue->NewEvent( this, 2, 255 );
 	schedule_event_time = TIME_INFINITE;
 	//Initalize derived states
-#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_alive_value_in( logical( alive ) );
-#line 1316 "ACTORS.CPP"
-#line 53 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1331 "ACTORS.CPP"
+#line 55 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_changes_infected_event( counter( poDerivedStates->changes_infected ) );
-#line 1319 "ACTORS.CPP"
-#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1334 "ACTORS.CPP"
+#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
-#line 1322 "ACTORS.CPP"
-#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1337 "ACTORS.CPP"
+#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
-#line 1325 "ACTORS.CPP"
-#line 53 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1340 "ACTORS.CPP"
+#line 23 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+	poStateFunctions->Set_integer_age( LIFE( poDerivedStates->ssint_age ) );
+#line 1343 "ACTORS.CPP"
+	integer_age = integer_age < r_min_LIFE ? r_min_LIFE : integer_age > r_max_LIFE ? r_max_LIFE : integer_age;
+#line 55 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_value_at_changes_infected_age_event( real( poDerivedStates->value_at_changes_infected_age ) );
-#line 1328 "ACTORS.CPP"
+#line 1347 "ACTORS.CPP"
 	CountActor(1);
 }
 
@@ -1337,41 +1356,47 @@ void Mother::StartSpecial2()
 	poStateFunctions->Set_age(TIME( CoarsenMantissa( age ) ), true);
 	gdThreadCurrentTime = time;
 	__time = time;
-#line 16 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 17 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_actorset_filter_asAllMother( logical( 1 ) );
-#line 1343 "ACTORS.CPP"
+#line 1362 "ACTORS.CPP"
 	poDerivedStates->Set_changes_infected( (counter) 0 );
+	poDerivedStates->Set_changes_number_children( (counter) 0 );
 	poDerivedStates->Set_duration_( (TIME) 0 );
 	poDerivedStates->duration__time = time;
 	poDerivedStates->Set_entrances_alive_FALSE( (counter) 0 );
 	poDerivedStates->Set_entrances_infected_TRUE( (counter) 0 );
-#line 37 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 40 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
+	poStateFunctions->Set_table_filter_ageAtBirth( logical( 1 ) );
+#line 1371 "ACTORS.CPP"
+#line 39 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_DurationOfLife( logical( 1 ) );
-#line 1351 "ACTORS.CPP"
-#line 47 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1374 "ACTORS.CPP"
+#line 49 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAge( logical( 1 ) );
-#line 1354 "ACTORS.CPP"
-#line 56 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1377 "ACTORS.CPP"
+#line 58 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAgeHist( logical( 1 ) );
-#line 1357 "ACTORS.CPP"
+#line 1380 "ACTORS.CPP"
 	poDerivedStates->Set_value_at_changes_infected_age( (real) 0 );
 
 	// initialization of cross-tabulation updates
 	tableinfo.tab5events = -1;
-	tableinfo.tab5open0 = (real) ( alive_value_in );
-	tableinfo.tab5open1 = (real) ( poDerivedStates->duration_ );
-	tableinfo.tab5open2 = (real) ( duration__max_value_out );
-	tableinfo.tab5open3 = (real) ( duration__min_value_out );
+	tableinfo.tab5open0 = (real) ( poDerivedStates->changes_number_children );
 	tableinfo.tab6events = -1;
-	tableinfo.tab6open0 = (real) ( changes_infected_event );
-	tableinfo.tab6prev0 = (real) ( changes_infected_event );
-	tableinfo.tab6events0 = -1;
-	tableinfo.tab6open1 = (real) ( value_at_changes_infected_age_event );
-	tableinfo.tab6prev1 = (real) ( value_at_changes_infected_age_event );
-	tableinfo.tab6events1 = -1;
+	tableinfo.tab6open0 = (real) ( alive_value_in );
+	tableinfo.tab6open1 = (real) ( poDerivedStates->duration_ );
+	tableinfo.tab6open2 = (real) ( duration__max_value_out );
+	tableinfo.tab6open3 = (real) ( duration__min_value_out );
 	tableinfo.tab7events = -1;
-	tableinfo.tab7open0 = (real) ( poDerivedStates->entrances_alive_FALSE );
-	tableinfo.tab7open1 = (real) ( poDerivedStates->entrances_infected_TRUE );
+	tableinfo.tab7open0 = (real) ( changes_infected_event );
+	tableinfo.tab7prev0 = (real) ( changes_infected_event );
+	tableinfo.tab7events0 = -1;
+	tableinfo.tab7open1 = (real) ( value_at_changes_infected_age_event );
+	tableinfo.tab7prev1 = (real) ( value_at_changes_infected_age_event );
+	tableinfo.tab7events1 = -1;
+	tableinfo.tab8events = -1;
+	tableinfo.tab8open0 = (real) ( poDerivedStates->entrances_alive_FALSE );
+	tableinfo.tab8open1 = (real) ( poDerivedStates->entrances_infected_TRUE );
 	poPrev = NULL;
 	poNext = gpoEventQueue->poHeadActor;
 	if ( gpoEventQueue->poHeadActor != NULL ) {
@@ -1390,58 +1415,73 @@ void Mother::FinishSpecial()
 	gpoEventQueue->DestroyEvent(poScheduleEvent);
 
 	// close all updates
-	if ( gplTableIndexes[5] >= 0 && ( tableinfo.tab5dim_filter || table_filter_DurationOfLife ) ) {
+	if ( gplTableIndexes[5] >= 0 && ( tableinfo.tab5dim_filter || table_filter_ageAtBirth ) ) {
 		if ( tableinfo.tab5events != -1 ) {
 			tableinfo.tab5open0 = (real) CloseUpdate( 5, 0, tableinfo.tab5open0, tableinfo.tab5close0, tableinfo.tab5dim_filter, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
-			tableinfo.tab5open1 = (real) CloseUpdate( 5, 1, tableinfo.tab5open1, tableinfo.tab5close1, tableinfo.tab5dim_filter, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
-			tableinfo.tab5open2 = (real) CloseUpdate( 5, 2, tableinfo.tab5open2, tableinfo.tab5close2, tableinfo.tab5dim_filter, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
-			tableinfo.tab5open3 = (real) CloseUpdate( 5, 3, tableinfo.tab5open3, tableinfo.tab5close3, tableinfo.tab5dim_filter, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
 		}
-		tableinfo.tab5cell = (index) TableCellIndex( 5, 0 );
+		tableinfo.tab5cell = (index) TableCellIndex( 5, 1,
+			poDerivedStates->sssplit_age_INFECTION_AGES );
 		if ( gpModelApp->m_nSubSamples == 1 ) {
 			tableinfo.tab5total_cell = (index) tableinfo.tab5cell;
 		}
 		else {
-			tableinfo.tab5total_cell = (index) TableTotalCellIndex( 5, 0 );
+			tableinfo.tab5total_cell = (index) TableTotalCellIndex( 5, 1,
+			poDerivedStates->sssplit_age_INFECTION_AGES );
 		}
-		CloseUpdate( 5, 0, tableinfo.tab5open0, alive_value_in, table_filter_DurationOfLife, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
-		CloseUpdate( 5, 1, tableinfo.tab5open1, poDerivedStates->Get_duration_(), table_filter_DurationOfLife, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
-		CloseUpdate( 5, 2, tableinfo.tab5open2, poStateFunctions->Get_duration__max_value_out(), table_filter_DurationOfLife, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
-		CloseUpdate( 5, 3, tableinfo.tab5open3, poStateFunctions->Get_duration__min_value_out(), table_filter_DurationOfLife, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 5, 0, tableinfo.tab5open0, poDerivedStates->changes_number_children, table_filter_ageAtBirth, tableinfo.tab5cell, tableinfo.tab5total_cell, actor_weight, actor_subsample_weight );
 	}
-	if ( gplTableIndexes[6] >= 0 && ( tableinfo.tab6dim_filter || table_filter_InfectionAge ) ) {
+	if ( gplTableIndexes[6] >= 0 && ( tableinfo.tab6dim_filter || table_filter_DurationOfLife ) ) {
 		if ( tableinfo.tab6events != -1 ) {
 			tableinfo.tab6open0 = (real) CloseUpdate( 6, 0, tableinfo.tab6open0, tableinfo.tab6close0, tableinfo.tab6dim_filter, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
 			tableinfo.tab6open1 = (real) CloseUpdate( 6, 1, tableinfo.tab6open1, tableinfo.tab6close1, tableinfo.tab6dim_filter, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
+			tableinfo.tab6open2 = (real) CloseUpdate( 6, 2, tableinfo.tab6open2, tableinfo.tab6close2, tableinfo.tab6dim_filter, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
+			tableinfo.tab6open3 = (real) CloseUpdate( 6, 3, tableinfo.tab6open3, tableinfo.tab6close3, tableinfo.tab6dim_filter, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
 		}
-		tableinfo.tab6cell = (index) TableCellIndex( 6, 1,
-			infected );
+		tableinfo.tab6cell = (index) TableCellIndex( 6, 0 );
 		if ( gpModelApp->m_nSubSamples == 1 ) {
 			tableinfo.tab6total_cell = (index) tableinfo.tab6cell;
 		}
 		else {
-			tableinfo.tab6total_cell = (index) TableTotalCellIndex( 6, 1,
-			infected );
+			tableinfo.tab6total_cell = (index) TableTotalCellIndex( 6, 0 );
 		}
-		CloseUpdate( 6, 0, tableinfo.tab6open0, changes_infected_event, table_filter_InfectionAge, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
-		CloseUpdate( 6, 1, tableinfo.tab6open1, value_at_changes_infected_age_event, table_filter_InfectionAge, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 6, 0, tableinfo.tab6open0, alive_value_in, table_filter_DurationOfLife, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 6, 1, tableinfo.tab6open1, poDerivedStates->Get_duration_(), table_filter_DurationOfLife, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 6, 2, tableinfo.tab6open2, poStateFunctions->Get_duration__max_value_out(), table_filter_DurationOfLife, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 6, 3, tableinfo.tab6open3, poStateFunctions->Get_duration__min_value_out(), table_filter_DurationOfLife, tableinfo.tab6cell, tableinfo.tab6total_cell, actor_weight, actor_subsample_weight );
 	}
-	if ( gplTableIndexes[7] >= 0 && ( tableinfo.tab7dim_filter || table_filter_InfectionAgeHist ) ) {
+	if ( gplTableIndexes[7] >= 0 && ( tableinfo.tab7dim_filter || table_filter_InfectionAge ) ) {
 		if ( tableinfo.tab7events != -1 ) {
 			tableinfo.tab7open0 = (real) CloseUpdate( 7, 0, tableinfo.tab7open0, tableinfo.tab7close0, tableinfo.tab7dim_filter, tableinfo.tab7cell, tableinfo.tab7total_cell, actor_weight, actor_subsample_weight );
 			tableinfo.tab7open1 = (real) CloseUpdate( 7, 1, tableinfo.tab7open1, tableinfo.tab7close1, tableinfo.tab7dim_filter, tableinfo.tab7cell, tableinfo.tab7total_cell, actor_weight, actor_subsample_weight );
 		}
 		tableinfo.tab7cell = (index) TableCellIndex( 7, 1,
-			poDerivedStates->sssplit_age_INFECTION_AGES );
+			infected );
 		if ( gpModelApp->m_nSubSamples == 1 ) {
 			tableinfo.tab7total_cell = (index) tableinfo.tab7cell;
 		}
 		else {
 			tableinfo.tab7total_cell = (index) TableTotalCellIndex( 7, 1,
+			infected );
+		}
+		CloseUpdate( 7, 0, tableinfo.tab7open0, changes_infected_event, table_filter_InfectionAge, tableinfo.tab7cell, tableinfo.tab7total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 7, 1, tableinfo.tab7open1, value_at_changes_infected_age_event, table_filter_InfectionAge, tableinfo.tab7cell, tableinfo.tab7total_cell, actor_weight, actor_subsample_weight );
+	}
+	if ( gplTableIndexes[8] >= 0 && ( tableinfo.tab8dim_filter || table_filter_InfectionAgeHist ) ) {
+		if ( tableinfo.tab8events != -1 ) {
+			tableinfo.tab8open0 = (real) CloseUpdate( 8, 0, tableinfo.tab8open0, tableinfo.tab8close0, tableinfo.tab8dim_filter, tableinfo.tab8cell, tableinfo.tab8total_cell, actor_weight, actor_subsample_weight );
+			tableinfo.tab8open1 = (real) CloseUpdate( 8, 1, tableinfo.tab8open1, tableinfo.tab8close1, tableinfo.tab8dim_filter, tableinfo.tab8cell, tableinfo.tab8total_cell, actor_weight, actor_subsample_weight );
+		}
+		tableinfo.tab8cell = (index) TableCellIndex( 8, 1,
+			poDerivedStates->sssplit_age_INFECTION_AGES );
+		if ( gpModelApp->m_nSubSamples == 1 ) {
+			tableinfo.tab8total_cell = (index) tableinfo.tab8cell;
+		}
+		else {
+			tableinfo.tab8total_cell = (index) TableTotalCellIndex( 8, 1,
 			poDerivedStates->sssplit_age_INFECTION_AGES );
 		}
-		CloseUpdate( 7, 0, tableinfo.tab7open0, poDerivedStates->entrances_alive_FALSE, table_filter_InfectionAgeHist, tableinfo.tab7cell, tableinfo.tab7total_cell, actor_weight, actor_subsample_weight );
-		CloseUpdate( 7, 1, tableinfo.tab7open1, poDerivedStates->entrances_infected_TRUE, table_filter_InfectionAgeHist, tableinfo.tab7cell, tableinfo.tab7total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 8, 0, tableinfo.tab8open0, poDerivedStates->entrances_alive_FALSE, table_filter_InfectionAgeHist, tableinfo.tab8cell, tableinfo.tab8total_cell, actor_weight, actor_subsample_weight );
+		CloseUpdate( 8, 1, tableinfo.tab8open1, poDerivedStates->entrances_infected_TRUE, table_filter_InfectionAgeHist, tableinfo.tab8cell, tableinfo.tab8total_cell, actor_weight, actor_subsample_weight );
 	}
 	mlChild->Finish();
 	if (poasAllMother != NULL)
@@ -1515,17 +1555,32 @@ void Mother::WaitSpecial( TIME wait_time )
 
 TIME Mother::timeScheduleEvent()
 {
+	if (schedule_event_time == TIME_INFINITE)
+	{
+		TIME event_time = TIME_INFINITE;
+		event_time = min( poDerivedStates->ssint_age_time, poDerivedStates->sssplit_age_INFECTION_AGES_time );
+		schedule_event_time = event_time;
+	}
 	return schedule_event_time;
 }
 
 void Mother::ScheduleEvent()
 {
 
-	if (poDerivedStates->sssplit_age_INFECTION_AGES_time == schedule_event_time)
+	if (poDerivedStates->ssint_age_time == schedule_event_time)
 	{
-		CHKSUM(time, 11);
+		CHKSUM(time, 13);
 		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 0", time);
 		gszRuntimeEventName = "Mother.scheduled - 0";
+		poDerivedStates->Set_ssint_age( poDerivedStates->ssint_age + 1 );
+		poDerivedStates->ssint_age_time = WAIT( 1 );
+	}
+
+	if (poDerivedStates->sssplit_age_INFECTION_AGES_time == schedule_event_time)
+	{
+		CHKSUM(time, 14);
+		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 1", time);
+		gszRuntimeEventName = "Mother.scheduled - 1";
 		poDerivedStates->Set_sssplit_age_INFECTION_AGES( poDerivedStates->sssplit_age_INFECTION_AGES + 1 );
 		if ( poDerivedStates->sssplit_age_INFECTION_AGES < 13 ) {
 		poDerivedStates->sssplit_age_INFECTION_AGES_time = WAIT(TIME(POINTS(INFECTION_AGES)[poDerivedStates->sssplit_age_INFECTION_AGES] - POINTS(INFECTION_AGES)[poDerivedStates->sssplit_age_INFECTION_AGES - 1]));
@@ -1533,8 +1588,8 @@ void Mother::ScheduleEvent()
 		else
 		{		poDerivedStates->sssplit_age_INFECTION_AGES_time = TIME_INFINITE;
 		}
-		schedule_event_time = poDerivedStates->sssplit_age_INFECTION_AGES_time;
 	}
+	schedule_event_time = TIME_INFINITE;
 }
 
 double Mother::EventTime( int nEventNum, int *pnEventInfo )
@@ -1608,6 +1663,15 @@ TIME MotherStateFunctions::Set_age( TIME value, bool bStartFunction )
 	{
 		if (bStartFunction)
 		{
+			poDerivedStates->Set_ssint_age( int(value) );
+			poDerivedStates->ssint_age_time = poParent->time + poDerivedStates->ssint_age + 1 - value;
+			if (poParent->schedule_event_time > poDerivedStates->ssint_age_time)
+			{
+				poParent->schedule_event_time = poDerivedStates->ssint_age_time;
+			}
+		}
+		if (bStartFunction)
+		{
 			poDerivedStates->Set_sssplit_age_INFECTION_AGES( SPLIT(value, INFECTION_AGES) );
 			if ( poDerivedStates->sssplit_age_INFECTION_AGES < 13 )
 			{
@@ -1618,7 +1682,10 @@ TIME MotherStateFunctions::Set_age( TIME value, bool bStartFunction )
 			{
 				poDerivedStates->sssplit_age_INFECTION_AGES_time = TIME_INFINITE;
 			}
-			poParent->schedule_event_time = poDerivedStates->sssplit_age_INFECTION_AGES_time;
+			if (poParent->schedule_event_time > poDerivedStates->sssplit_age_INFECTION_AGES_time)
+			{
+				poParent->schedule_event_time = poDerivedStates->sssplit_age_INFECTION_AGES_time;
+			}
 		}
 
 
@@ -1645,9 +1712,9 @@ logical MotherStateFunctions::Set_alive( logical value )
 		OldValue = poParent->alive;
 		poParent->alive = value;
 
-#line 43 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 45 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
 		Set_alive_value_in( poParent->alive );
-#line 1651 "ACTORS.CPP"
+#line 1718 "ACTORS.CPP"
 	}
 	return poParent->alive = value;
 }
@@ -1684,35 +1751,35 @@ logical MotherStateFunctions::Set_infected( logical value )
 			}
 		}
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[6] >= 0 && ( poParent->tableinfo.tab6dim_filter || poParent->table_filter_InfectionAge ) ) {
-				if ( poParent->tableinfo.tab6events == -1 || poParent->tableinfo.tab6events < poParent->__events ) {
-					if ( poParent->tableinfo.tab6events != -1 ) {
-						poParent->tableinfo.tab6open0 = (real) poParent->CloseUpdate( 6, 0, poParent->tableinfo.tab6open0, poParent->tableinfo.tab6close0, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab6open1 = (real) poParent->CloseUpdate( 6, 1, poParent->tableinfo.tab6open1, poParent->tableinfo.tab6close1, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+			if ( gplTableIndexes[7] >= 0 && ( poParent->tableinfo.tab7dim_filter || poParent->table_filter_InfectionAge ) ) {
+				if ( poParent->tableinfo.tab7events == -1 || poParent->tableinfo.tab7events < poParent->__events ) {
+					if ( poParent->tableinfo.tab7events != -1 ) {
+						poParent->tableinfo.tab7open0 = (real) poParent->CloseUpdate( 7, 0, poParent->tableinfo.tab7open0, poParent->tableinfo.tab7close0, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab7open1 = (real) poParent->CloseUpdate( 7, 1, poParent->tableinfo.tab7open1, poParent->tableinfo.tab7close1, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
 					}
-					poParent->tableinfo.tab6events = poParent->__events;
-					if ( poParent->tableinfo.tab6events0 == poParent->__events ) {
-						poParent->tableinfo.tab6close0 = (real) poParent->tableinfo.tab6prev0;
-					}
-					else {
-						poParent->tableinfo.tab6close0 = (real) poParent->changes_infected_event;
-					}
-					if ( poParent->tableinfo.tab6events1 == poParent->__events ) {
-						poParent->tableinfo.tab6close1 = (real) poParent->tableinfo.tab6prev1;
+					poParent->tableinfo.tab7events = poParent->__events;
+					if ( poParent->tableinfo.tab7events0 == poParent->__events ) {
+						poParent->tableinfo.tab7close0 = (real) poParent->tableinfo.tab7prev0;
 					}
 					else {
-						poParent->tableinfo.tab6close1 = (real) poParent->value_at_changes_infected_age_event;
+						poParent->tableinfo.tab7close0 = (real) poParent->changes_infected_event;
 					}
-					poParent->tableinfo.tab6cell = (index) poParent->TableCellIndex( 6, 1,
+					if ( poParent->tableinfo.tab7events1 == poParent->__events ) {
+						poParent->tableinfo.tab7close1 = (real) poParent->tableinfo.tab7prev1;
+					}
+					else {
+						poParent->tableinfo.tab7close1 = (real) poParent->value_at_changes_infected_age_event;
+					}
+					poParent->tableinfo.tab7cell = (index) poParent->TableCellIndex( 7, 1,
 						OldValue );
 					if ( gpModelApp->m_nSubSamples == 1 ) {
-						poParent->tableinfo.tab6total_cell = (index) poParent->tableinfo.tab6cell;
+						poParent->tableinfo.tab7total_cell = (index) poParent->tableinfo.tab7cell;
 					}
 					else {
-						poParent->tableinfo.tab6total_cell = (index) poParent->TableTotalCellIndex( 6, 1,
+						poParent->tableinfo.tab7total_cell = (index) poParent->TableTotalCellIndex( 7, 1,
 						OldValue );
 					}
-					poParent->tableinfo.tab6dim_filter = poParent->table_filter_InfectionAge;
+					poParent->tableinfo.tab7dim_filter = poParent->table_filter_InfectionAge;
 				}
 			}
 		}
@@ -1729,10 +1796,13 @@ int MotherStateFunctions::Set_number_children( int value )
 
 	if ( poParent->number_children != value )
 	{
+		poDerivedStates->Set_changes_number_children( poDerivedStates->changes_number_children + 1 );
+
 
 		int	OldValue;
 		OldValue = poParent->number_children;
 		poParent->number_children = value;
+
 		if ( poParent->poBirthEvent->cRecalc == 0 ) {
 			poParent->poBirthEvent->cRecalc = 1;
 			gpoEventQueue->RecalculateEvent( poParent->poBirthEvent );
@@ -1796,9 +1866,9 @@ logical MotherStateFunctions::Set_alive_value_in( logical value )
 		OldValue = poParent->alive_value_in;
 		poParent->alive_value_in = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[5] >= 0 ) {
-				if ( poParent->tableinfo.tab5events == poParent->__events ) {
-					poParent->tableinfo.tab5close0 = (real) poParent->alive_value_in;
+			if ( gplTableIndexes[6] >= 0 ) {
+				if ( poParent->tableinfo.tab6events == poParent->__events ) {
+					poParent->tableinfo.tab6close0 = (real) poParent->alive_value_in;
 				}
 			}
 		}
@@ -1816,9 +1886,9 @@ counter MotherStateFunctions::Set_changes_infected_event( counter value )
 		OldValue = poParent->changes_infected_event;
 		poParent->changes_infected_event = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[6] >= 0 ) {
-				poParent->tableinfo.tab6prev0 = (real) OldValue;
-				poParent->tableinfo.tab6events0 = poParent->__events;
+			if ( gplTableIndexes[7] >= 0 ) {
+				poParent->tableinfo.tab7prev0 = (real) OldValue;
+				poParent->tableinfo.tab7events0 = poParent->__events;
 			}
 		}
 	}
@@ -1835,9 +1905,9 @@ TIME MotherStateFunctions::Set_duration__max_value_out( TIME value )
 		OldValue = poParent->duration__max_value_out;
 		poParent->duration__max_value_out = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[5] >= 0 ) {
-				if ( poParent->tableinfo.tab5events == poParent->__events ) {
-					poParent->tableinfo.tab5close2 = (real) poParent->duration__max_value_out;
+			if ( gplTableIndexes[6] >= 0 ) {
+				if ( poParent->tableinfo.tab6events == poParent->__events ) {
+					poParent->tableinfo.tab6close2 = (real) poParent->duration__max_value_out;
 				}
 			}
 		}
@@ -1859,9 +1929,9 @@ TIME MotherStateFunctions::Set_duration__min_value_out( TIME value )
 		OldValue = poParent->duration__min_value_out;
 		poParent->duration__min_value_out = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[5] >= 0 ) {
-				if ( poParent->tableinfo.tab5events == poParent->__events ) {
-					poParent->tableinfo.tab5close3 = (real) poParent->duration__min_value_out;
+			if ( gplTableIndexes[6] >= 0 ) {
+				if ( poParent->tableinfo.tab6events == poParent->__events ) {
+					poParent->tableinfo.tab6close3 = (real) poParent->duration__min_value_out;
 				}
 			}
 		}
@@ -1872,6 +1942,65 @@ TIME MotherStateFunctions::Set_duration__min_value_out( TIME value )
 TIME	MotherStateFunctions::Get_duration__min_value_out(){
 return poDerivedStates->Get_duration_();
 };
+
+LIFE MotherStateFunctions::Set_integer_age( LIFE value )
+{
+
+	CHKLMT(value, integer_age, r_min_LIFE, r_max_LIFE);
+	if ( value < r_min_LIFE ) {
+		value = r_min_LIFE;
+	}
+	else if ( value > r_max_LIFE ) {
+		value = r_max_LIFE;
+	}
+	if ( poParent->integer_age != value )
+	{
+
+		LIFE	OldValue;
+		OldValue = poParent->integer_age;
+		poParent->integer_age = value;
+		if ( poParent->poInfectionEvent->cRecalc == 0 ) {
+			poParent->poInfectionEvent->cRecalc = 1;
+			gpoEventQueue->RecalculateEvent( poParent->poInfectionEvent );
+		};
+	}
+	return poParent->integer_age = value;
+}
+
+logical MotherStateFunctions::Set_table_filter_ageAtBirth( logical value )
+{
+
+	value = value != 0;
+	if ( poParent->table_filter_ageAtBirth != value )
+	{
+
+		logical	OldValue;
+		OldValue = poParent->table_filter_ageAtBirth;
+		poParent->table_filter_ageAtBirth = value;
+		if ( poParent->bUpdates ) {
+			if ( gplTableIndexes[5] >= 0 ) {
+				if ( poParent->tableinfo.tab5events == -1 || poParent->tableinfo.tab5events < poParent->__events ) {
+					if ( poParent->tableinfo.tab5events != -1 ) {
+						poParent->tableinfo.tab5open0 = (real) poParent->CloseUpdate( 5, 0, poParent->tableinfo.tab5open0, poParent->tableinfo.tab5close0, poParent->tableinfo.tab5dim_filter, poParent->tableinfo.tab5cell, poParent->tableinfo.tab5total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+					}
+					poParent->tableinfo.tab5events = poParent->__events;
+					poParent->tableinfo.tab5close0 = (real) poDerivedStates->changes_number_children;
+					poParent->tableinfo.tab5cell = (index) poParent->TableCellIndex( 5, 1,
+						poDerivedStates->sssplit_age_INFECTION_AGES );
+					if ( gpModelApp->m_nSubSamples == 1 ) {
+						poParent->tableinfo.tab5total_cell = (index) poParent->tableinfo.tab5cell;
+					}
+					else {
+						poParent->tableinfo.tab5total_cell = (index) poParent->TableTotalCellIndex( 5, 1,
+						poDerivedStates->sssplit_age_INFECTION_AGES );
+					}
+					poParent->tableinfo.tab5dim_filter = OldValue;
+				}
+			}
+		}
+	}
+	return poParent->table_filter_ageAtBirth = value;
+}
 
 logical MotherStateFunctions::Set_table_filter_DurationOfLife( logical value )
 {
@@ -1884,27 +2013,27 @@ logical MotherStateFunctions::Set_table_filter_DurationOfLife( logical value )
 		OldValue = poParent->table_filter_DurationOfLife;
 		poParent->table_filter_DurationOfLife = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[5] >= 0 ) {
-				if ( poParent->tableinfo.tab5events == -1 || poParent->tableinfo.tab5events < poParent->__events ) {
-					if ( poParent->tableinfo.tab5events != -1 ) {
-						poParent->tableinfo.tab5open0 = (real) poParent->CloseUpdate( 5, 0, poParent->tableinfo.tab5open0, poParent->tableinfo.tab5close0, poParent->tableinfo.tab5dim_filter, poParent->tableinfo.tab5cell, poParent->tableinfo.tab5total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab5open1 = (real) poParent->CloseUpdate( 5, 1, poParent->tableinfo.tab5open1, poParent->tableinfo.tab5close1, poParent->tableinfo.tab5dim_filter, poParent->tableinfo.tab5cell, poParent->tableinfo.tab5total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab5open2 = (real) poParent->CloseUpdate( 5, 2, poParent->tableinfo.tab5open2, poParent->tableinfo.tab5close2, poParent->tableinfo.tab5dim_filter, poParent->tableinfo.tab5cell, poParent->tableinfo.tab5total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab5open3 = (real) poParent->CloseUpdate( 5, 3, poParent->tableinfo.tab5open3, poParent->tableinfo.tab5close3, poParent->tableinfo.tab5dim_filter, poParent->tableinfo.tab5cell, poParent->tableinfo.tab5total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+			if ( gplTableIndexes[6] >= 0 ) {
+				if ( poParent->tableinfo.tab6events == -1 || poParent->tableinfo.tab6events < poParent->__events ) {
+					if ( poParent->tableinfo.tab6events != -1 ) {
+						poParent->tableinfo.tab6open0 = (real) poParent->CloseUpdate( 6, 0, poParent->tableinfo.tab6open0, poParent->tableinfo.tab6close0, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab6open1 = (real) poParent->CloseUpdate( 6, 1, poParent->tableinfo.tab6open1, poParent->tableinfo.tab6close1, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab6open2 = (real) poParent->CloseUpdate( 6, 2, poParent->tableinfo.tab6open2, poParent->tableinfo.tab6close2, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab6open3 = (real) poParent->CloseUpdate( 6, 3, poParent->tableinfo.tab6open3, poParent->tableinfo.tab6close3, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
 					}
-					poParent->tableinfo.tab5events = poParent->__events;
-					poParent->tableinfo.tab5close0 = (real) poParent->alive_value_in;
-					poParent->tableinfo.tab5close1 = (real) poDerivedStates->Get_duration_();
-					poParent->tableinfo.tab5close2 = (real) Get_duration__max_value_out();
-					poParent->tableinfo.tab5close3 = (real) Get_duration__min_value_out();
-					poParent->tableinfo.tab5cell = (index) poParent->TableCellIndex( 5, 0 );
+					poParent->tableinfo.tab6events = poParent->__events;
+					poParent->tableinfo.tab6close0 = (real) poParent->alive_value_in;
+					poParent->tableinfo.tab6close1 = (real) poDerivedStates->Get_duration_();
+					poParent->tableinfo.tab6close2 = (real) Get_duration__max_value_out();
+					poParent->tableinfo.tab6close3 = (real) Get_duration__min_value_out();
+					poParent->tableinfo.tab6cell = (index) poParent->TableCellIndex( 6, 0 );
 					if ( gpModelApp->m_nSubSamples == 1 ) {
-						poParent->tableinfo.tab5total_cell = (index) poParent->tableinfo.tab5cell;
+						poParent->tableinfo.tab6total_cell = (index) poParent->tableinfo.tab6cell;
 					}
 					else {
-						poParent->tableinfo.tab5total_cell = (index) poParent->TableTotalCellIndex( 5, 0 );
+						poParent->tableinfo.tab6total_cell = (index) poParent->TableTotalCellIndex( 6, 0 );
 					}
-					poParent->tableinfo.tab5dim_filter = OldValue;
+					poParent->tableinfo.tab6dim_filter = OldValue;
 				}
 			}
 		}
@@ -1923,35 +2052,35 @@ logical MotherStateFunctions::Set_table_filter_InfectionAge( logical value )
 		OldValue = poParent->table_filter_InfectionAge;
 		poParent->table_filter_InfectionAge = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[6] >= 0 ) {
-				if ( poParent->tableinfo.tab6events == -1 || poParent->tableinfo.tab6events < poParent->__events ) {
-					if ( poParent->tableinfo.tab6events != -1 ) {
-						poParent->tableinfo.tab6open0 = (real) poParent->CloseUpdate( 6, 0, poParent->tableinfo.tab6open0, poParent->tableinfo.tab6close0, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab6open1 = (real) poParent->CloseUpdate( 6, 1, poParent->tableinfo.tab6open1, poParent->tableinfo.tab6close1, poParent->tableinfo.tab6dim_filter, poParent->tableinfo.tab6cell, poParent->tableinfo.tab6total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+			if ( gplTableIndexes[7] >= 0 ) {
+				if ( poParent->tableinfo.tab7events == -1 || poParent->tableinfo.tab7events < poParent->__events ) {
+					if ( poParent->tableinfo.tab7events != -1 ) {
+						poParent->tableinfo.tab7open0 = (real) poParent->CloseUpdate( 7, 0, poParent->tableinfo.tab7open0, poParent->tableinfo.tab7close0, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab7open1 = (real) poParent->CloseUpdate( 7, 1, poParent->tableinfo.tab7open1, poParent->tableinfo.tab7close1, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
 					}
-					poParent->tableinfo.tab6events = poParent->__events;
-					if ( poParent->tableinfo.tab6events0 == poParent->__events ) {
-						poParent->tableinfo.tab6close0 = (real) poParent->tableinfo.tab6prev0;
-					}
-					else {
-						poParent->tableinfo.tab6close0 = (real) poParent->changes_infected_event;
-					}
-					if ( poParent->tableinfo.tab6events1 == poParent->__events ) {
-						poParent->tableinfo.tab6close1 = (real) poParent->tableinfo.tab6prev1;
+					poParent->tableinfo.tab7events = poParent->__events;
+					if ( poParent->tableinfo.tab7events0 == poParent->__events ) {
+						poParent->tableinfo.tab7close0 = (real) poParent->tableinfo.tab7prev0;
 					}
 					else {
-						poParent->tableinfo.tab6close1 = (real) poParent->value_at_changes_infected_age_event;
+						poParent->tableinfo.tab7close0 = (real) poParent->changes_infected_event;
 					}
-					poParent->tableinfo.tab6cell = (index) poParent->TableCellIndex( 6, 1,
+					if ( poParent->tableinfo.tab7events1 == poParent->__events ) {
+						poParent->tableinfo.tab7close1 = (real) poParent->tableinfo.tab7prev1;
+					}
+					else {
+						poParent->tableinfo.tab7close1 = (real) poParent->value_at_changes_infected_age_event;
+					}
+					poParent->tableinfo.tab7cell = (index) poParent->TableCellIndex( 7, 1,
 						poParent->infected );
 					if ( gpModelApp->m_nSubSamples == 1 ) {
-						poParent->tableinfo.tab6total_cell = (index) poParent->tableinfo.tab6cell;
+						poParent->tableinfo.tab7total_cell = (index) poParent->tableinfo.tab7cell;
 					}
 					else {
-						poParent->tableinfo.tab6total_cell = (index) poParent->TableTotalCellIndex( 6, 1,
+						poParent->tableinfo.tab7total_cell = (index) poParent->TableTotalCellIndex( 7, 1,
 						poParent->infected );
 					}
-					poParent->tableinfo.tab6dim_filter = OldValue;
+					poParent->tableinfo.tab7dim_filter = OldValue;
 				}
 			}
 		}
@@ -1970,25 +2099,25 @@ logical MotherStateFunctions::Set_table_filter_InfectionAgeHist( logical value )
 		OldValue = poParent->table_filter_InfectionAgeHist;
 		poParent->table_filter_InfectionAgeHist = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[7] >= 0 ) {
-				if ( poParent->tableinfo.tab7events == -1 || poParent->tableinfo.tab7events < poParent->__events ) {
-					if ( poParent->tableinfo.tab7events != -1 ) {
-						poParent->tableinfo.tab7open0 = (real) poParent->CloseUpdate( 7, 0, poParent->tableinfo.tab7open0, poParent->tableinfo.tab7close0, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab7open1 = (real) poParent->CloseUpdate( 7, 1, poParent->tableinfo.tab7open1, poParent->tableinfo.tab7close1, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+			if ( gplTableIndexes[8] >= 0 ) {
+				if ( poParent->tableinfo.tab8events == -1 || poParent->tableinfo.tab8events < poParent->__events ) {
+					if ( poParent->tableinfo.tab8events != -1 ) {
+						poParent->tableinfo.tab8open0 = (real) poParent->CloseUpdate( 8, 0, poParent->tableinfo.tab8open0, poParent->tableinfo.tab8close0, poParent->tableinfo.tab8dim_filter, poParent->tableinfo.tab8cell, poParent->tableinfo.tab8total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab8open1 = (real) poParent->CloseUpdate( 8, 1, poParent->tableinfo.tab8open1, poParent->tableinfo.tab8close1, poParent->tableinfo.tab8dim_filter, poParent->tableinfo.tab8cell, poParent->tableinfo.tab8total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
 					}
-					poParent->tableinfo.tab7events = poParent->__events;
-					poParent->tableinfo.tab7close0 = (real) poDerivedStates->entrances_alive_FALSE;
-					poParent->tableinfo.tab7close1 = (real) poDerivedStates->entrances_infected_TRUE;
-					poParent->tableinfo.tab7cell = (index) poParent->TableCellIndex( 7, 1,
+					poParent->tableinfo.tab8events = poParent->__events;
+					poParent->tableinfo.tab8close0 = (real) poDerivedStates->entrances_alive_FALSE;
+					poParent->tableinfo.tab8close1 = (real) poDerivedStates->entrances_infected_TRUE;
+					poParent->tableinfo.tab8cell = (index) poParent->TableCellIndex( 8, 1,
 						poDerivedStates->sssplit_age_INFECTION_AGES );
 					if ( gpModelApp->m_nSubSamples == 1 ) {
-						poParent->tableinfo.tab7total_cell = (index) poParent->tableinfo.tab7cell;
+						poParent->tableinfo.tab8total_cell = (index) poParent->tableinfo.tab8cell;
 					}
 					else {
-						poParent->tableinfo.tab7total_cell = (index) poParent->TableTotalCellIndex( 7, 1,
+						poParent->tableinfo.tab8total_cell = (index) poParent->TableTotalCellIndex( 8, 1,
 						poDerivedStates->sssplit_age_INFECTION_AGES );
 					}
-					poParent->tableinfo.tab7dim_filter = OldValue;
+					poParent->tableinfo.tab8dim_filter = OldValue;
 				}
 			}
 		}
@@ -2006,9 +2135,9 @@ real MotherStateFunctions::Set_value_at_changes_infected_age_event( real value )
 		OldValue = poParent->value_at_changes_infected_age_event;
 		poParent->value_at_changes_infected_age_event = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[6] >= 0 ) {
-				poParent->tableinfo.tab6prev1 = (real) OldValue;
-				poParent->tableinfo.tab6events1 = poParent->__events;
+			if ( gplTableIndexes[7] >= 0 ) {
+				poParent->tableinfo.tab7prev1 = (real) OldValue;
+				poParent->tableinfo.tab7events1 = poParent->__events;
 			}
 		}
 	}
@@ -2028,6 +2157,25 @@ counter MotherDerivedStates::Set_changes_infected( counter value )
 	return changes_infected = value;
 }
 
+counter MotherDerivedStates::Set_changes_number_children( counter value )
+{
+
+	if ( changes_number_children != value ) {
+
+counter		OldValue;
+		OldValue = changes_number_children;
+		changes_number_children = value;
+		if ( poParent->bUpdates ) {
+			if ( gplTableIndexes[5] >= 0 ) {
+				if ( poParent->tableinfo.tab5events == poParent->__events ) {
+					poParent->tableinfo.tab5close0 = (real) changes_number_children;
+				}
+			}
+		}
+	}
+	return changes_number_children = value;
+}
+
 TIME MotherDerivedStates::Set_duration_( TIME value )
 {
 
@@ -2039,9 +2187,9 @@ TIME MotherDerivedStates::Set_duration_( TIME value )
 		poStateFunctions->Set_duration__max_value_out( duration_ );
 		poStateFunctions->Set_duration__min_value_out( duration_ );
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[5] >= 0 ) {
-				if ( poParent->tableinfo.tab5events == poParent->__events ) {
-					poParent->tableinfo.tab5close1 = (real) duration_;
+			if ( gplTableIndexes[6] >= 0 ) {
+				if ( poParent->tableinfo.tab6events == poParent->__events ) {
+					poParent->tableinfo.tab6close1 = (real) duration_;
 				}
 			}
 		}
@@ -2058,9 +2206,9 @@ counter		OldValue;
 		OldValue = entrances_alive_FALSE;
 		entrances_alive_FALSE = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[7] >= 0 ) {
-				if ( poParent->tableinfo.tab7events == poParent->__events ) {
-					poParent->tableinfo.tab7close0 = (real) entrances_alive_FALSE;
+			if ( gplTableIndexes[8] >= 0 ) {
+				if ( poParent->tableinfo.tab8events == poParent->__events ) {
+					poParent->tableinfo.tab8close0 = (real) entrances_alive_FALSE;
 				}
 			}
 		}
@@ -2077,14 +2225,27 @@ counter		OldValue;
 		OldValue = entrances_infected_TRUE;
 		entrances_infected_TRUE = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[7] >= 0 ) {
-				if ( poParent->tableinfo.tab7events == poParent->__events ) {
-					poParent->tableinfo.tab7close1 = (real) entrances_infected_TRUE;
+			if ( gplTableIndexes[8] >= 0 ) {
+				if ( poParent->tableinfo.tab8events == poParent->__events ) {
+					poParent->tableinfo.tab8close1 = (real) entrances_infected_TRUE;
 				}
 			}
 		}
 	}
 	return entrances_infected_TRUE = value;
+}
+
+counter MotherDerivedStates::Set_ssint_age( counter value )
+{
+
+	if ( ssint_age != value ) {
+
+		counter OldValue;
+		OldValue = ssint_age;
+		ssint_age = value;
+		poStateFunctions->Set_integer_age( ssint_age );
+	}
+	return ssint_age = value;
 }
 
 INFECTION_AGES MotherDerivedStates::Set_sssplit_age_INFECTION_AGES( INFECTION_AGES value )
@@ -2096,25 +2257,44 @@ INFECTION_AGES		OldValue;
 		OldValue = sssplit_age_INFECTION_AGES;
 		sssplit_age_INFECTION_AGES = value;
 		if ( poParent->bUpdates ) {
-			if ( gplTableIndexes[7] >= 0 && ( poParent->tableinfo.tab7dim_filter || poParent->table_filter_InfectionAgeHist ) ) {
-				if ( poParent->tableinfo.tab7events == -1 || poParent->tableinfo.tab7events < poParent->__events ) {
-					if ( poParent->tableinfo.tab7events != -1 ) {
-						poParent->tableinfo.tab7open0 = (real) poParent->CloseUpdate( 7, 0, poParent->tableinfo.tab7open0, poParent->tableinfo.tab7close0, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
-						poParent->tableinfo.tab7open1 = (real) poParent->CloseUpdate( 7, 1, poParent->tableinfo.tab7open1, poParent->tableinfo.tab7close1, poParent->tableinfo.tab7dim_filter, poParent->tableinfo.tab7cell, poParent->tableinfo.tab7total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+			if ( gplTableIndexes[5] >= 0 && ( poParent->tableinfo.tab5dim_filter || poParent->table_filter_ageAtBirth ) ) {
+				if ( poParent->tableinfo.tab5events == -1 || poParent->tableinfo.tab5events < poParent->__events ) {
+					if ( poParent->tableinfo.tab5events != -1 ) {
+						poParent->tableinfo.tab5open0 = (real) poParent->CloseUpdate( 5, 0, poParent->tableinfo.tab5open0, poParent->tableinfo.tab5close0, poParent->tableinfo.tab5dim_filter, poParent->tableinfo.tab5cell, poParent->tableinfo.tab5total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
 					}
-					poParent->tableinfo.tab7events = poParent->__events;
-					poParent->tableinfo.tab7close0 = (real) entrances_alive_FALSE;
-					poParent->tableinfo.tab7close1 = (real) entrances_infected_TRUE;
-					poParent->tableinfo.tab7cell = (index) poParent->TableCellIndex( 7, 1,
+					poParent->tableinfo.tab5events = poParent->__events;
+					poParent->tableinfo.tab5close0 = (real) changes_number_children;
+					poParent->tableinfo.tab5cell = (index) poParent->TableCellIndex( 5, 1,
 						OldValue );
 					if ( gpModelApp->m_nSubSamples == 1 ) {
-						poParent->tableinfo.tab7total_cell = (index) poParent->tableinfo.tab7cell;
+						poParent->tableinfo.tab5total_cell = (index) poParent->tableinfo.tab5cell;
 					}
 					else {
-						poParent->tableinfo.tab7total_cell = (index) poParent->TableTotalCellIndex( 7, 1,
+						poParent->tableinfo.tab5total_cell = (index) poParent->TableTotalCellIndex( 5, 1,
 						OldValue );
 					}
-					poParent->tableinfo.tab7dim_filter = poParent->table_filter_InfectionAgeHist;
+					poParent->tableinfo.tab5dim_filter = poParent->table_filter_ageAtBirth;
+				}
+			}
+			if ( gplTableIndexes[8] >= 0 && ( poParent->tableinfo.tab8dim_filter || poParent->table_filter_InfectionAgeHist ) ) {
+				if ( poParent->tableinfo.tab8events == -1 || poParent->tableinfo.tab8events < poParent->__events ) {
+					if ( poParent->tableinfo.tab8events != -1 ) {
+						poParent->tableinfo.tab8open0 = (real) poParent->CloseUpdate( 8, 0, poParent->tableinfo.tab8open0, poParent->tableinfo.tab8close0, poParent->tableinfo.tab8dim_filter, poParent->tableinfo.tab8cell, poParent->tableinfo.tab8total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+						poParent->tableinfo.tab8open1 = (real) poParent->CloseUpdate( 8, 1, poParent->tableinfo.tab8open1, poParent->tableinfo.tab8close1, poParent->tableinfo.tab8dim_filter, poParent->tableinfo.tab8cell, poParent->tableinfo.tab8total_cell, poParent->actor_weight, poParent->actor_subsample_weight );
+					}
+					poParent->tableinfo.tab8events = poParent->__events;
+					poParent->tableinfo.tab8close0 = (real) entrances_alive_FALSE;
+					poParent->tableinfo.tab8close1 = (real) entrances_infected_TRUE;
+					poParent->tableinfo.tab8cell = (index) poParent->TableCellIndex( 8, 1,
+						OldValue );
+					if ( gpModelApp->m_nSubSamples == 1 ) {
+						poParent->tableinfo.tab8total_cell = (index) poParent->tableinfo.tab8cell;
+					}
+					else {
+						poParent->tableinfo.tab8total_cell = (index) poParent->TableTotalCellIndex( 8, 1,
+						OldValue );
+					}
+					poParent->tableinfo.tab8dim_filter = poParent->table_filter_InfectionAgeHist;
 				}
 			}
 		}
@@ -2183,7 +2363,7 @@ void Ticker::InitializeStates()
 #line 18 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/TickerCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 2187 "ACTORS.CPP"
+#line 2367 "ACTORS.CPP"
 	time = (TIME) gdThreadCurrentTime;
 	__finished = FALSE;
 	__time = (TIME) gdThreadCurrentTime;

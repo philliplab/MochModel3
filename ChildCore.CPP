@@ -2,7 +2,6 @@
 static int HaveAGoodDay;
 namespace mm {
 #line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
-
 //actor_set Child asAllChild; //EN All Child actors
 
 //actor Child            //EN Individual
@@ -78,6 +77,4 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //		unit
 //	}
 //};
-
-
 } // namespace 

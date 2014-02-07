@@ -5,5 +5,19 @@ parameters {
 	int	MaxChildren = 2; //EN MaxChildren
 	double	MinInfWait = 5; //EN MinInfWait
 	double	MaxInfWait = 5; //EN MaxInfWait
-};
 
+	double	MaxLife = 100; //EN MaxLife
+	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
+
+	 //EN IncidenceRates
+	double	IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE] = {
+		(15) 0, (5) 0.022, (5) 0.033, (5) 0.025, (5) 0.021, (5) 0.017, (5) 0.014, (5) 0.011, (5) 0.007, (5) 0.004, (41) 0, 
+		(15) 0, (5) 0.032, (5) 0.038, (5) 0.018, (5) 0.011, (5) 0.010, (5) 0.007, (5) 0.003, (5) 0.001, (5) 0.000, (41) 0, 
+		(100) 0.06, 0, 
+	};
+
+	 //EN FertilityRates
+	double	FertilityRates[LIFE] = {
+		(15) 0, (8) 0.5, (7) 0.1, (71) 0, 
+	};
+};

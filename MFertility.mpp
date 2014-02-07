@@ -1,4 +1,3 @@
-
 link Child.lMother Mother.mlChild[];
 
 parameters 
@@ -6,6 +5,7 @@ parameters
 	double MinBirthWait;
 	double MaxBirthWait;
 	int MaxChildren;
+	double FertilityRates[LIFE];
 };
 
 actor Mother            //EN Individual
@@ -34,5 +34,14 @@ void Mother::BirthEvent()
 	prChild->Start();
 	if (infected == TRUE){
 		prChild->Mother_Infect();
+	}
+};
+
+table Mother ageAtBirth
+{
+	self_scheduling_split(age, INFECTION_AGES)+
+	*
+	{
+		changes(number_children)
 	}
 };

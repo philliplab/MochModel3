@@ -37,6 +37,10 @@ void SetCaseWeight( double dCaseWeight, double dCaseSubsampleWeight = UNUSED_VAL
 // classifications
 
 // ranges
+typedef uint INCIDENCE_RATES_SOURCE;
+CONSTANT( int, r_min_INCIDENCE_RATES_SOURCE, 0 );
+CONSTANT( int, r_max_INCIDENCE_RATES_SOURCE, 2 );
+CONSTANT( int, rc_size_INCIDENCE_RATES_SOURCE, 3 );
 typedef uint LIFE;
 CONSTANT( int, r_min_LIFE, 0 );
 CONSTANT( int, r_max_LIFE, 100 );
@@ -47,6 +51,9 @@ CONSTANT( int, r_max_REPORT_TIME, 200 );
 CONSTANT( int, rc_size_REPORT_TIME, 201 );
 
 // partitions
+typedef uint INCIDENCE_AGE_GROUPS;
+CONSTANT( int, rc_size_INCIDENCE_AGE_GROUPS, 13 );
+extern real p_points_INCIDENCE_AGE_GROUPS[];
 typedef uint INFECTION_AGES;
 CONSTANT( int, rc_size_INFECTION_AGES, 14 );
 extern real p_points_INFECTION_AGES[];
@@ -55,9 +62,16 @@ class Parameters {
 	public:
 		Parameters();
 
+		double	FertilityRates
+[rc_size_LIFE];
+		double	IncidenceRates
+[rc_size_INCIDENCE_RATES_SOURCE]
+[rc_size_LIFE];
+		INCIDENCE_RATES_SOURCE	IncidenceRatesSource;
 		double	MaxBirthWait;
 		int	MaxChildren;
 		double	MaxInfWait;
+		double	MaxLife;
 		double	MinBirthWait;
 		double	MinInfWait;
 		int	StartingPopulationSize;
@@ -302,28 +316,31 @@ class MotherTable {
 		//   group=double
 		double	tab5events;
 		double	tab6events;
-		double	tab6events0;
-		double	tab6events1;
 		double	tab7events;
+		double	tab7events0;
+		double	tab7events1;
+		double	tab8events;
 		//   group=float
 		real	tab5open0;
 		real	tab5close0;
-		real	tab5open1;
-		real	tab5close1;
-		real	tab5open2;
-		real	tab5close2;
-		real	tab5open3;
-		real	tab5close3;
 		real	tab6open0;
 		real	tab6close0;
-		real	tab6prev0;
 		real	tab6open1;
 		real	tab6close1;
-		real	tab6prev1;
+		real	tab6open2;
+		real	tab6close2;
+		real	tab6open3;
+		real	tab6close3;
 		real	tab7open0;
 		real	tab7close0;
+		real	tab7prev0;
 		real	tab7open1;
 		real	tab7close1;
+		real	tab7prev1;
+		real	tab8open0;
+		real	tab8close0;
+		real	tab8open1;
+		real	tab8close1;
 		//   group=long
 		//   group=ulong
 		index	tab5cell;
@@ -332,11 +349,14 @@ class MotherTable {
 		index	tab6total_cell;
 		index	tab7cell;
 		index	tab7total_cell;
+		index	tab8cell;
+		index	tab8total_cell;
 		//   group=int
 		//   group=uint
 		logical	tab5dim_filter : 1;
 		logical	tab6dim_filter : 1;
 		logical	tab7dim_filter : 1;
+		logical	tab8dim_filter : 1;
 		//   group=short
 		//   group=ushort
 		//   group=char
@@ -427,6 +447,8 @@ class Mother : public ActorClass {
 		REPORT_TIME	report_time : 8;
 		logical	actorset_filter_asAllMother : 1;
 		logical	alive_value_in : 1;
+		LIFE	integer_age : 7;
+		logical	table_filter_ageAtBirth : 1;
 		logical	table_filter_DurationOfLife : 1;
 		logical	table_filter_InfectionAge : 1;
 		logical	table_filter_InfectionAgeHist : 1;
@@ -464,6 +486,8 @@ class MotherStateFunctions {
 		TIME	Get_duration__max_value_out();
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
+		LIFE	Set_integer_age( LIFE value );
+		logical	Set_table_filter_ageAtBirth( logical value );
 		logical	Set_table_filter_DurationOfLife( logical value );
 		logical	Set_table_filter_InfectionAge( logical value );
 		logical	Set_table_filter_InfectionAgeHist( logical value );
@@ -478,10 +502,12 @@ class MotherDerivedStates {
 
 		// derived state variables and their special functions
 		counter	Set_changes_infected( counter value );
+		counter	Set_changes_number_children( counter value );
 		TIME	Set_duration_( TIME value );
 		TIME	Get_duration_() { return duration_ + poParent->__time - duration__time; };
 		counter	Set_entrances_alive_FALSE( counter value );
 		counter	Set_entrances_infected_TRUE( counter value );
+		counter	Set_ssint_age( counter value );
 		INFECTION_AGES	Set_sssplit_age_INFECTION_AGES( INFECTION_AGES value );
 		real	Set_value_at_changes_infected_age( real value );
 
@@ -490,6 +516,7 @@ class MotherDerivedStates {
 		//   group=double
 		TIME	duration_;
 		TIME	duration__time;
+		TIME	ssint_age_time;
 		TIME	sssplit_age_INFECTION_AGES_time;
 		//   group=float
 		real	value_at_changes_infected_age;
@@ -501,8 +528,10 @@ class MotherDerivedStates {
 		//   group=short
 		//   group=ushort
 		counter	changes_infected;
+		counter	changes_number_children;
 		counter	entrances_alive_FALSE;
 		counter	entrances_infected_TRUE;
+		counter	ssint_age;
 		//   group=char
 		//   group=uchar
 		// end MembersDump

@@ -2,7 +2,6 @@
 static int HaveAGoodDay;
 namespace mm {
 #line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
-
 //link Child.lMother Mother.mlChild[];
 
 //parameters 
@@ -10,6 +9,7 @@ namespace mm {
 //	double MinBirthWait;
 //	double MaxBirthWait;
 //	int MaxChildren;
+//	double FertilityRates[LIFE];
 //};
 
 //actor Mother            //EN Individual
@@ -40,4 +40,13 @@ void Mother::BirthEvent()
 		prChild->UpdateTime()->Mother_Infect();
 	}
 };
+
+//table Mother ageAtBirth
+//{
+//	self_scheduling_split(age, INFECTION_AGES)+
+//	*
+//	{
+//		changes(number_children)
+//	}
+//};
 } // namespace 
