@@ -1,0 +1,67 @@
+actor Mother
+{
+	logical inf_mortality_rng = {FALSE};
+	double inf_mortality_draw = {-1};
+
+	event timeInfMortRNGEvent, InfMortRNGEvent;
+	event timeInfMortEvent, InfMortEvent;
+};
+
+TIME Mother::timeInfMortRNGEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+
+	if (inf_mortality_rng == FALSE){
+		tEventTime = 0;
+	};
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Mother::InfMortRNGEvent()
+{
+	inf_mortality_rng = TRUE;
+	inf_mortality_draw = RandUniform(3);
+};
+
+class InfMortSurvCurve {
+public:
+	double kappa;
+	double lambda;
+	double phi;
+	double target_y;
+	double operator() (const double x){
+		return exp(-pow(x/(lambda * phi), kappa)) - target_y;
+	};
+};
+
+double InfMortSurvLKUP(InfMortSurvCurve inf_mort_surv_curve)
+{
+	typedef std::pair<double, double> Result;
+	boost::uintmax_t max_iter = 500;
+	boost::math::tools::eps_tolerance<double> tol = 30;
+	Result r1 = boost::math::tools::toms748_solve(inf_mort_surv_curve, 0.0, MaxLife, tol, max_iter);
+	double r1x = (r1.first + r1.second)/2;
+	return r1x;
+};
+
+TIME Mother::timeInfMortEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (infected == TRUE && alive == TRUE){
+		InfMortSurvCurve inf_mort_surv_curve;
+		inf_mort_surv_curve.lambda = 10;
+		inf_mort_surv_curve.kappa = 2;
+		inf_mort_surv_curve.phi = 1;
+		inf_mort_surv_curve.target_y = inf_mortality_draw;
+		tEventTime = InfMortSurvLKUP(inf_mort_surv_curve);
+	};
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Mother::InfMortEvent()
+{
+	alive = FALSE;
+	Finish();
+};

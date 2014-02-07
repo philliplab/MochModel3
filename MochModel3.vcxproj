@@ -100,6 +100,7 @@
     <None Include="ChildCore.mpp" />
     <None Include="MFertility.mpp" />
     <None Include="MInfection.mpp" />
+    <None Include="MInf_Mortality.mpp" />
     <None Include="MMortality.mpp" />
     <None Include="MochModel3.mpp" />
     <None Include="ModelStrings.mpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="ChildCore.cpp" />
     <ClCompile Include="MFertility.cpp" />
     <ClCompile Include="MInfection.cpp" />
+    <ClCompile Include="MInf_Mortality.cpp" />
     <ClCompile Include="MMortality.cpp" />
     <ClCompile Include="MochModel3.cpp" />
     <ClCompile Include="ModelStrings.cpp" />
@@ -122,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actors.h" />
+    <ClInclude Include="custom.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="Tabinit.h" />
   </ItemGroup>

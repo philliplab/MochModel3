@@ -434,6 +434,12 @@ class Mother : public ActorClass {
 		void __fastcall	InfectionEvent();
 		TIME __fastcall	timeInfectionEvent();
 		Event	*poInfectionEvent;
+		void __fastcall	InfMortEvent();
+		TIME __fastcall	timeInfMortEvent();
+		Event	*poInfMortEvent;
+		void __fastcall	InfMortRNGEvent();
+		TIME __fastcall	timeInfMortRNGEvent();
+		Event	*poInfMortRNGEvent;
 		void __fastcall	MortalityEvent();
 		TIME __fastcall	timeMortalityEvent();
 		Event	*poMortalityEvent;
@@ -454,6 +460,7 @@ class Mother : public ActorClass {
 		double	actor_weight;
 		TIME	age;
 		double	case_seed;
+		double	inf_mortality_draw;
 		TIME	time;
 		TIME	duration__max_value_out;
 		TIME	duration__min_value_out;
@@ -466,6 +473,7 @@ class Mother : public ActorClass {
 		//   group=int
 		//   group=uint
 		logical	alive : 1;
+		logical	inf_mortality_rng : 1;
 		logical	infected : 1;
 		LIFE	number_children : 7;
 		REPORT_TIME	report_time : 8;
@@ -503,6 +511,8 @@ class MotherStateFunctions {
 		double	Set_actor_weight( double value ){ return poParent->actor_weight = value; };
 		TIME	Set_age( TIME value, bool bStartFunction = false );
 		logical	Set_alive( logical value );
+		double	Set_inf_mortality_draw( double value );
+		logical	Set_inf_mortality_rng( logical value );
 		logical	Set_infected( logical value );
 		LIFE	Set_number_children( LIFE value );
 		LIFE	PlusPlusSet_number_children() { LIFE old_value; old_value = poParent->number_children;
