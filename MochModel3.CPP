@@ -1,7 +1,7 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MochModel3.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MochModel3.mpp"
 //LABEL(MochModel3, EN) Core simulation functions
 
 /* NOTE(MochModel3, EN)

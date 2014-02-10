@@ -1,7 +1,7 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ModelStrings.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ModelStrings.mpp"
 //LABEL(ModelStrings, EN)	Model-specific strings
 
 /*NOTE(ModelStrings, EN)

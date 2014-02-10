@@ -35,6 +35,13 @@ extern Thread EventQueue *gpoEventQueue;
 void SetCaseWeight( double dCaseWeight, double dCaseSubsampleWeight = UNUSED_VALUE );
 
 // classifications
+enum DISEASE_STATE {
+HEALTHY,
+INFECTED,
+SYMPTOMS,
+TREATED,
+DEAD };
+CONSTANT( int, rc_size_DISEASE_STATE, 5 );
 
 // ranges
 typedef uint INCIDENCE_RATES_SOURCE;
@@ -65,6 +72,8 @@ class Parameters {
 	public:
 		Parameters();
 
+		double	ChildMortParamMH;
+		double	ChildMortParamMI;
 		double	FertilityRates
 [rc_size_LIFE];
 		double	IncidenceRates
@@ -233,20 +242,20 @@ class Child : public ActorClass {
 		long	case_id;
 		//   group=ulong
 		//   group=int
+		DISEASE_STATE	mother_disease_status_fm : 4;
+		DISEASE_STATE	mother_disease_status_dl : 4;
+		DISEASE_STATE	lMother_disease_status : 4;
 		//   group=uint
 		logical	alive : 1;
-		logical	mother_infected_fm : 1;
 		REPORT_TIME	report_time : 8;
 		logical	actorset_filter_asAllChild : 1;
 		logical	alive_value_in : 1;
-		logical	mother_infected_dl : 1;
 		logical	table_filter_DurationOfLifeChild : 1;
 		logical	table_filter_DurationOfLifeChildHM : 1;
 		logical	table_filter_Infection_count_dl : 1;
 		logical	table_filter_Infection_count_fm : 1;
 		logical	table_filter_InfectionAgeHist_dl : 1;
 		logical	table_filter_InfectionAgeHist_fm : 1;
-		logical	lMother_infected : 1;
 		logical	__finished : 1;
 		//   group=short
 		//   group=ushort
@@ -269,7 +278,7 @@ class ChildStateFunctions {
 		double	Set_actor_weight( double value ){ return poParent->actor_weight = value; };
 		TIME	Set_age( TIME value, bool bStartFunction = false );
 		logical	Set_alive( logical value );
-		logical	Set_mother_infected_fm( logical value );
+		DISEASE_STATE	Set_mother_disease_status_fm( DISEASE_STATE value );
 		REPORT_TIME	Set_report_time( REPORT_TIME value );
 		counter	Set_table_unit_Infection_count_dl( counter value );
 		counter	Set_table_unit_Infection_count_fm( counter value );
@@ -280,14 +289,14 @@ class ChildStateFunctions {
 		TIME	Get_duration__max_value_out();
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
-		logical	Set_mother_infected_dl( logical value );
+		DISEASE_STATE	Set_mother_disease_status_dl( DISEASE_STATE value );
 		logical	Set_table_filter_DurationOfLifeChild( logical value );
 		logical	Set_table_filter_DurationOfLifeChildHM( logical value );
 		logical	Set_table_filter_Infection_count_dl( logical value );
 		logical	Set_table_filter_Infection_count_fm( logical value );
 		logical	Set_table_filter_InfectionAgeHist_dl( logical value );
 		logical	Set_table_filter_InfectionAgeHist_fm( logical value );
-		logical	Set_lMother_infected( logical value );
+		DISEASE_STATE	Set_lMother_disease_status( DISEASE_STATE value );
 };
 
 class ChildDerivedStates {
@@ -300,8 +309,8 @@ class ChildDerivedStates {
 		TIME	Set_duration_( TIME value );
 		TIME	Get_duration_() { return duration_ + poParent->__time - duration__time; };
 		counter	Set_entrances_alive_FALSE( counter value );
-		counter	Set_entrances_mother_infected_dl_TRUE( counter value );
-		counter	Set_entrances_mother_infected_fm_TRUE( counter value );
+		counter	Set_entrances_mother_disease_status_dl_INFECTED( counter value );
+		counter	Set_entrances_mother_disease_status_fm_INFECTED( counter value );
 		INFECTION_AGES	Set_sssplit_age_INFECTION_AGES( INFECTION_AGES value );
 
 		// begin MembersDump
@@ -319,8 +328,8 @@ class ChildDerivedStates {
 		//   group=short
 		//   group=ushort
 		counter	entrances_alive_FALSE;
-		counter	entrances_mother_infected_dl_TRUE;
-		counter	entrances_mother_infected_fm_TRUE;
+		counter	entrances_mother_disease_status_dl_INFECTED;
+		counter	entrances_mother_disease_status_fm_INFECTED;
 		//   group=char
 		//   group=uchar
 		// end MembersDump
@@ -482,16 +491,16 @@ class Mother : public ActorClass {
 		TIME	duration__max_value_out;
 		TIME	duration__min_value_out;
 		//   group=float
-		real	value_at_changes_infected_age_event;
+		real	value_at_entrances_disease_status_INFECTED_age_event;
 		//   group=long
 		long	actor_id;
 		long	case_id;
 		//   group=ulong
 		//   group=int
+		DISEASE_STATE	disease_status : 4;
 		//   group=uint
 		logical	alive : 1;
 		logical	inf_mortality_rng : 1;
-		logical	infected : 1;
 		LIFE	number_children : 7;
 		REPORT_TIME	report_time : 8;
 		logical	actorset_filter_asAllMother : 1;
@@ -509,7 +518,7 @@ class Mother : public ActorClass {
 		//   group=short
 		//   group=ushort
 		counter	table_unit_FertDetails;
-		counter	changes_infected_event;
+		counter	entrances_disease_status_INFECTED_event;
 		counter	count_mlChild;
 		//   group=char
 		//   group=uchar
@@ -528,9 +537,9 @@ class MotherStateFunctions {
 		double	Set_actor_weight( double value ){ return poParent->actor_weight = value; };
 		TIME	Set_age( TIME value, bool bStartFunction = false );
 		logical	Set_alive( logical value );
+		DISEASE_STATE	Set_disease_status( DISEASE_STATE value );
 		double	Set_inf_mortality_draw( double value );
 		logical	Set_inf_mortality_rng( logical value );
-		logical	Set_infected( logical value );
 		LIFE	Set_number_children( LIFE value );
 		LIFE	PlusPlusSet_number_children() { LIFE old_value; old_value = poParent->number_children;
 			Set_number_children((LIFE) (poParent->number_children + 1)); return old_value; };
@@ -539,11 +548,11 @@ class MotherStateFunctions {
 		TIME	Set_time( TIME value, bool bStartFunction = false ){ return poParent->time = value; };
 		logical	Set_actorset_filter_asAllMother( logical value );
 		logical	Set_alive_value_in( logical value );
-		counter	Set_changes_infected_event( counter value );
 		TIME	Set_duration__max_value_out( TIME value );
 		TIME	Get_duration__max_value_out();
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
+		counter	Set_entrances_disease_status_INFECTED_event( counter value );
 		LIFE	Set_integer_age( LIFE value );
 		LIFE	Set_number_children_link( LIFE value );
 		logical	Set_table_filter_ageAtBirth( logical value );
@@ -553,7 +562,7 @@ class MotherStateFunctions {
 		logical	Set_table_filter_FertDetailsSum( logical value );
 		logical	Set_table_filter_InfectionAge( logical value );
 		logical	Set_table_filter_InfectionAgeHist( logical value );
-		real	Set_value_at_changes_infected_age_event( real value );
+		real	Set_value_at_entrances_disease_status_INFECTED_age_event( real value );
 		counter	Set_count_mlChild( counter value );
 };
 
@@ -564,17 +573,16 @@ class MotherDerivedStates {
 		class MotherStateFunctions	*poStateFunctions;
 
 		// derived state variables and their special functions
-		counter	Set_changes_infected( counter value );
 		counter	Set_changes_number_children( counter value );
 		TIME	Set_duration_( TIME value );
 		TIME	Get_duration_() { return duration_ + poParent->__time - duration__time; };
 		counter	Set_entrances_alive_FALSE( counter value );
-		counter	Set_entrances_infected_TRUE( counter value );
+		counter	Set_entrances_disease_status_INFECTED( counter value );
 		counter	Set_ssint_age( counter value );
 		INFECTION_AGES	Set_sssplit_age_INFECTION_AGES( INFECTION_AGES value );
-		real	Set_value_at_changes_infected_age( real value );
 		integer	Set_value_at_entrances_alive_FALSE_number_children( integer value );
 		integer	Set_value_at_entrances_alive_FALSE_number_children_link( integer value );
+		real	Set_value_at_entrances_disease_status_INFECTED_age( real value );
 
 		// begin MembersDump
 		//   group=<unknown token type>
@@ -584,7 +592,7 @@ class MotherDerivedStates {
 		TIME	ssint_age_time;
 		TIME	sssplit_age_INFECTION_AGES_time;
 		//   group=float
-		real	value_at_changes_infected_age;
+		real	value_at_entrances_disease_status_INFECTED_age;
 		//   group=long
 		//   group=ulong
 		//   group=int
@@ -594,10 +602,9 @@ class MotherDerivedStates {
 		integer	value_at_entrances_alive_FALSE_number_children;
 		integer	value_at_entrances_alive_FALSE_number_children_link;
 		//   group=ushort
-		counter	changes_infected;
 		counter	changes_number_children;
 		counter	entrances_alive_FALSE;
-		counter	entrances_infected_TRUE;
+		counter	entrances_disease_status_INFECTED;
 		counter	ssint_age;
 		//   group=char
 		//   group=uchar

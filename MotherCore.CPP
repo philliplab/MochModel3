@@ -1,7 +1,7 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 //range LIFE
 //{
 //	0, 100
@@ -51,10 +51,10 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //table Mother InfectionAge
 //{
 //	{
-//		event(value_at_changes(infected, age)) / event(changes(infected))
+//		event(value_at_entrances(disease_status, INFECTED, age)) / event(entrances(disease_status, INFECTED))
 //	}
 //	*
-//	infected
+//	disease_status
 //};
 
 //table Mother InfectionAgeHist
@@ -63,7 +63,7 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //	*
 //	{
 //		entrances(alive, FALSE),
-//		entrances(infected, TRUE)
+//		entrances(disease_status, INFECTED)
 //	}
 //};
 } // namespace 

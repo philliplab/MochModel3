@@ -47,10 +47,10 @@ table Mother DurationOfLife //EN Duration of Life
 table Mother InfectionAge
 {
 	{
-		event(value_at_changes(infected, age)) / event(changes(infected))
+		event(value_at_entrances(disease_status, INFECTED, age)) / event(entrances(disease_status, INFECTED))
 	}
 	*
-	infected
+	disease_status
 };
 
 table Mother InfectionAgeHist
@@ -59,6 +59,6 @@ table Mother InfectionAgeHist
 	*
 	{
 		entrances(alive, FALSE),
-		entrances(infected, TRUE)
+		entrances(disease_status, INFECTED)
 	}
 };

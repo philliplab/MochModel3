@@ -18,14 +18,13 @@ parameters
 
 actor Mother            //EN Individual
 {
-	logical infected = {FALSE};
 	event timeInfectionEvent, InfectionEvent;
 };
 
 TIME Mother::timeInfectionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (infected == FALSE){
+	if (disease_status == HEALTHY){
 		double curr_incidence = IncidenceRates[IncidenceRatesSource][integer_age];
 		if (curr_incidence >= 1){
 			tEventTime = WAIT(0);
@@ -38,7 +37,7 @@ TIME Mother::timeInfectionEvent()
 
 void Mother::InfectionEvent()
 {
-	infected = TRUE;
+	disease_status = INFECTED;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

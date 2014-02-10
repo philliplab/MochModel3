@@ -1,7 +1,7 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 //link Child.lMother Mother.mlChild[];
 
 //parameters 
@@ -45,7 +45,7 @@ void Mother::BirthEvent()
 	Child *prChild = new Child();
 	mlChild->Add(prChild);
 	prChild->UpdateTime()->Start();
-	if ( infected == TRUE){
+	if ( disease_status == INFECTED){
 		prChild->UpdateTime()->Mother_Infect();
 	}
 };

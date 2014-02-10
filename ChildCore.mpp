@@ -3,8 +3,8 @@ actor_set Child asAllChild; //EN All Child actors
 actor Child            //EN Individual
 {
 	REPORT_TIME report_time = { 0 };
-	logical mother_infected_dl = lMother->infected;
-	logical mother_infected_fm = {FALSE};
+	DISEASE_STATE mother_disease_status_dl = lMother->disease_status;
+	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 
 	void Mother_Infect();
 	void Start();
@@ -13,7 +13,7 @@ actor Child            //EN Individual
 
 void Child::Mother_Infect()
 {
-	mother_infected_fm = TRUE;
+	mother_disease_status_fm = INFECTED;
 };
 
 void Child::Start()
@@ -36,7 +36,7 @@ table Child DurationOfLifeChild //EN Duration of Life Child
 };
 
 table Child DurationOfLifeChildHM //EN Duration of Life ChildHM
-[mother_infected_dl == FALSE]
+[mother_disease_status_dl == FALSE]
 {
 	{
 		value_in(alive),				//EN Population size
@@ -52,13 +52,13 @@ table Child InfectionAgeHist_dl
 	*
 	{
 		entrances(alive, FALSE),
-		entrances(mother_infected_dl, TRUE)
+		entrances(mother_disease_status_dl, INFECTED)
 	}
 };
 
 table Child Infection_count_dl
 {
-	mother_infected_dl
+	mother_disease_status_dl
 	*
 	{
 		unit
@@ -71,13 +71,13 @@ table Child InfectionAgeHist_fm
 	*
 	{
 		entrances(alive, FALSE),
-		entrances(mother_infected_fm, TRUE)
+		entrances(mother_disease_status_fm, INFECTED)
 	}
 };
 
 table Child Infection_count_fm
 {
-	mother_infected_fm
+	mother_disease_status_fm
 	*
 	{
 		unit

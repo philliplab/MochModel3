@@ -1,14 +1,14 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 //actor_set Child asAllChild; //EN All Child actors
 
 //actor Child            //EN Individual
 //{
 //	REPORT_TIME report_time = { 0 };
-//	logical mother_infected_dl = lMother->infected;
-//	logical mother_infected_fm = {FALSE};
+//	DISEASE_STATE mother_disease_status_dl = lMother->disease_status;
+//	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 //
 //	void Mother_Infect();
 //	void Start();
@@ -17,7 +17,7 @@ namespace mm {
 
 void Child::Mother_Infect()
 {
-	 poStateFunctions->Set_mother_infected_fm(  TRUE );
+	 poStateFunctions->Set_mother_disease_status_fm(  INFECTED );
 };
 
 void Child::Start()
@@ -40,7 +40,7 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //};
 
 //table Child DurationOfLifeChildHM //EN Duration of Life ChildHM
-//[mother_infected_dl == FALSE]
+//[mother_disease_status_dl == FALSE]
 //{
 //	{
 //		value_in(alive),				//EN Population size
@@ -56,13 +56,13 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //	*
 //	{
 //		entrances(alive, FALSE),
-//		entrances(mother_infected_dl, TRUE)
+//		entrances(mother_disease_status_dl, INFECTED)
 //	}
 //};
 
 //table Child Infection_count_dl
 //{
-//	mother_infected_dl
+//	mother_disease_status_dl
 //	*
 //	{
 //		unit
@@ -75,13 +75,13 @@ if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;Fini
 //	*
 //	{
 //		entrances(alive, FALSE),
-//		entrances(mother_infected_fm, TRUE)
+//		entrances(mother_disease_status_fm, INFECTED)
 //	}
 //};
 
 //table Child Infection_count_fm
 //{
-//	mother_infected_fm
+//	mother_disease_status_fm
 //	*
 //	{
 //		unit

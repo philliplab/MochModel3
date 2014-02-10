@@ -1,7 +1,7 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MInfection.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MInfection.mpp"
 //partition INCIDENCE_AGE_GROUPS
 //{
 //	0, 15, 20, 24, 29, 34, 39, 44, 49, 54, 59, 100
@@ -22,14 +22,13 @@ namespace mm {
 
 //actor Mother            //EN Individual
 //{
-//	logical infected = {FALSE};
 //	event timeInfectionEvent, InfectionEvent;
 //};
 
 TIME Mother::timeInfectionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if ( infected == FALSE){
+	if ( disease_status == HEALTHY){
 		double curr_incidence = gprParam->IncidenceRates[CHKBND(gprParam->IncidenceRatesSource,3,"IncidenceRates",0)][CHKBND(integer_age ,101,"IncidenceRates",1)];
 		if (curr_incidence >= 1){
 			tEventTime = WAIT(0);
@@ -42,7 +41,7 @@ TIME Mother::timeInfectionEvent()
 
 void Mother::InfectionEvent()
 {
-	 poStateFunctions->Set_infected(  TRUE );
+	 poStateFunctions->Set_disease_status(  INFECTED );
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

@@ -1,11 +1,21 @@
-
 parameters{
 	double MaxLife;
+};
+
+classification DISEASE_STATE
+{
+	HEALTHY,
+	INFECTED,
+	SYMPTOMS,
+	TREATED,
+	DEAD
 };
 
 actor Mother            //EN Individual
 {
 	logical alive = {TRUE};
+	DISEASE_STATE disease_status = {HEALTHY};
+
 	event timeMortalityEvent, MortalityEvent;	//EN Mortality event
 };
 

@@ -1,7 +1,7 @@
 #include "model.h"
 static int HaveAGoodDay;
 namespace mm {
-#line 1 "c:/users/administrator/documents/visual studio 2010/Projects/MochModel3/MInf_Mortality.mpp"
+#line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MInf_Mortality.mpp"
 //actor Mother
 //{
 //	logical inf_mortality_rng = {FALSE};
@@ -28,37 +28,18 @@ void Mother::InfMortRNGEvent()
 	 poStateFunctions->Set_inf_mortality_draw(  RandUniform(3) );
 };
 
-class InfMortSurvCurve {
-public:
-	double kappa;
-	double lambda;
-	double phi;
-	double target_y;
-	double operator() (const double x){
-		return exp(-pow(x/(lambda * phi), kappa)) - target_y;
-	};
-};
-
-double InfMortSurvLKUP(InfMortSurvCurve inf_mort_surv_curve)
+double InvWeibull(double y, double kappa, double lambda, double phi)
 {
-	typedef std::pair<double, double> Result;
-	boost::uintmax_t max_iter = 500;
-	boost::math::tools::eps_tolerance<double> tol = 30;
-	Result r1 = boost::math::tools::toms748_solve(inf_mort_surv_curve, 0.0, gprParam->MaxLife, tol, max_iter);
-	double r1x = (r1.first + r1.second)/2;
-	return r1x;
+	double x = 0;
+	x = (phi * lambda) * pow(-log(y), 1/kappa);
+	return(x);
 };
 
 TIME Mother::timeInfMortEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if ( infected == TRUE &&  alive == TRUE){
-		InfMortSurvCurve inf_mort_surv_curve;
-		inf_mort_surv_curve.lambda = 10;
-		inf_mort_surv_curve.kappa = 2;
-		inf_mort_surv_curve.phi = 1;
-		inf_mort_surv_curve.target_y = inf_mortality_draw ;
-		tEventTime = InfMortSurvLKUP(inf_mort_surv_curve);
+	if ( disease_status == INFECTED &&  alive == TRUE){
+		tEventTime = InvWeibull(inf_mortality_draw , 2, 10, 1);
 	};
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);

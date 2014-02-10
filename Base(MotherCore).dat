@@ -5,7 +5,8 @@ parameters {
 	int	MaxChildren = 2; //EN MaxChildren
 	double	MinInfWait = 5; //EN MinInfWait
 	double	MaxInfWait = 5; //EN MaxInfWait
-
+	double	ChildMortParamMH = 0.05; //EN ChildMortParamMH
+	double	ChildMortParamMI = 0.1; //EN ChildMortParamMI
 	double	MaxLife = 90; //EN MaxLife
 	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
 
@@ -21,3 +22,4 @@ parameters {
 		(15) 0, (8) 0.5, (7) 0.1, (71) 0, 
 	};
 };
+
