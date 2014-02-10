@@ -100,6 +100,7 @@ class ChildTable {
 		double	tab2events;
 		double	tab3events;
 		double	tab4events;
+		double	tab5events;
 		//   group=float
 		real	tab0open0;
 		real	tab0close0;
@@ -113,14 +114,22 @@ class ChildTable {
 		real	tab1close0;
 		real	tab1open1;
 		real	tab1close1;
+		real	tab1open2;
+		real	tab1close2;
+		real	tab1open3;
+		real	tab1close3;
 		real	tab2open0;
 		real	tab2close0;
+		real	tab2open1;
+		real	tab2close1;
 		real	tab3open0;
 		real	tab3close0;
-		real	tab3open1;
-		real	tab3close1;
 		real	tab4open0;
 		real	tab4close0;
+		real	tab4open1;
+		real	tab4close1;
+		real	tab5open0;
+		real	tab5close0;
 		//   group=long
 		//   group=ulong
 		index	tab0cell;
@@ -133,6 +142,8 @@ class ChildTable {
 		index	tab3total_cell;
 		index	tab4cell;
 		index	tab4total_cell;
+		index	tab5cell;
+		index	tab5total_cell;
 		//   group=int
 		//   group=uint
 		logical	tab0dim_filter : 1;
@@ -140,6 +151,7 @@ class ChildTable {
 		logical	tab2dim_filter : 1;
 		logical	tab3dim_filter : 1;
 		logical	tab4dim_filter : 1;
+		logical	tab5dim_filter : 1;
 		//   group=short
 		//   group=ushort
 		//   group=char
@@ -192,6 +204,9 @@ class Child : public ActorClass {
 		TIME __fastcall	timeScheduleEvent();
 		Event	*poScheduleEvent;
 		TIME schedule_event_time;
+		void __fastcall	MortalityEvent();
+		TIME __fastcall	timeMortalityEvent();
+		Event	*poMortalityEvent;
 
 		// event processing functions
 		double	EventTime( int nEventNum, int *pnEventInfo );
@@ -225,7 +240,8 @@ class Child : public ActorClass {
 		logical	actorset_filter_asAllChild : 1;
 		logical	alive_value_in : 1;
 		logical	mother_infected_dl : 1;
-		logical	table_filter_DurationOfLifea : 1;
+		logical	table_filter_DurationOfLifeChild : 1;
+		logical	table_filter_DurationOfLifeChildHM : 1;
 		logical	table_filter_Infection_count_dl : 1;
 		logical	table_filter_Infection_count_fm : 1;
 		logical	table_filter_InfectionAgeHist_dl : 1;
@@ -265,7 +281,8 @@ class ChildStateFunctions {
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
 		logical	Set_mother_infected_dl( logical value );
-		logical	Set_table_filter_DurationOfLifea( logical value );
+		logical	Set_table_filter_DurationOfLifeChild( logical value );
+		logical	Set_table_filter_DurationOfLifeChildHM( logical value );
 		logical	Set_table_filter_Infection_count_dl( logical value );
 		logical	Set_table_filter_Infection_count_fm( logical value );
 		logical	Set_table_filter_InfectionAgeHist_dl( logical value );
@@ -317,18 +334,16 @@ class MotherTable {
 		// begin MembersDump
 		//   group=<unknown token type>
 		//   group=double
-		double	tab5events;
 		double	tab6events;
 		double	tab7events;
 		double	tab8events;
 		double	tab9events;
 		double	tab10events;
-		double	tab10events0;
-		double	tab10events1;
 		double	tab11events;
+		double	tab11events0;
+		double	tab11events1;
+		double	tab12events;
 		//   group=float
-		real	tab5open0;
-		real	tab5close0;
 		real	tab6open0;
 		real	tab6close0;
 		real	tab7open0;
@@ -337,26 +352,26 @@ class MotherTable {
 		real	tab8close0;
 		real	tab9open0;
 		real	tab9close0;
-		real	tab9open1;
-		real	tab9close1;
-		real	tab9open2;
-		real	tab9close2;
-		real	tab9open3;
-		real	tab9close3;
 		real	tab10open0;
 		real	tab10close0;
-		real	tab10prev0;
 		real	tab10open1;
 		real	tab10close1;
-		real	tab10prev1;
+		real	tab10open2;
+		real	tab10close2;
+		real	tab10open3;
+		real	tab10close3;
 		real	tab11open0;
 		real	tab11close0;
+		real	tab11prev0;
 		real	tab11open1;
 		real	tab11close1;
+		real	tab11prev1;
+		real	tab12open0;
+		real	tab12close0;
+		real	tab12open1;
+		real	tab12close1;
 		//   group=long
 		//   group=ulong
-		index	tab5cell;
-		index	tab5total_cell;
 		index	tab6cell;
 		index	tab6total_cell;
 		index	tab7cell;
@@ -369,15 +384,17 @@ class MotherTable {
 		index	tab10total_cell;
 		index	tab11cell;
 		index	tab11total_cell;
+		index	tab12cell;
+		index	tab12total_cell;
 		//   group=int
 		//   group=uint
-		logical	tab5dim_filter : 1;
 		logical	tab6dim_filter : 1;
 		logical	tab7dim_filter : 1;
 		logical	tab8dim_filter : 1;
 		logical	tab9dim_filter : 1;
 		logical	tab10dim_filter : 1;
 		logical	tab11dim_filter : 1;
+		logical	tab12dim_filter : 1;
 		//   group=short
 		//   group=ushort
 		//   group=char

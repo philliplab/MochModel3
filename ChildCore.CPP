@@ -7,7 +7,6 @@ namespace mm {
 //actor Child            //EN Individual
 //{
 //	REPORT_TIME report_time = { 0 };
-//	logical alive = {TRUE};
 //	logical mother_infected_dl = lMother->infected;
 //	logical mother_infected_fm = {FALSE};
 //
@@ -30,7 +29,18 @@ void Child::Finish()
 {
 if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;FinishSpecial();}
 
-//table Child DurationOfLifea //EN Duration of Lifea
+//table Child DurationOfLifeChild //EN Duration of Life Child
+//{
+//	{
+//		value_in(alive),				//EN Population size
+//		min_value_out(duration()),		//EN Minimum duration of life decimals=4
+//		max_value_out(duration()),		//EN Maximum duration of life decimals=4
+//		duration() / value_in(alive)	//EN Life expectancy decimals=4
+//	}	//EN Demographic characteristics
+//};
+
+//table Child DurationOfLifeChildHM //EN Duration of Life ChildHM
+//[mother_infected_dl == FALSE]
 //{
 //	{
 //		value_in(alive),				//EN Population size

@@ -98,6 +98,7 @@
     <None Include="Base(MotherCore).dat" />
     <None Include="Base.scex" />
     <None Include="ChildCore.mpp" />
+    <None Include="CMortality.mpp" />
     <None Include="MFertility.mpp" />
     <None Include="MInfection.mpp" />
     <None Include="MInf_Mortality.mpp" />
@@ -112,6 +113,7 @@
   <ItemGroup>
     <ClCompile Include="Actors.cpp" />
     <ClCompile Include="ChildCore.cpp" />
+    <ClCompile Include="CMortality.cpp" />
     <ClCompile Include="MFertility.cpp" />
     <ClCompile Include="MInfection.cpp" />
     <ClCompile Include="MInf_Mortality.cpp" />

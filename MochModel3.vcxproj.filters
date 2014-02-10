@@ -53,6 +53,9 @@
     <None Include="MInf_Mortality.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
+    <None Include="CMortality.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MochModel3.cpp">
@@ -86,6 +89,9 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="MInf_Mortality.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMortality.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScenarioView>
 	<General Language="EN" LongNames="1" SortedGroups="0" Parsed="1" MaximizeChild="0"></General>
-	<TreeView GroupView="0" Type="410">DurationOfLifea</TreeView>
+	<TreeView GroupView="0" Type="410">DurationOfLifeChild</TreeView>
 	<TreeExpansions>
 		<TreeExpansion>TABLES</TreeExpansion>
 		<TreeExpansion>PARAMETER_FILES</TreeExpansion>
@@ -21,17 +21,18 @@
 		<ExportSubSample Value="0">0</ExportSubSample>
 	</ExportSubSamples>
 	<ExportTables>
+		<ExportTable Present="1">DurationOfLifeChildHM</ExportTable>
 		<ExportTable Present="1">FertDetailsSum</ExportTable>
 		<ExportTable Present="1">Infection_count_fm</ExportTable>
 		<ExportTable Present="1">DurationOfLife</ExportTable>
 		<ExportTable Present="1">Infection_count_dl</ExportTable>
 		<ExportTable Present="1">FertDetails</ExportTable>
 		<ExportTable Present="1">InfectionAge</ExportTable>
+		<ExportTable Present="1">DurationOfLifeChild</ExportTable>
 		<ExportTable Present="1">FertDetailsLink</ExportTable>
 		<ExportTable Present="1">InfectionAgeHist</ExportTable>
 		<ExportTable Present="1">InfectionAgeHist_fm</ExportTable>
 		<ExportTable Present="1">InfectionAgeHist_dl</ExportTable>
-		<ExportTable Present="1">DurationOfLifea</ExportTable>
 		<ExportTable Present="1">ageAtBirth</ExportTable>
 	</ExportTables>
 </ScenarioView>

@@ -30,7 +30,17 @@ double	Tab1Expr0( XTable *prTable, int nIndex )
 
 double	Tab1Expr1( XTable *prTable, int nIndex )
 {
-	return prTable->GetVal(1, nIndex);
+	return prTable->GetVal(3, nIndex);
+}
+
+double	Tab1Expr2( XTable *prTable, int nIndex )
+{
+	return prTable->GetVal(2, nIndex);
+}
+
+double	Tab1Expr3( XTable *prTable, int nIndex )
+{
+	return Division( prTable->GetVal(1, nIndex), prTable->GetVal(0, nIndex) );
 }
 
 double	Tab2Expr0( XTable *prTable, int nIndex )
@@ -38,19 +48,24 @@ double	Tab2Expr0( XTable *prTable, int nIndex )
 	return prTable->GetVal(0, nIndex);
 }
 
+double	Tab2Expr1( XTable *prTable, int nIndex )
+{
+	return prTable->GetVal(1, nIndex);
+}
+
 double	Tab3Expr0( XTable *prTable, int nIndex )
 {
 	return prTable->GetVal(0, nIndex);
 }
 
-double	Tab3Expr1( XTable *prTable, int nIndex )
-{
-	return prTable->GetVal(1, nIndex);
-}
-
 double	Tab4Expr0( XTable *prTable, int nIndex )
 {
 	return prTable->GetVal(0, nIndex);
+}
+
+double	Tab4Expr1( XTable *prTable, int nIndex )
+{
+	return prTable->GetVal(1, nIndex);
 }
 
 double	Tab5Expr0( XTable *prTable, int nIndex )
@@ -78,32 +93,37 @@ double	Tab9Expr0( XTable *prTable, int nIndex )
 	return prTable->GetVal(0, nIndex);
 }
 
-double	Tab9Expr1( XTable *prTable, int nIndex )
+double	Tab10Expr0( XTable *prTable, int nIndex )
+{
+	return prTable->GetVal(0, nIndex);
+}
+
+double	Tab10Expr1( XTable *prTable, int nIndex )
 {
 	return prTable->GetVal(3, nIndex);
 }
 
-double	Tab9Expr2( XTable *prTable, int nIndex )
+double	Tab10Expr2( XTable *prTable, int nIndex )
 {
 	return prTable->GetVal(2, nIndex);
 }
 
-double	Tab9Expr3( XTable *prTable, int nIndex )
-{
-	return Division( prTable->GetVal(1, nIndex), prTable->GetVal(0, nIndex) );
-}
-
-double	Tab10Expr0( XTable *prTable, int nIndex )
+double	Tab10Expr3( XTable *prTable, int nIndex )
 {
 	return Division( prTable->GetVal(1, nIndex), prTable->GetVal(0, nIndex) );
 }
 
 double	Tab11Expr0( XTable *prTable, int nIndex )
 {
+	return Division( prTable->GetVal(1, nIndex), prTable->GetVal(0, nIndex) );
+}
+
+double	Tab12Expr0( XTable *prTable, int nIndex )
+{
 	return prTable->GetVal(0, nIndex);
 }
 
-double	Tab11Expr1( XTable *prTable, int nIndex )
+double	Tab12Expr1( XTable *prTable, int nIndex )
 {
 	return prTable->GetVal(1, nIndex);
 }
@@ -118,14 +138,17 @@ void InitTables()
 		Tab0Expr3 );
 	AddTable( 1,
 		Tab1Expr0,
-		Tab1Expr1 );
+		Tab1Expr1,
+		Tab1Expr2,
+		Tab1Expr3 );
 	AddTable( 2,
-		Tab2Expr0 );
+		Tab2Expr0,
+		Tab2Expr1 );
 	AddTable( 3,
-		Tab3Expr0,
-		Tab3Expr1 );
+		Tab3Expr0 );
 	AddTable( 4,
-		Tab4Expr0 );
+		Tab4Expr0,
+		Tab4Expr1 );
 	AddTable( 5,
 		Tab5Expr0 );
 	AddTable( 6,
@@ -135,15 +158,17 @@ void InitTables()
 	AddTable( 8,
 		Tab8Expr0 );
 	AddTable( 9,
-		Tab9Expr0,
-		Tab9Expr1,
-		Tab9Expr2,
-		Tab9Expr3 );
+		Tab9Expr0 );
 	AddTable( 10,
-		Tab10Expr0 );
+		Tab10Expr0,
+		Tab10Expr1,
+		Tab10Expr2,
+		Tab10Expr3 );
 	AddTable( 11,
-		Tab11Expr0,
-		Tab11Expr1 );
+		Tab11Expr0 );
+	AddTable( 12,
+		Tab12Expr0,
+		Tab12Expr1 );
 }
 
 #pragma optimize( "", on )
