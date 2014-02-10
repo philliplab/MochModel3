@@ -187,6 +187,7 @@ class Child : public ActorClass {
 		// user-supplied and required functions
 		Child() { };
 		void Finish ( ) ; 
+		void Mother_Die ( ) ; 
 		void Mother_Infect ( ) ; 
 		void Start ( ) ; 
 
@@ -460,9 +461,6 @@ class Mother : public ActorClass {
 		void __fastcall	InfectionEvent();
 		TIME __fastcall	timeInfectionEvent();
 		Event	*poInfectionEvent;
-		void __fastcall	InfMortEvent();
-		TIME __fastcall	timeInfMortEvent();
-		Event	*poInfMortEvent;
 		void __fastcall	InfMortRNGEvent();
 		TIME __fastcall	timeInfMortRNGEvent();
 		Event	*poInfMortRNGEvent;

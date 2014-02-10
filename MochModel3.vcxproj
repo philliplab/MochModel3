@@ -101,7 +101,6 @@
     <None Include="CMortality.mpp" />
     <None Include="MFertility.mpp" />
     <None Include="MInfection.mpp" />
-    <None Include="MInf_Mortality.mpp" />
     <None Include="MMortality.mpp" />
     <None Include="MochModel3.mpp" />
     <None Include="ModelStrings.mpp" />

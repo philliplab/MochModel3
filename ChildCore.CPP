@@ -11,6 +11,7 @@ namespace mm {
 //	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 //
 //	void Mother_Infect();
+//	void Mother_Die();
 //	void Start();
 //	void Finish();
 //};
@@ -18,6 +19,11 @@ namespace mm {
 void Child::Mother_Infect()
 {
 	 poStateFunctions->Set_mother_disease_status_fm(  INFECTED );
+};
+
+void Child::Mother_Die()
+{
+	 poStateFunctions->Set_mother_disease_status_fm(  DEAD );
 };
 
 void Child::Start()

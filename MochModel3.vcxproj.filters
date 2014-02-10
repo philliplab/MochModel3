@@ -50,9 +50,6 @@
     <None Include="MMortality.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
-    <None Include="MInf_Mortality.mpp">
-      <Filter>Modules %28mpp%29</Filter>
-    </None>
     <None Include="CMortality.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>

@@ -17,12 +17,23 @@ namespace mm {
 //	int		StartingPopulationSize;
 //};
 
+//classification DISEASE_STATE
+//{
+//	HEALTHY,
+//	INFECTED,
+//	SYMPTOMS,
+//	TREATED,
+//	DEAD
+//};
+
 //actor_set Mother asAllMother; //EN All Mother actors
 
 //actor Mother            //EN Individual
 //{
+//	DISEASE_STATE disease_status = {HEALTHY};
 //	REPORT_TIME report_time = { 0 };
 //	LIFE integer_age = self_scheduling_int(age);
+//	logical alive = {TRUE};
 //
 //	void Start();
 //	void Finish();

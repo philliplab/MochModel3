@@ -6,33 +6,71 @@ namespace mm {
 //	double MaxLife;
 //};
 
-//classification DISEASE_STATE
-//{
-//	HEALTHY,
-//	INFECTED,
-//	SYMPTOMS,
-//	TREATED,
-//	DEAD
-//};
-
 //actor Mother            //EN Individual
 //{
-//	logical alive = {TRUE};
-//	DISEASE_STATE disease_status = {HEALTHY};
+//	logical inf_mortality_rng = {FALSE};
+//	double inf_mortality_draw = {-1};
 //
+//	event timeInfMortRNGEvent, InfMortRNGEvent;
 //	event timeMortalityEvent, MortalityEvent;	//EN Mortality event
 //};
 
-TIME Mother::timeMortalityEvent()
+TIME Mother::timeInfMortRNGEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	tEventTime = WAIT(gprParam->MaxLife);
+	if ( inf_mortality_rng == FALSE){
+		tEventTime = 0;
+	};
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Mother::InfMortRNGEvent()
+{
+	 poStateFunctions->Set_inf_mortality_rng(  TRUE );
+	 poStateFunctions->Set_inf_mortality_draw(  RandUniform(3) );
+};
+
+double InvWeibull(double y, double kappa, double lambda, double phi)
+{
+	double x = 0;
+	x = (phi * lambda) * pow(-log(y), 1/kappa);
+	return(x);
+};
+
+TIME Mother::timeMortalityEvent()
+{
+
+	TIME tEventTime = TIME_INFINITE;
+	
+	switch(disease_status )
+	{
+	case HEALTHY:
+		{
+			tEventTime = gprParam->MaxLife;
+		}
+		break;
+	case INFECTED:
+		{
+			tEventTime = InvWeibull(inf_mortality_draw , 2, 10, 1);
+		}
+	default:
+		break;
+	};
+	tEventTime = WAIT(tEventTime);
 	return tEventTime;
 };
 
 void Mother::MortalityEvent()
 {
 	 poStateFunctions->Set_alive(  FALSE );
+	 poStateFunctions->Set_disease_status(  DEAD );
+	int nIndex = {-1};
+	Child *prChild = {NULL};
+	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))
+	{
+		prChild->UpdateTime()->Mother_Die();
+	}
 	Finish();
 };
 

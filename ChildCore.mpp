@@ -7,6 +7,7 @@ actor Child            //EN Individual
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 
 	void Mother_Infect();
+	void Mother_Die();
 	void Start();
 	void Finish();
 };
@@ -14,6 +15,11 @@ actor Child            //EN Individual
 void Child::Mother_Infect()
 {
 	mother_disease_status_fm = INFECTED;
+};
+
+void Child::Mother_Die()
+{
+	mother_disease_status_fm = DEAD;
 };
 
 void Child::Start()
