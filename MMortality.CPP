@@ -73,5 +73,4 @@ void Mother::MortalityEvent()
 	}
 	Finish();
 };
-
 } // namespace 

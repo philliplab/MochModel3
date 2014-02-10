@@ -275,10 +275,13 @@ class ChildStateFunctions {
 		class ChildDerivedStates	*poDerivedStates;
 
 		// state special functions
+		long	Set_actor_id( long value ){ return poParent->actor_id = value; };
 		double	Set_actor_subsample_weight( double value ){ return poParent->actor_subsample_weight = value; };
 		double	Set_actor_weight( double value ){ return poParent->actor_weight = value; };
 		TIME	Set_age( TIME value, bool bStartFunction = false );
 		logical	Set_alive( logical value );
+		long	Set_case_id( long value ){ return poParent->case_id = value; };
+		double	Set_case_seed( double value ){ return poParent->case_seed = value; };
 		DISEASE_STATE	Set_mother_disease_status_fm( DISEASE_STATE value );
 		REPORT_TIME	Set_report_time( REPORT_TIME value );
 		counter	Set_table_unit_Infection_count_dl( counter value );
@@ -503,6 +506,7 @@ class Mother : public ActorClass {
 		REPORT_TIME	report_time : 8;
 		logical	actorset_filter_asAllMother : 1;
 		logical	alive_value_in : 1;
+		logical	final_tracking : 1;
 		LIFE	integer_age : 7;
 		LIFE	number_children_link : 7;
 		logical	table_filter_ageAtBirth : 1;
@@ -512,6 +516,7 @@ class Mother : public ActorClass {
 		logical	table_filter_FertDetailsSum : 1;
 		logical	table_filter_InfectionAge : 1;
 		logical	table_filter_InfectionAgeHist : 1;
+		logical	tracking : 1;
 		logical	__finished : 1;
 		//   group=short
 		//   group=ushort
@@ -531,10 +536,17 @@ class MotherStateFunctions {
 		class MotherDerivedStates	*poDerivedStates;
 
 		// state special functions
-		double	Set_actor_subsample_weight( double value ){ return poParent->actor_subsample_weight = value; };
-		double	Set_actor_weight( double value ){ return poParent->actor_weight = value; };
+		long	Set_actor_id( long value );
+		double	Set_actor_subsample_weight( double value ){ if ( poParent->actor_subsample_weight != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 31, value );
+return poParent->actor_subsample_weight = value; };
+		double	Set_actor_weight( double value ){ if ( poParent->actor_weight != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 32, value );
+return poParent->actor_weight = value; };
 		TIME	Set_age( TIME value, bool bStartFunction = false );
 		logical	Set_alive( logical value );
+		long	Set_case_id( long value ){ if ( poParent->case_id != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 35, value );
+return poParent->case_id = value; };
+		double	Set_case_seed( double value ){ if ( poParent->case_seed != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 36, value );
+return poParent->case_seed = value; };
 		DISEASE_STATE	Set_disease_status( DISEASE_STATE value );
 		double	Set_inf_mortality_draw( double value );
 		logical	Set_inf_mortality_rng( logical value );
@@ -543,7 +555,8 @@ class MotherStateFunctions {
 			Set_number_children((LIFE) (poParent->number_children + 1)); return old_value; };
 		REPORT_TIME	Set_report_time( REPORT_TIME value );
 		counter	Set_table_unit_FertDetails( counter value );
-		TIME	Set_time( TIME value, bool bStartFunction = false ){ return poParent->time = value; };
+		TIME	Set_time( TIME value, bool bStartFunction = false ){ if ( poParent->time != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 43, value );
+return poParent->time = value; };
 		logical	Set_actorset_filter_asAllMother( logical value );
 		logical	Set_alive_value_in( logical value );
 		TIME	Set_duration__max_value_out( TIME value );
@@ -551,6 +564,8 @@ class MotherStateFunctions {
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
 		counter	Set_entrances_disease_status_INFECTED_event( counter value );
+		logical	Set_final_tracking( logical value ){ if ( poParent->final_tracking != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 53, value );
+return poParent->final_tracking = value; };
 		LIFE	Set_integer_age( LIFE value );
 		LIFE	Set_number_children_link( LIFE value );
 		logical	Set_table_filter_ageAtBirth( logical value );
@@ -560,6 +575,7 @@ class MotherStateFunctions {
 		logical	Set_table_filter_FertDetailsSum( logical value );
 		logical	Set_table_filter_InfectionAge( logical value );
 		logical	Set_table_filter_InfectionAgeHist( logical value );
+		logical	Set_tracking( logical value );
 		real	Set_value_at_entrances_disease_status_INFECTED_age_event( real value );
 		counter	Set_count_mlChild( counter value );
 };
@@ -689,9 +705,12 @@ class TickerStateFunctions {
 		class TickerDerivedStates	*poDerivedStates;
 
 		// state special functions
+		long	Set_actor_id( long value ){ return poParent->actor_id = value; };
 		double	Set_actor_subsample_weight( double value ){ return poParent->actor_subsample_weight = value; };
 		double	Set_actor_weight( double value ){ return poParent->actor_weight = value; };
 		TIME	Set_age( TIME value, bool bStartFunction = false ){ return poParent->age = value; };
+		long	Set_case_id( long value ){ return poParent->case_id = value; };
+		double	Set_case_seed( double value ){ return poParent->case_seed = value; };
 		TIME	Set_next_tick( TIME value );
 		REPORT_TIME	Set_report_time( REPORT_TIME value );
 		TIME	Set_time( TIME value, bool bStartFunction = false ){ return poParent->time = value; };
