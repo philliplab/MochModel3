@@ -8,6 +8,11 @@ namespace mm {
 //	double		ChildMortParamMI;
 //};
 
+//parameter_group ChildMortality
+//{ //EN Mothers' Mortality Parameters
+//	ChildMortParamMH, ChildMortParamMI
+//};
+
 //actor Child            //EN Individual
 //{
 //	logical alive = {TRUE};

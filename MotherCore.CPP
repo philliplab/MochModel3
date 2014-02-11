@@ -17,6 +17,11 @@ namespace mm {
 //	int		StartingPopulationSize;
 //};
 
+//parameter_group MothCore
+//{ //EN Mothers' Mortality Parameters
+//	StartingPopulationSize
+//};
+
 //classification DISEASE_STATE
 //{
 //	HEALTHY,

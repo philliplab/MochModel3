@@ -9,6 +9,11 @@ namespace mm {
 //	double MInfectedMortScale;
 //};
 
+//parameter_group MotherMortality
+//{ //EN Mothers' Mortality Parameters
+//	MaxLife, MInfectedMortShape, MInfectedMortScale
+//};
+
 //actor Mother            //EN Individual
 //{
 //	logical inf_mortality_rng = {FALSE};

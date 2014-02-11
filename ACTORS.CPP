@@ -217,7 +217,7 @@ void Child::InitializeStates()
 	actor_subsample_weight = (double) 0;
 	actor_weight = (double) 0;
 	age = (TIME) 0;
-#line 9 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/CMortality.mpp"
+#line 14 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/CMortality.mpp"
 	alive = TRUE != 0;
 #line 223 "ACTORS.CPP"
 	case_id = (long) 0;
@@ -1391,25 +1391,25 @@ void Mother::InitializeStates()
 	actor_subsample_weight = (double) 0;
 	actor_weight = (double) 0;
 	age = (TIME) 0;
-#line 32 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 37 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	alive = TRUE != 0;
 #line 1397 "ACTORS.CPP"
 	case_id = (long) 0;
 	case_seed = (double) 0;
-#line 29 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 34 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	disease_status = HEALTHY;
 #line 1402 "ACTORS.CPP"
-#line 11 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
+#line 16 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
 	inf_mortality_draw = (double) -1;
 #line 1405 "ACTORS.CPP"
-#line 10 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
+#line 15 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
 	inf_mortality_rng = FALSE != 0;
 #line 1408 "ACTORS.CPP"
-#line 18 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 23 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	CHKLMT(0, number_children, r_min_LIFE, r_max_LIFE);
 	number_children = 0 < r_min_LIFE ? r_min_LIFE : 0 > r_max_LIFE ? r_max_LIFE : (LIFE) 0;
 #line 1412 "ACTORS.CPP"
-#line 30 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 35 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
 #line 1416 "ACTORS.CPP"
@@ -1483,33 +1483,33 @@ void Mother::StartSpecial1()
 	poScheduleEvent = gpoEventQueue->NewEvent( this, 4, 255 );
 	schedule_event_time = TIME_INFINITE;
 	//Initalize derived states
-#line 54 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 59 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_alive_value_in( logical( alive ) );
 #line 1489 "ACTORS.CPP"
-#line 54 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 59 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
 #line 1492 "ACTORS.CPP"
-#line 54 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 59 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
 #line 1495 "ACTORS.CPP"
-#line 64 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 69 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_entrances_disease_status_INFECTED_event( counter( poDerivedStates->entrances_disease_status_INFECTED ) );
 #line 1498 "ACTORS.CPP"
-#line 78 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 83 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_final_tracking( logical( GetReplicate()== 0 ) );
 #line 1501 "ACTORS.CPP"
-#line 31 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 36 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_integer_age( LIFE( poDerivedStates->ssint_age ) );
 #line 1504 "ACTORS.CPP"
 	integer_age = integer_age < r_min_LIFE ? r_min_LIFE : integer_age > r_max_LIFE ? r_max_LIFE : integer_age;
-#line 19 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 24 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_number_children_link( LIFE( count_mlChild ) );
 #line 1508 "ACTORS.CPP"
 	number_children_link = number_children_link < r_min_LIFE ? r_min_LIFE : number_children_link > r_max_LIFE ? r_max_LIFE : number_children_link;
-#line 78 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 83 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_tracking( logical( actor_id% 50== 0 ) );
 #line 1512 "ACTORS.CPP"
-#line 64 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 69 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_value_at_entrances_disease_status_INFECTED_age_event( real( poDerivedStates->value_at_entrances_disease_status_INFECTED_age ) );
 #line 1515 "ACTORS.CPP"
 	CountActor(1);
@@ -1524,7 +1524,7 @@ void Mother::StartSpecial2()
 	poStateFunctions->Set_age(TIME( CoarsenMantissa( age ) ), true);
 	gdThreadCurrentTime = time;
 	__time = time;
-#line 25 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 30 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_actorset_filter_asAllMother( logical( 1 ) );
 #line 1530 "ACTORS.CPP"
 	poDerivedStates->Set_changes_number_children( (counter) 0 );
@@ -1532,25 +1532,25 @@ void Mother::StartSpecial2()
 	poDerivedStates->duration__time = time;
 	poDerivedStates->Set_entrances_alive_FALSE( (counter) 0 );
 	poDerivedStates->Set_entrances_disease_status_INFECTED( (counter) 0 );
-#line 49 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 54 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_ageAtBirth( logical( 1 ) );
 #line 1538 "ACTORS.CPP"
-#line 48 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 53 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_DurationOfLife( logical( 1 ) );
 #line 1541 "ACTORS.CPP"
-#line 60 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 65 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetails( logical( alive== FALSE ) );
 #line 1544 "ACTORS.CPP"
-#line 69 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 74 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetailsLink( logical( 1 ) );
 #line 1547 "ACTORS.CPP"
-#line 76 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 81 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetailsSum( logical( 1 ) );
 #line 1550 "ACTORS.CPP"
-#line 58 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 63 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAge( logical( 1 ) );
 #line 1553 "ACTORS.CPP"
-#line 67 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 72 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAgeHist( logical( 1 ) );
 #line 1556 "ACTORS.CPP"
 	poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children( (integer) 0 );
@@ -1945,7 +1945,7 @@ long MotherStateFunctions::Set_actor_id( long value )
 		OldValue = poParent->actor_id;
 		poParent->actor_id = value;
 
-#line 78 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 83 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 		Set_tracking( poParent->actor_id% 50== 0 );
 #line 1951 "ACTORS.CPP"
 		if ( poParent->bUpdates && poParent->tracking ) {
@@ -2008,7 +2008,7 @@ logical MotherStateFunctions::Set_alive( logical value )
 		if ( value == FALSE ) {
 			poDerivedStates->Set_entrances_alive_FALSE( poDerivedStates->entrances_alive_FALSE + 1 );
 		}
-#line 60 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 65 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 		Set_table_filter_FertDetails( value== FALSE );
 #line 2014 "ACTORS.CPP"
 		if ( value == FALSE ) {
@@ -2023,7 +2023,7 @@ logical MotherStateFunctions::Set_alive( logical value )
 		OldValue = poParent->alive;
 		poParent->alive = value;
 
-#line 54 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 59 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 		Set_alive_value_in( poParent->alive );
 #line 2029 "ACTORS.CPP"
 		if ( poParent->bUpdates && poParent->tracking ) {
@@ -2750,7 +2750,7 @@ counter MotherStateFunctions::Set_count_mlChild( counter value )
 		OldValue = poParent->count_mlChild;
 		poParent->count_mlChild = value;
 
-#line 19 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
+#line 24 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 		Set_number_children_link( poParent->count_mlChild );
 #line 2756 "ACTORS.CPP"
 	}

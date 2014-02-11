@@ -20,6 +20,11 @@ namespace mm {
 //	double MaxInfWait;
 //};
 
+//parameter_group MotherIncidence
+//{ //EN Mothers' Mortality Parameters
+//	IncidenceRatesSource, IncidenceRates, MinInfWait, MaxInfWait
+//};
+
 //actor Mother            //EN Individual
 //{
 //	event timeInfectionEvent, InfectionEvent;
