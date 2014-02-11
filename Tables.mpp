@@ -99,6 +99,20 @@ table Mother Trans3_6_7Count //EN Transitions 3, 6 and 7
 };
 
 
+table Mother Trans4_9Count //EN Transitions 4 and 9
+{
+	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
+	*
+	{
+		unit,
+		undergone_transition(disease_status, SYMPTOMS, DEAD),
+		undergone_transition(disease_status, SYMPTOMS, TREATED),
+		exits(disease_status, SYMPTOMS)
+	}
+};
+
+
+
 ///////////////////////////////////////////////////////////////
 // Table Groups
 
@@ -114,5 +128,5 @@ table_group MOTHER
 
 table_group TEST_TRANSITIONS
 {
-	Trans1_2Count, Trans3_6_7Count
+	Trans1_2Count, Trans3_6_7Count, Trans4_9Count
 };

@@ -40,5 +40,5 @@ parameters {
 
 	double MinSymptomWait = 5;
 	double MaxSymptomWait = 10;
-	double DefaultTimeToDeath = 100;
+	double DefaultTimeToDeath = 5;
 };
