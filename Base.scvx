@@ -5,10 +5,8 @@
 	<TreeExpansions>
 		<TreeExpansion>PARAMETER_GROUPS</TreeExpansion>
 		<TreeExpansion>TABLES</TreeExpansion>
-		<TreeExpansion>PARAMETER_FILES|MotherCore</TreeExpansion>
-		<TreeExpansion>TABLE_GROUPS|Other tables</TreeExpansion>
+		<TreeExpansion>PARAMETER_GROUPS|Other parameters</TreeExpansion>
 		<TreeExpansion>PARAMETER_FILES</TreeExpansion>
-		<TreeExpansion>TABLE_GROUPS</TreeExpansion>
 	</TreeExpansions>
 	<ChildWindows>
 		<ChildWindow Type="table" ActivePropertyPage="0" DisplayOrder0="0" Dim0="0" LeftPaneWidth="-1" TopPaneHeight="-1" FirstVisibleTop="0" FirstVisibleBottom="0" FirstVisibleLeft="0" FirstVisibleRight="0" CurrentPane="2" Data="Value" Decimals0="0" Decimals1="4" Decimals2="4" Decimals3="4" Aggregation0="0" showCmd="1" MinPositionX="-1" MinPositionY="-1" MaxPositionX="-1" MaxPositionY="-1" NormalPositionLeft="8" NormalPositionTop="538" NormalPositionRight="595" NormalPositionBottom="815" SplitterPosition="96">DurationOfLife</ChildWindow>
@@ -19,6 +17,7 @@
 		<ChildWindow Type="table" ActivePropertyPage="0" DisplayOrder0="0" Dim0="0" LeftPaneWidth="-1" TopPaneHeight="-1" FirstVisibleTop="0" FirstVisibleBottom="0" FirstVisibleLeft="0" FirstVisibleRight="0" CurrentPane="2" Data="Value" Decimals0="0" Decimals1="4" Decimals2="4" Decimals3="4" Aggregation0="0" showCmd="1" MinPositionX="-1" MinPositionY="-1" MaxPositionX="-1" MaxPositionY="-1" NormalPositionLeft="2" NormalPositionTop="668" NormalPositionRight="570" NormalPositionBottom="945" SplitterPosition="96">DurationOfLifeChild</ChildWindow>
 	</ChildWindows>
 	<ParameterSymbols>
+		<ParameterSymbol DimTotals="0:">MInfectedMortPhi</ParameterSymbol>
 		<ParameterSymbol DimTotals="0:0:">IncidenceRates</ParameterSymbol>
 		<ParameterSymbol DimTotals="0:">FertilityRates</ParameterSymbol>
 	</ParameterSymbols>

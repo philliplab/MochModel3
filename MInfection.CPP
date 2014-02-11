@@ -47,6 +47,7 @@ TIME Mother::timeInfectionEvent()
 void Mother::InfectionEvent()
 {
 	 poStateFunctions->Set_disease_status(  INFECTED );
+	 poStateFunctions->Set_vdp_age_at_infection(  vdp_age_int  );
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

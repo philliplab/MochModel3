@@ -56,6 +56,10 @@ typedef uint REPORT_TIME;
 CONSTANT( int, r_min_REPORT_TIME, 0 );
 CONSTANT( int, r_max_REPORT_TIME, 200 );
 CONSTANT( int, rc_size_REPORT_TIME, 201 );
+typedef uint VAN_DER_PAAL_INDX;
+CONSTANT( int, r_min_VAN_DER_PAAL_INDX, 0 );
+CONSTANT( int, r_max_VAN_DER_PAAL_INDX, 4 );
+CONSTANT( int, rc_size_VAN_DER_PAAL_INDX, 5 );
 
 // partitions
 typedef uint INCIDENCE_AGE_GROUPS;
@@ -67,6 +71,9 @@ extern real p_points_INFECTION_AGES[];
 typedef uint TIME_PART;
 CONSTANT( int, rc_size_TIME_PART, 10 );
 extern real p_points_TIME_PART[];
+typedef uint VAN_DER_PAAL_AGES;
+CONSTANT( int, rc_size_VAN_DER_PAAL_AGES, 5 );
+extern real p_points_VAN_DER_PAAL_AGES[];
 
 class Parameters {
 	public:
@@ -85,6 +92,8 @@ class Parameters {
 		double	MaxInfWait;
 		double	MaxLife;
 		double	MinBirthWait;
+		double	MInfectedMortPhi
+[rc_size_VAN_DER_PAAL_INDX];
 		double	MInfectedMortScale;
 		double	MInfectedMortShape;
 		double	MinInfWait;
@@ -506,6 +515,7 @@ class Mother : public ActorClass {
 		logical	inf_mortality_rng : 1;
 		LIFE	number_children : 7;
 		REPORT_TIME	report_time : 8;
+		VAN_DER_PAAL_INDX	vdp_age_at_infection : 3;
 		logical	actorset_filter_asAllMother : 1;
 		logical	alive_value_in : 1;
 		logical	final_tracking : 1;
@@ -519,6 +529,7 @@ class Mother : public ActorClass {
 		logical	table_filter_InfectionAge : 1;
 		logical	table_filter_InfectionAgeHist : 1;
 		logical	tracking : 1;
+		VAN_DER_PAAL_INDX	vdp_age_int : 3;
 		logical	__finished : 1;
 		//   group=short
 		//   group=ushort
@@ -559,6 +570,7 @@ return poParent->case_seed = value; };
 		counter	Set_table_unit_FertDetails( counter value );
 		TIME	Set_time( TIME value, bool bStartFunction = false ){ if ( poParent->time != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 43, value );
 return poParent->time = value; };
+		VAN_DER_PAAL_INDX	Set_vdp_age_at_infection( VAN_DER_PAAL_INDX value );
 		logical	Set_actorset_filter_asAllMother( logical value );
 		logical	Set_alive_value_in( logical value );
 		TIME	Set_duration__max_value_out( TIME value );
@@ -566,7 +578,7 @@ return poParent->time = value; };
 		TIME	Set_duration__min_value_out( TIME value );
 		TIME	Get_duration__min_value_out();
 		counter	Set_entrances_disease_status_INFECTED_event( counter value );
-		logical	Set_final_tracking( logical value ){ if ( poParent->final_tracking != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 53, value );
+		logical	Set_final_tracking( logical value ){ if ( poParent->final_tracking != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 54, value );
 return poParent->final_tracking = value; };
 		LIFE	Set_integer_age( LIFE value );
 		LIFE	Set_number_children_link( LIFE value );
@@ -579,6 +591,7 @@ return poParent->final_tracking = value; };
 		logical	Set_table_filter_InfectionAgeHist( logical value );
 		logical	Set_tracking( logical value );
 		real	Set_value_at_entrances_disease_status_INFECTED_age_event( real value );
+		VAN_DER_PAAL_INDX	Set_vdp_age_int( VAN_DER_PAAL_INDX value );
 		counter	Set_count_mlChild( counter value );
 };
 
@@ -596,6 +609,7 @@ class MotherDerivedStates {
 		counter	Set_entrances_disease_status_INFECTED( counter value );
 		counter	Set_ssint_age( counter value );
 		INFECTION_AGES	Set_sssplit_age_INFECTION_AGES( INFECTION_AGES value );
+		VAN_DER_PAAL_AGES	Set_sssplit_age_VAN_DER_PAAL_AGES( VAN_DER_PAAL_AGES value );
 		integer	Set_value_at_entrances_alive_FALSE_number_children( integer value );
 		integer	Set_value_at_entrances_alive_FALSE_number_children_link( integer value );
 		real	Set_value_at_entrances_disease_status_INFECTED_age( real value );
@@ -607,6 +621,7 @@ class MotherDerivedStates {
 		TIME	duration__time;
 		TIME	ssint_age_time;
 		TIME	sssplit_age_INFECTION_AGES_time;
+		TIME	sssplit_age_VAN_DER_PAAL_AGES_time;
 		//   group=float
 		real	value_at_entrances_disease_status_INFECTED_age;
 		//   group=long
@@ -614,6 +629,7 @@ class MotherDerivedStates {
 		//   group=int
 		//   group=uint
 		INFECTION_AGES	sssplit_age_INFECTION_AGES : 4;
+		VAN_DER_PAAL_AGES	sssplit_age_VAN_DER_PAAL_AGES : 3;
 		//   group=short
 		integer	value_at_entrances_alive_FALSE_number_children;
 		integer	value_at_entrances_alive_FALSE_number_children_link;

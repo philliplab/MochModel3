@@ -12,6 +12,16 @@ namespace mm {
 //	0,1,2,3,4,5,10,20,30,40,50,75,100
 //};
 
+//partition VAN_DER_PAAL_AGES
+//{
+//	13, 25, 35, 45
+//};
+
+//range VAN_DER_PAAL_INDX
+//{
+//	0,4
+//};
+
 //parameters 
 //{
 //	int		StartingPopulationSize;
@@ -38,6 +48,8 @@ namespace mm {
 //	DISEASE_STATE disease_status = {HEALTHY};
 //	REPORT_TIME report_time = { 0 };
 //	LIFE integer_age = self_scheduling_int(age);
+//	VAN_DER_PAAL_INDX vdp_age_int = self_scheduling_split(age, VAN_DER_PAAL_AGES);
+//	VAN_DER_PAAL_INDX vdp_age_at_infection = {4};
 //	logical alive = {TRUE};
 //
 //	void Start();
