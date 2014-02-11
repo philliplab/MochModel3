@@ -50,6 +50,7 @@ namespace mm {
 //	LIFE integer_age = self_scheduling_int(age);
 //	VAN_DER_PAAL_INDX vdp_age_int = self_scheduling_split(age, VAN_DER_PAAL_AGES);
 //	VAN_DER_PAAL_INDX vdp_age_at_infection = {4};
+//	VAN_DER_PAAL_INDX vdp_age_at_symptoms = {4};
 //	logical alive = {TRUE};
 //
 //	void Start();

@@ -12,6 +12,7 @@ namespace mm {
 //
 //	void Mother_Infect();
 //	void Mother_Die();
+//	void Mother_Symptoms();
 //	void Start();
 //	void Finish();
 //};
@@ -24,6 +25,11 @@ void Child::Mother_Infect()
 void Child::Mother_Die()
 {
 	 poStateFunctions->Set_mother_disease_status_fm(  DEAD );
+};
+
+void Child::Mother_Symptoms()
+{
+	 poStateFunctions->Set_mother_disease_status_fm(  SYMPTOMS );
 };
 
 void Child::Start()

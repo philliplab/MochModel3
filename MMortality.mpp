@@ -4,6 +4,7 @@ parameters
 	double MInfectedMortShape;
 	double MInfectedMortScale;
 	double MInfectedMortPhi[VAN_DER_PAAL_INDX];
+	double DefaultTimeToDeath;
 };
 
 parameter_group MotherMortality
@@ -64,7 +65,11 @@ TIME Mother::timeMortalityEvent()
 		{
 			tEventTime = InvWeibull(inf_mortality_draw, MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi[vdp_age_at_infection]);
 		}
+		break;
 	default:
+		{
+			tEventTime = DefaultTimeToDeath;
+		}
 		break;
 	};
 	tEventTime = WAIT(tEventTime);

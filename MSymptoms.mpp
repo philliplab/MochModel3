@@ -1,0 +1,36 @@
+parameters
+{
+	double MinSymptomWait;
+	double MaxSymptomWait;
+};
+
+parameter_group MotherSymptoms
+{ //EN Mothers' Symptom Parameters
+	MinSymptomWait, MaxSymptomWait	
+};
+
+actor Mother            //EN Individual
+{
+	event timeSymptomEvent, SymptomEvent;
+};
+
+TIME Mother::timeSymptomEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	double draw = RandUniform(6);
+	tEventTime = MinSymptomWait + (MaxSymptomWait - MinSymptomWait) * draw;
+	tEventTime = WAIT(tEventTime);
+	return tEventTime;
+};
+
+void Mother::SymptomEvent()
+{
+	disease_status = SYMPTOMS;
+	vdp_age_at_symptoms = vdp_age_int;
+	int nIndex = {-1};
+	Child *prChild = {NULL};
+	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))
+	{
+		prChild->Mother_Symptoms();
+	}
+};

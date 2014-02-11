@@ -8,6 +8,7 @@ namespace mm {
 //	double MInfectedMortShape;
 //	double MInfectedMortScale;
 //	double MInfectedMortPhi[VAN_DER_PAAL_INDX];
+//	double DefaultTimeToDeath;
 //};
 
 //parameter_group MotherMortality
@@ -68,7 +69,11 @@ TIME Mother::timeMortalityEvent()
 		{
 			tEventTime = InvWeibull(inf_mortality_draw , gprParam->MInfectedMortShape, gprParam->MInfectedMortScale, gprParam->MInfectedMortPhi[CHKBND(vdp_age_at_infection ,5,"MInfectedMortPhi",0)]);
 		}
+		break;
 	default:
+		{
+			tEventTime = gprParam->DefaultTimeToDeath;
+		}
 		break;
 	};
 	tEventTime = WAIT(tEventTime);

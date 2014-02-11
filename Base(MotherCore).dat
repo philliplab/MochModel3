@@ -3,22 +3,19 @@ parameters {
 	double	MinBirthWait = 1; //EN MinBirthWait
 	double	MaxBirthWait = 10; //EN MaxBirthWait
 	int	MaxChildren = 2; //EN MaxChildren
-
 	double	MinInfWait = 5; //EN MinInfWait
 	double	MaxInfWait = 5; //EN MaxInfWait
 	double	ChildMortParamMH = 0.03; //EN ChildMortParamMH
 	double	ChildMortParamMI = 0.2; //EN ChildMortParamMI
 	double	MaxLife = 90; //EN MaxLife
-
 	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
+	double	MInfectedMortShape = 2.5; //EN MInfectedMortShape
+	double	MInfectedMortScale = 11.1123; //EN MInfectedMortScale
 
-
-	double MInfectedMortShape = 2.5;
-	double MInfectedMortScale = 11.1123;
-	double MInfectedMortPhi[VAN_DER_PAAL_INDX] = 
-	{
-		1000, 1.22398, 0.95143, 0.58661, 0.52447
-	}; // TREAT 1000 as inifinity
+	 //EN MInfectedMortPhi
+	double	MInfectedMortPhi[VAN_DER_PAAL_INDX] = {
+		1000, 1.22398, 0.95143, 0.58661, 0.52447, 
+	};
 
 	 //EN IncidenceRates
 	double	IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE] = {
@@ -31,4 +28,8 @@ parameters {
 	double	FertilityRates[LIFE] = {
 		(15) 0, (8) 0.5, (7) 0.1, (71) 0, 
 	};
+	double	MinSymptomWait = 5; //EN MinSymptomWait
+	double	MaxSymptomWait = 10; //EN MaxSymptomWait
+	double	DefaultTimeToDeath = 100; //EN DefaultTimeToDeath
 };
+

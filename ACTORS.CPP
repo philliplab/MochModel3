@@ -43,6 +43,7 @@ BOOL VerifyParameters( CString *pszError)
 	(*pszError).Empty();
 	if ( !VerifyParameter( pszError, "ChildMortParamMH" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "ChildMortParamMI" ) ) bResult = FALSE;
+	if ( !VerifyParameter( pszError, "DefaultTimeToDeath" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "FertilityRates" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "IncidenceRates" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "IncidenceRatesSource" ) ) bResult = FALSE;
@@ -50,11 +51,13 @@ BOOL VerifyParameters( CString *pszError)
 	if ( !VerifyParameter( pszError, "MaxChildren" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MaxInfWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MaxLife" ) ) bResult = FALSE;
+	if ( !VerifyParameter( pszError, "MaxSymptomWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MinBirthWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MInfectedMortPhi" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MInfectedMortScale" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MInfectedMortShape" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "MinInfWait" ) ) bResult = FALSE;
+	if ( !VerifyParameter( pszError, "MinSymptomWait" ) ) bResult = FALSE;
 	if ( !VerifyParameter( pszError, "StartingPopulationSize" ) ) bResult = FALSE;
 	return bResult;
 }
@@ -86,6 +89,7 @@ Parameters::Parameters()
 {
 	Initializer( &ChildMortParamMH, "ChildMortParamMH" );
 	Initializer( &ChildMortParamMI, "ChildMortParamMI" );
+	Initializer( &DefaultTimeToDeath, "DefaultTimeToDeath" );
 	Initializer( &FertilityRates, "FertilityRates" );
 	Initializer( &IncidenceRates, "IncidenceRates" );
 	Initializer( &IncidenceRatesSource, "IncidenceRatesSource" );
@@ -93,11 +97,13 @@ Parameters::Parameters()
 	Initializer( &MaxChildren, "MaxChildren" );
 	Initializer( &MaxInfWait, "MaxInfWait" );
 	Initializer( &MaxLife, "MaxLife" );
+	Initializer( &MaxSymptomWait, "MaxSymptomWait" );
 	Initializer( &MinBirthWait, "MinBirthWait" );
 	Initializer( &MInfectedMortPhi, "MInfectedMortPhi" );
 	Initializer( &MInfectedMortScale, "MInfectedMortScale" );
 	Initializer( &MInfectedMortShape, "MInfectedMortShape" );
 	Initializer( &MinInfWait, "MinInfWait" );
+	Initializer( &MinSymptomWait, "MinSymptomWait" );
 	Initializer( &StartingPopulationSize, "StartingPopulationSize" );
 }
 
@@ -222,16 +228,16 @@ void Child::InitializeStates()
 	age = (TIME) 0;
 #line 14 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/CMortality.mpp"
 	alive = TRUE != 0;
-#line 226 "ACTORS.CPP"
+#line 232 "ACTORS.CPP"
 	case_id = (long) 0;
 	case_seed = (double) 0;
 #line 7 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 	mother_disease_status_fm = HEALTHY;
-#line 231 "ACTORS.CPP"
+#line 237 "ACTORS.CPP"
 #line 5 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 235 "ACTORS.CPP"
+#line 241 "ACTORS.CPP"
 	table_unit_Infection_count_dl = (counter) 0;
 	table_unit_Infection_count_fm = (counter) 0;
 	time = (TIME) gdThreadCurrentTime;
@@ -289,18 +295,18 @@ void Child::StartSpecial1()
 	poScheduleEvent = gpoEventQueue->NewEvent( this, 1, 255 );
 	schedule_event_time = TIME_INFINITE;
 	//Initalize derived states
-#line 40 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 46 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_alive_value_in( logical( alive ) );
-#line 295 "ACTORS.CPP"
-#line 40 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
-#line 298 "ACTORS.CPP"
-#line 40 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
 #line 301 "ACTORS.CPP"
+#line 46 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
+#line 304 "ACTORS.CPP"
+#line 46 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
+#line 307 "ACTORS.CPP"
 #line 6 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_mother_disease_status_dl( DISEASE_STATE( lMother_disease_status ) );
-#line 304 "ACTORS.CPP"
+#line 310 "ACTORS.CPP"
 	CountActor(0);
 }
 
@@ -315,30 +321,30 @@ void Child::StartSpecial2()
 	__time = time;
 #line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_actorset_filter_asAllChild( logical( 1 ) );
-#line 319 "ACTORS.CPP"
+#line 325 "ACTORS.CPP"
 	poDerivedStates->Set_duration_( (TIME) 0 );
 	poDerivedStates->duration__time = time;
 	poDerivedStates->Set_entrances_alive_FALSE( (counter) 0 );
 	poDerivedStates->Set_entrances_mother_disease_status_dl_INFECTED( (counter) 0 );
 	poDerivedStates->Set_entrances_mother_disease_status_fm_INFECTED( (counter) 0 );
-#line 34 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 40 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 	poStateFunctions->Set_table_filter_DurationOfLifeChild( logical( 1 ) );
-#line 327 "ACTORS.CPP"
-#line 45 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_table_filter_DurationOfLifeChildHM( logical( mother_disease_status_dl== FALSE ) );
-#line 330 "ACTORS.CPP"
-#line 65 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_table_filter_Infection_count_dl( logical( 1 ) );
 #line 333 "ACTORS.CPP"
-#line 84 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_table_filter_Infection_count_fm( logical( 1 ) );
+#line 51 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_table_filter_DurationOfLifeChildHM( logical( mother_disease_status_dl== FALSE ) );
 #line 336 "ACTORS.CPP"
-#line 55 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_table_filter_InfectionAgeHist_dl( logical( 1 ) );
+#line 71 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_table_filter_Infection_count_dl( logical( 1 ) );
 #line 339 "ACTORS.CPP"
-#line 74 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
-	poStateFunctions->Set_table_filter_InfectionAgeHist_fm( logical( 1 ) );
+#line 90 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_table_filter_Infection_count_fm( logical( 1 ) );
 #line 342 "ACTORS.CPP"
+#line 61 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_table_filter_InfectionAgeHist_dl( logical( 1 ) );
+#line 345 "ACTORS.CPP"
+#line 80 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+	poStateFunctions->Set_table_filter_InfectionAgeHist_fm( logical( 1 ) );
+#line 348 "ACTORS.CPP"
 
 	// initialization of cross-tabulation updates
 	tableinfo.tab0events = -1;
@@ -677,9 +683,9 @@ logical ChildStateFunctions::Set_alive( logical value )
 		OldValue = poParent->alive;
 		poParent->alive = value;
 
-#line 40 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 46 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 		Set_alive_value_in( poParent->alive );
-#line 683 "ACTORS.CPP"
+#line 689 "ACTORS.CPP"
 	}
 	return poParent->alive = value;
 }
@@ -919,9 +925,9 @@ DISEASE_STATE ChildStateFunctions::Set_mother_disease_status_dl( DISEASE_STATE v
 		if ( value == INFECTED ) {
 			poDerivedStates->Set_entrances_mother_disease_status_dl_INFECTED( poDerivedStates->entrances_mother_disease_status_dl_INFECTED + 1 );
 		}
-#line 45 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
+#line 51 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 		Set_table_filter_DurationOfLifeChildHM( value== FALSE );
-#line 925 "ACTORS.CPP"
+#line 931 "ACTORS.CPP"
 
 
 		DISEASE_STATE	OldValue;
@@ -1201,7 +1207,7 @@ DISEASE_STATE ChildStateFunctions::Set_lMother_disease_status( DISEASE_STATE val
 
 #line 6 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/ChildCore.mpp"
 		Set_mother_disease_status_dl( poParent->lMother_disease_status );
-#line 1205 "ACTORS.CPP"
+#line 1211 "ACTORS.CPP"
 	}
 	return poParent->lMother_disease_status = value;
 }
@@ -1394,34 +1400,38 @@ void Mother::InitializeStates()
 	actor_subsample_weight = (double) 0;
 	actor_weight = (double) 0;
 	age = (TIME) 0;
-#line 49 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 50 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	alive = TRUE != 0;
-#line 1400 "ACTORS.CPP"
+#line 1406 "ACTORS.CPP"
 	case_id = (long) 0;
 	case_seed = (double) 0;
 #line 44 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	disease_status = HEALTHY;
-#line 1405 "ACTORS.CPP"
-#line 17 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
-	inf_mortality_draw = (double) -1;
-#line 1408 "ACTORS.CPP"
-#line 16 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
-	inf_mortality_rng = FALSE != 0;
 #line 1411 "ACTORS.CPP"
+#line 18 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
+	inf_mortality_draw = (double) -1;
+#line 1414 "ACTORS.CPP"
+#line 17 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
+	inf_mortality_rng = FALSE != 0;
+#line 1417 "ACTORS.CPP"
 #line 23 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	CHKLMT(0, number_children, r_min_LIFE, r_max_LIFE);
 	number_children = 0 < r_min_LIFE ? r_min_LIFE : 0 > r_max_LIFE ? r_max_LIFE : (LIFE) 0;
-#line 1415 "ACTORS.CPP"
+#line 1421 "ACTORS.CPP"
 #line 45 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 1419 "ACTORS.CPP"
+#line 1425 "ACTORS.CPP"
 	table_unit_FertDetails = (counter) 0;
 	time = (TIME) gdThreadCurrentTime;
 #line 48 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	CHKLMT(4, vdp_age_at_infection, r_min_VAN_DER_PAAL_INDX, r_max_VAN_DER_PAAL_INDX);
 	vdp_age_at_infection = 4 < r_min_VAN_DER_PAAL_INDX ? r_min_VAN_DER_PAAL_INDX : 4 > r_max_VAN_DER_PAAL_INDX ? r_max_VAN_DER_PAAL_INDX : (VAN_DER_PAAL_INDX) 4;
-#line 1425 "ACTORS.CPP"
+#line 1431 "ACTORS.CPP"
+#line 49 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+	CHKLMT(4, vdp_age_at_symptoms, r_min_VAN_DER_PAAL_INDX, r_max_VAN_DER_PAAL_INDX);
+	vdp_age_at_symptoms = 4 < r_min_VAN_DER_PAAL_INDX ? r_min_VAN_DER_PAAL_INDX : 4 > r_max_VAN_DER_PAAL_INDX ? r_max_VAN_DER_PAAL_INDX : (VAN_DER_PAAL_INDX) 4;
+#line 1435 "ACTORS.CPP"
 	actorset_filter_asAllMother = FALSE;
 	alive_value_in = FALSE;
 	poDerivedStates->changes_number_children = (counter) 0;
@@ -1490,41 +1500,42 @@ void Mother::StartSpecial1()
 	poInfectionEvent = gpoEventQueue->NewEvent( this, 1, 0 );
 	poInfMortRNGEvent = gpoEventQueue->NewEvent( this, 2, 0 );
 	poMortalityEvent = gpoEventQueue->NewEvent( this, 3, 0 );
-	poScheduleEvent = gpoEventQueue->NewEvent( this, 4, 255 );
+	poSymptomEvent = gpoEventQueue->NewEvent( this, 4, 0 );
+	poScheduleEvent = gpoEventQueue->NewEvent( this, 5, 255 );
 	schedule_event_time = TIME_INFINITE;
 	//Initalize derived states
-#line 71 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 72 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_alive_value_in( logical( alive ) );
-#line 1499 "ACTORS.CPP"
-#line 71 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1510 "ACTORS.CPP"
+#line 72 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__max_value_out( TIME( poDerivedStates->duration_ ) );
-#line 1502 "ACTORS.CPP"
-#line 71 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1513 "ACTORS.CPP"
+#line 72 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_duration__min_value_out( TIME( poDerivedStates->duration_ ) );
-#line 1505 "ACTORS.CPP"
-#line 81 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1516 "ACTORS.CPP"
+#line 82 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_entrances_disease_status_INFECTED_event( counter( poDerivedStates->entrances_disease_status_INFECTED ) );
-#line 1508 "ACTORS.CPP"
-#line 95 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1519 "ACTORS.CPP"
+#line 96 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_final_tracking( logical( GetReplicate()== 0 ) );
-#line 1511 "ACTORS.CPP"
+#line 1522 "ACTORS.CPP"
 #line 46 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_integer_age( LIFE( poDerivedStates->ssint_age ) );
-#line 1514 "ACTORS.CPP"
+#line 1525 "ACTORS.CPP"
 	integer_age = integer_age < r_min_LIFE ? r_min_LIFE : integer_age > r_max_LIFE ? r_max_LIFE : integer_age;
 #line 24 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_number_children_link( LIFE( count_mlChild ) );
-#line 1518 "ACTORS.CPP"
+#line 1529 "ACTORS.CPP"
 	number_children_link = number_children_link < r_min_LIFE ? r_min_LIFE : number_children_link > r_max_LIFE ? r_max_LIFE : number_children_link;
-#line 95 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 96 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_tracking( logical( actor_id% 50== 0 ) );
-#line 1522 "ACTORS.CPP"
-#line 81 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1533 "ACTORS.CPP"
+#line 82 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_value_at_entrances_disease_status_INFECTED_age_event( real( poDerivedStates->value_at_entrances_disease_status_INFECTED_age ) );
-#line 1525 "ACTORS.CPP"
+#line 1536 "ACTORS.CPP"
 #line 47 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_vdp_age_int( VAN_DER_PAAL_INDX( poDerivedStates->sssplit_age_VAN_DER_PAAL_AGES ) );
-#line 1528 "ACTORS.CPP"
+#line 1539 "ACTORS.CPP"
 	vdp_age_int = vdp_age_int < r_min_VAN_DER_PAAL_INDX ? r_min_VAN_DER_PAAL_INDX : vdp_age_int > r_max_VAN_DER_PAAL_INDX ? r_max_VAN_DER_PAAL_INDX : vdp_age_int;
 	CountActor(1);
 }
@@ -1540,7 +1551,7 @@ void Mother::StartSpecial2()
 	__time = time;
 #line 40 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_actorset_filter_asAllMother( logical( 1 ) );
-#line 1544 "ACTORS.CPP"
+#line 1555 "ACTORS.CPP"
 	poDerivedStates->Set_changes_number_children( (counter) 0 );
 	poDerivedStates->Set_duration_( (TIME) 0 );
 	poDerivedStates->duration__time = time;
@@ -1548,25 +1559,25 @@ void Mother::StartSpecial2()
 	poDerivedStates->Set_entrances_disease_status_INFECTED( (counter) 0 );
 #line 54 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_ageAtBirth( logical( 1 ) );
-#line 1552 "ACTORS.CPP"
-#line 65 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1563 "ACTORS.CPP"
+#line 66 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_DurationOfLife( logical( 1 ) );
-#line 1555 "ACTORS.CPP"
+#line 1566 "ACTORS.CPP"
 #line 65 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetails( logical( alive== FALSE ) );
-#line 1558 "ACTORS.CPP"
+#line 1569 "ACTORS.CPP"
 #line 74 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetailsLink( logical( 1 ) );
-#line 1561 "ACTORS.CPP"
+#line 1572 "ACTORS.CPP"
 #line 81 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 	poStateFunctions->Set_table_filter_FertDetailsSum( logical( 1 ) );
-#line 1564 "ACTORS.CPP"
-#line 75 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1575 "ACTORS.CPP"
+#line 76 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAge( logical( 1 ) );
-#line 1567 "ACTORS.CPP"
-#line 84 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 1578 "ACTORS.CPP"
+#line 85 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 	poStateFunctions->Set_table_filter_InfectionAgeHist( logical( 1 ) );
-#line 1570 "ACTORS.CPP"
+#line 1581 "ACTORS.CPP"
 	poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children( (integer) 0 );
 	poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children_link( (integer) 0 );
 	poDerivedStates->Set_value_at_entrances_disease_status_INFECTED_age( (real) 0 );
@@ -1599,7 +1610,7 @@ void Mother::StartSpecial2()
 	// output initial values of tracked states and links
 	if ( tracking ) {
 		TrackChange( actor_id, (double) __time, 35, case_id );
-		TrackChange( actor_id, (double) __time, 67, 1.0 );
+		TrackChange( actor_id, (double) __time, 68, 1.0 );
 		TrackChange( actor_id, (double) __time, 30, actor_id );
 		TrackChange( actor_id, (double) __time, 31, actor_subsample_weight );
 		TrackChange( actor_id, (double) __time, 32, actor_weight );
@@ -1613,11 +1624,12 @@ void Mother::StartSpecial2()
 		TrackChange( actor_id, (double) __time, 41, report_time );
 		TrackChange( actor_id, (double) __time, 43, time );
 		TrackChange( actor_id, (double) __time, 44, vdp_age_at_infection );
-		TrackChange( actor_id, (double) __time, 54, final_tracking );
-		TrackChange( actor_id, (double) __time, 55, integer_age );
-		TrackChange( actor_id, (double) __time, 56, number_children_link );
-		TrackChange( actor_id, (double) __time, 67, tracking );
-		TrackChange( actor_id, (double) __time, 72, vdp_age_int );
+		TrackChange( actor_id, (double) __time, 45, vdp_age_at_symptoms );
+		TrackChange( actor_id, (double) __time, 55, final_tracking );
+		TrackChange( actor_id, (double) __time, 56, integer_age );
+		TrackChange( actor_id, (double) __time, 57, number_children_link );
+		TrackChange( actor_id, (double) __time, 68, tracking );
+		TrackChange( actor_id, (double) __time, 73, vdp_age_int );
 	}
 	poPrev = NULL;
 	poNext = gpoEventQueue->poHeadActor;
@@ -1640,6 +1652,7 @@ void Mother::FinishSpecial()
 	gpoEventQueue->DestroyEvent( poInfectionEvent );
 	gpoEventQueue->DestroyEvent( poInfMortRNGEvent );
 	gpoEventQueue->DestroyEvent( poMortalityEvent );
+	gpoEventQueue->DestroyEvent( poSymptomEvent );
 	gpoEventQueue->DestroyEvent(poScheduleEvent);
 
 	// close all updates
@@ -1842,7 +1855,7 @@ void Mother::ScheduleEvent()
 
 	if (poDerivedStates->ssint_age_time == schedule_event_time)
 	{
-		CHKSUM(time, 16);
+		CHKSUM(time, 17);
 		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 0", time);
 		gszRuntimeEventName = "Mother.scheduled - 0";
 		poDerivedStates->Set_ssint_age( poDerivedStates->ssint_age + 1 );
@@ -1851,7 +1864,7 @@ void Mother::ScheduleEvent()
 
 	if (poDerivedStates->sssplit_age_INFECTION_AGES_time == schedule_event_time)
 	{
-		CHKSUM(time, 17);
+		CHKSUM(time, 18);
 		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 1", time);
 		gszRuntimeEventName = "Mother.scheduled - 1";
 		poDerivedStates->Set_sssplit_age_INFECTION_AGES( poDerivedStates->sssplit_age_INFECTION_AGES + 1 );
@@ -1865,7 +1878,7 @@ void Mother::ScheduleEvent()
 
 	if (poDerivedStates->sssplit_age_VAN_DER_PAAL_AGES_time == schedule_event_time)
 	{
-		CHKSUM(time, 18);
+		CHKSUM(time, 19);
 		TRCEVNT(case_seed, "Mother", actor_id, "scheduled - 2", time);
 		gszRuntimeEventName = "Mother.scheduled - 2";
 		poDerivedStates->Set_sssplit_age_VAN_DER_PAAL_AGES( poDerivedStates->sssplit_age_VAN_DER_PAAL_AGES + 1 );
@@ -1907,6 +1920,11 @@ double Mother::EventTime( int nEventNum, int *pnEventInfo )
 			TRCEVNT(case_seed, "Mother", actor_id, "timeMortalityEvent", event_time);
 			break;
 		case 4:
+			gszRuntimeEventName = "Mother.SymptomEvent(time)";
+			event_time = (double) timeSymptomEvent();
+			TRCEVNT(case_seed, "Mother", actor_id, "timeSymptomEvent", event_time);
+			break;
+		case 5:
 			gszRuntimeEventName = "ScheduleEvent(time)";
 			event_time = (double) timeScheduleEvent();
 			break;
@@ -1948,6 +1966,12 @@ void Mother::Implement( int nEventNum, int nEventInfo )
 			MortalityEvent();
 			break;
 		case 4:
+			CHKSUM(time, 4);
+			TRCEVNT(case_seed, "Mother", actor_id, "Mother.SymptomEvent", time);
+			gszRuntimeEventName = "Mother.SymptomEvent(implement)";
+			SymptomEvent();
+			break;
+		case 5:
 			ScheduleEvent();
 			break;
 		case -1:
@@ -1976,9 +2000,9 @@ long MotherStateFunctions::Set_actor_id( long value )
 		OldValue = poParent->actor_id;
 		poParent->actor_id = value;
 
-#line 95 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 96 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 		Set_tracking( poParent->actor_id% 50== 0 );
-#line 1982 "ACTORS.CPP"
+#line 2006 "ACTORS.CPP"
 		if ( poParent->bUpdates && poParent->tracking ) {
 			TrackChange( poParent->actor_id, (double) poParent->__time, 30, poParent->actor_id );
 		}
@@ -2058,7 +2082,7 @@ logical MotherStateFunctions::Set_alive( logical value )
 		}
 #line 65 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 		Set_table_filter_FertDetails( value== FALSE );
-#line 2062 "ACTORS.CPP"
+#line 2086 "ACTORS.CPP"
 		if ( value == FALSE ) {
 			poDerivedStates->Set_value_at_entrances_alive_FALSE_number_children( poDerivedStates->value_at_entrances_alive_FALSE_number_children + poParent->number_children );
 		}
@@ -2071,9 +2095,9 @@ logical MotherStateFunctions::Set_alive( logical value )
 		OldValue = poParent->alive;
 		poParent->alive = value;
 
-#line 71 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
+#line 72 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MotherCore.mpp"
 		Set_alive_value_in( poParent->alive );
-#line 2077 "ACTORS.CPP"
+#line 2101 "ACTORS.CPP"
 		if ( poParent->bUpdates && poParent->tracking ) {
 			TrackChange( poParent->actor_id, (double) poParent->__time, 34, poParent->alive );
 		}
@@ -2327,6 +2351,29 @@ VAN_DER_PAAL_INDX MotherStateFunctions::Set_vdp_age_at_infection( VAN_DER_PAAL_I
 	return poParent->vdp_age_at_infection = value;
 }
 
+VAN_DER_PAAL_INDX MotherStateFunctions::Set_vdp_age_at_symptoms( VAN_DER_PAAL_INDX value )
+{
+
+	CHKLMT(value, vdp_age_at_symptoms, r_min_VAN_DER_PAAL_INDX, r_max_VAN_DER_PAAL_INDX);
+	if ( value < r_min_VAN_DER_PAAL_INDX ) {
+		value = r_min_VAN_DER_PAAL_INDX;
+	}
+	else if ( value > r_max_VAN_DER_PAAL_INDX ) {
+		value = r_max_VAN_DER_PAAL_INDX;
+	}
+	if ( poParent->vdp_age_at_symptoms != value )
+	{
+
+		VAN_DER_PAAL_INDX	OldValue;
+		OldValue = poParent->vdp_age_at_symptoms;
+		poParent->vdp_age_at_symptoms = value;
+		if ( poParent->bUpdates && poParent->tracking ) {
+			TrackChange( poParent->actor_id, (double) poParent->__time, 45, poParent->vdp_age_at_symptoms );
+		}
+	}
+	return poParent->vdp_age_at_symptoms = value;
+}
+
 logical MotherStateFunctions::Set_actorset_filter_asAllMother( logical value )
 {
 
@@ -2456,7 +2503,7 @@ LIFE MotherStateFunctions::Set_integer_age( LIFE value )
 		OldValue = poParent->integer_age;
 		poParent->integer_age = value;
 		if ( poParent->bUpdates && poParent->tracking ) {
-			TrackChange( poParent->actor_id, (double) poParent->__time, 55, poParent->integer_age );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 56, poParent->integer_age );
 		}
 		if ( poParent->poBirthEvent->cRecalc == 0 ) {
 			poParent->poBirthEvent->cRecalc = 1;
@@ -2487,7 +2534,7 @@ LIFE MotherStateFunctions::Set_number_children_link( LIFE value )
 		OldValue = poParent->number_children_link;
 		poParent->number_children_link = value;
 		if ( poParent->bUpdates && poParent->tracking ) {
-			TrackChange( poParent->actor_id, (double) poParent->__time, 56, poParent->number_children_link );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 57, poParent->number_children_link );
 		}
 	}
 	return poParent->number_children_link = value;
@@ -2765,12 +2812,12 @@ logical MotherStateFunctions::Set_tracking( logical value )
 		OldValue = poParent->tracking;
 		poParent->tracking = value;
 		if ( poParent->bUpdates && poParent->tracking ) {
-			TrackChange( poParent->actor_id, (double) poParent->__time, 67, poParent->tracking );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 68, poParent->tracking );
 		}
 		if ( poParent->bUpdates && poParent->tracking ) {
 			// output initial values of tracked states and links
 			TrackChange( poParent->actor_id, (double) poParent->__time, 35, poParent->case_id );
-			TrackChange( poParent->actor_id, (double) poParent->__time, 67, 1.0 );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 68, 1.0 );
 			TrackChange( poParent->actor_id, (double) poParent->__time, 30, poParent->actor_id );
 			TrackChange( poParent->actor_id, (double) poParent->__time, 31, poParent->actor_subsample_weight );
 			TrackChange( poParent->actor_id, (double) poParent->__time, 32, poParent->actor_weight );
@@ -2784,14 +2831,15 @@ logical MotherStateFunctions::Set_tracking( logical value )
 			TrackChange( poParent->actor_id, (double) poParent->__time, 41, poParent->report_time );
 			TrackChange( poParent->actor_id, (double) poParent->__time, 43, poParent->time );
 			TrackChange( poParent->actor_id, (double) poParent->__time, 44, poParent->vdp_age_at_infection );
-			TrackChange( poParent->actor_id, (double) poParent->__time, 54, poParent->final_tracking );
-			TrackChange( poParent->actor_id, (double) poParent->__time, 55, poParent->integer_age );
-			TrackChange( poParent->actor_id, (double) poParent->__time, 56, poParent->number_children_link );
-			TrackChange( poParent->actor_id, (double) poParent->__time, 67, poParent->tracking );
-			TrackChange( poParent->actor_id, (double) poParent->__time, 72, poParent->vdp_age_int );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 45, poParent->vdp_age_at_symptoms );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 55, poParent->final_tracking );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 56, poParent->integer_age );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 57, poParent->number_children_link );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 68, poParent->tracking );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 73, poParent->vdp_age_int );
 		}
 		else if ( poParent->bUpdates ) {
-			TrackChange( poParent->actor_id, (double) poParent->__time, 67, 0.0 );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 68, 0.0 );
 		}
 	}
 	return poParent->tracking = value;
@@ -2833,7 +2881,7 @@ VAN_DER_PAAL_INDX MotherStateFunctions::Set_vdp_age_int( VAN_DER_PAAL_INDX value
 		OldValue = poParent->vdp_age_int;
 		poParent->vdp_age_int = value;
 		if ( poParent->bUpdates && poParent->tracking ) {
-			TrackChange( poParent->actor_id, (double) poParent->__time, 72, poParent->vdp_age_int );
+			TrackChange( poParent->actor_id, (double) poParent->__time, 73, poParent->vdp_age_int );
 		}
 	}
 	return poParent->vdp_age_int = value;
@@ -2852,7 +2900,7 @@ counter MotherStateFunctions::Set_count_mlChild( counter value )
 
 #line 24 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MFertility.mpp"
 		Set_number_children_link( poParent->count_mlChild );
-#line 2856 "ACTORS.CPP"
+#line 2904 "ACTORS.CPP"
 	}
 	return poParent->count_mlChild = value;
 }
@@ -3115,7 +3163,7 @@ void Ticker::InitializeStates()
 #line 18 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/TickerCore.mpp"
 	CHKLMT(0, report_time, r_min_REPORT_TIME, r_max_REPORT_TIME);
 	report_time = 0 < r_min_REPORT_TIME ? r_min_REPORT_TIME : 0 > r_max_REPORT_TIME ? r_max_REPORT_TIME : (REPORT_TIME) 0;
-#line 3119 "ACTORS.CPP"
+#line 3167 "ACTORS.CPP"
 	time = (TIME) gdThreadCurrentTime;
 	__finished = FALSE;
 	__time = (TIME) gdThreadCurrentTime;
