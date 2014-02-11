@@ -3,7 +3,6 @@ actor_set Child asAllChild; //EN All Child actors
 actor Child            //EN Individual
 {
 	REPORT_TIME report_time = { 0 };
-	DISEASE_STATE mother_disease_status_dl = lMother->disease_status;
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 
 	void Mother_Infect();
@@ -36,62 +35,3 @@ void Child::Start()
 void Child::Finish()
 {
 }
-
-table Child DurationOfLifeChild //EN Duration of Life Child
-{
-	{
-		value_in(alive),				//EN Population size
-		min_value_out(duration()),		//EN Minimum duration of life decimals=4
-		max_value_out(duration()),		//EN Maximum duration of life decimals=4
-		duration() / value_in(alive)	//EN Life expectancy decimals=4
-	}	//EN Demographic characteristics
-};
-
-table Child DurationOfLifeChildHM //EN Duration of Life ChildHM
-[mother_disease_status_dl == FALSE]
-{
-	{
-		value_in(alive),				//EN Population size
-		min_value_out(duration()),		//EN Minimum duration of life decimals=4
-		max_value_out(duration()),		//EN Maximum duration of life decimals=4
-		duration() / value_in(alive)	//EN Life expectancy decimals=4
-	}	//EN Demographic characteristics
-};
-
-table Child InfectionAgeHist_dl
-{
-	self_scheduling_split(age, INFECTION_AGES)+
-	*
-	{
-		entrances(alive, FALSE),
-		entrances(mother_disease_status_dl, INFECTED)
-	}
-};
-
-table Child Infection_count_dl
-{
-	mother_disease_status_dl
-	*
-	{
-		unit
-	}
-};
-
-table Child InfectionAgeHist_fm
-{
-	self_scheduling_split(age, INFECTION_AGES)+
-	*
-	{
-		entrances(alive, FALSE),
-		entrances(mother_disease_status_fm, INFECTED)
-	}
-};
-
-table Child Infection_count_fm
-{
-	mother_disease_status_fm
-	*
-	{
-		unit
-	}
-};

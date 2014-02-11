@@ -1,0 +1,87 @@
+partition BIRTH_AGES
+{
+	10, 15, 20, 25, 30, 35, 40, 50, 60
+};
+
+table Child DurationOfLifeChild //EN Duration of Life Child
+{
+	{
+		value_in(alive),				//EN Population size
+		min_value_out(duration()),		//EN Minimum duration of life decimals=4
+		max_value_out(duration()),		//EN Maximum duration of life decimals=4
+		duration() / value_in(alive)	//EN Life expectancy decimals=4
+	}	//EN Demographic characteristics
+};
+
+table Child MotherEventAgeHist_fm //EN Age of child at mother events
+{
+	self_scheduling_split(age, INFECTION_AGES)+
+	*
+	{
+		entrances(alive, FALSE),
+		entrances(mother_disease_status_fm, INFECTED)
+	}
+};
+
+table Child MotherEventCount_fm //EN Mother event experienced by children
+{
+	mother_disease_status_fm
+	*
+	{
+		unit
+	}
+};
+
+table Mother MotherEventAges //EN Avg Age of mother at events 
+{
+	{
+		event(value_at_entrances(disease_status, INFECTED, age)) / event(entrances(disease_status, INFECTED)), //EN Age at Infection
+		event(value_at_entrances(disease_status, SYMPTOMS, age)) / event(entrances(disease_status, SYMPTOMS)), //EN Age at Symptoms
+		event(value_at_entrances(disease_status, TREATED, age)) / event(entrances(disease_status, TREATED)), //EN Age at Treatment
+		event(value_at_entrances(disease_status, DEAD, age)) / event(entrances(disease_status, DEAD)) //EN Age at Death
+	}
+};
+
+table Mother MotherEventHist //EN Histogram of mother age at events
+{
+	self_scheduling_split(age, INFECTION_AGES)+
+	*
+	{
+		entrances(disease_status, INFECTED), //EN Age at Infection
+		entrances(disease_status, SYMPTOMS), //EN Age at Symptoms
+		entrances(disease_status, TREATED), //EN Age at Treatment
+		entrances(disease_status, DEAD) //EN Age at Death
+	}
+};
+
+table Mother ageAtBirth //EN Age of mother at birth of children
+{
+	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
+	*
+	{
+		changes(number_children) //EN Number of Births
+	}
+};
+
+table Mother FertDetails //EN Number of children per mother
+[alive == FALSE]
+{
+	number_children+ //EN Number of Children
+	*
+	{
+		unit //EN Frequency
+	}	//EN Demographic characteristics
+};
+
+///////////////////////////////////////////////////////////////
+// Table Groups
+
+table_group CHILD
+{
+	DurationOfLifeChild, MotherEventAgeHist_fm, MotherEventCount_fm
+};
+
+table_group MOTHER
+{
+	MotherEventAges, MotherEventHist, ageAtBirth, FertDetails
+};

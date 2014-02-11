@@ -108,6 +108,7 @@
     <None Include="MSymptoms.mpp" />
     <None Include="parse.inf" />
     <None Include="ReadMe.txt" />
+    <None Include="Tables.mpp" />
     <None Include="TickerCore.mpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +124,7 @@
     <ClCompile Include="MotherCore.cpp" />
     <ClCompile Include="MSymptoms.cpp" />
     <ClCompile Include="Tabinit.cpp" />
+    <ClCompile Include="Tables.cpp" />
     <ClCompile Include="TickerCore.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -50,37 +50,3 @@ void Mother::BirthEvent()
 		prChild->Mother_Infect();
 	}
 };
-
-table Mother ageAtBirth
-{
-	self_scheduling_split(age, INFECTION_AGES)+
-	*
-	{
-		changes(number_children)
-	}
-};
-
-
-table Mother FertDetails
-[alive == FALSE]
-{
-	number_children+
-	*
-	{
-		unit
-	}	//EN Demographic characteristics
-};
-
-table Mother FertDetailsLink
-{
-	{
-		value_at_entrances(alive, FALSE, number_children_link)
-	}	//EN Demographic characteristics
-};
-
-table Mother FertDetailsSum
-{
-	{
-		value_at_entrances(alive, FALSE, number_children)
-	}	//EN Demographic characteristics
-};

@@ -1,3 +1,8 @@
+/*
+table approach
+Just a systematic approach and understand each table - thats all.
+*/
+
 range LIFE
 {
 	0, 100
@@ -61,25 +66,6 @@ void Mother::Start()
 
 void Mother::Finish()
 {
-}
-
-table Mother InfectionAge
-{
-	{
-		event(value_at_entrances(disease_status, INFECTED, age)) / event(entrances(disease_status, INFECTED))
-	}
-	*
-	disease_status
-};
-
-table Mother InfectionAgeHist
-{
-	self_scheduling_split(age, INFECTION_AGES)+
-	*
-	{
-		entrances(alive, FALSE),
-		entrances(disease_status, INFECTED)
-	}
 };
 
 track Mother

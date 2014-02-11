@@ -10,6 +10,5 @@ Base*txt
 *.CPP
 *.H
 *.h
-*.mdb
 *.suo
 *.INF
