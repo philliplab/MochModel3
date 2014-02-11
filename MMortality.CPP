@@ -9,6 +9,9 @@ namespace mm {
 //	double MInfectedMortScale;
 //	double MInfectedMortPhi[VAN_DER_PAAL_INDX];
 //	double DefaultTimeToDeath;
+//
+//	double MSymptomsMortShape;
+//	double MSymptomsMortScale;
 //};
 
 //parameter_group MotherMortality
@@ -41,12 +44,12 @@ void Mother::InfMortRNGEvent()
 	 poStateFunctions->Set_inf_mortality_draw(  RandUniform(3) );
 };
 
-TIME InvWeibull(double y, double kappa, double lambda, double phi)
+double InvWeibull(double y, double kappa, double lambda, double phi)
 {
 	// Lambda is Scale and Kappa is Shape
 	double x = 0;
 	if (phi == 1000){ // SIGH - this is not a pretty hack - no construct like R's Inf in C++?
-		x = TIME_INFINITE;
+		x = pow(10, 10);
 	} else
 	{
 		x = (phi * lambda) * pow(-log(y), 1/kappa);
@@ -57,6 +60,7 @@ TIME InvWeibull(double y, double kappa, double lambda, double phi)
 TIME Mother::timeMortalityEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
+	double draw = RandUniform(7);
 	
 	switch(disease_status )
 	{
@@ -70,6 +74,10 @@ TIME Mother::timeMortalityEvent()
 			tEventTime = InvWeibull(inf_mortality_draw , gprParam->MInfectedMortShape, gprParam->MInfectedMortScale, gprParam->MInfectedMortPhi[CHKBND(vdp_age_at_infection ,5,"MInfectedMortPhi",0)]);
 		}
 		break;
+	case SYMPTOMS:
+		{
+			tEventTime = InvWeibull(draw, gprParam->MSymptomsMortShape, gprParam->MSymptomsMortScale, gprParam->MInfectedMortPhi[CHKBND(vdp_age_at_infection ,5,"MInfectedMortPhi",0)]);
+		}
 	default:
 		{
 			tEventTime = gprParam->DefaultTimeToDeath;

@@ -67,16 +67,6 @@ void Mother::Finish()
 {
 if (__finished) {	DoubleFinish(case_seed);	return; } else __finished = TRUE;FinishSpecial();}
 
-//table Mother DurationOfLife //EN Duration of Life
-//{
-//	{
-//		value_in(alive),				//EN Population size
-//		min_value_out(duration()),		//EN Minimum duration of life decimals=4
-//		max_value_out(duration()),		//EN Maximum duration of life decimals=4
-//		duration() / value_in(alive)	//EN Life expectancy decimals=4
-//	}	//EN Demographic characteristics
-//};
-
 //table Mother InfectionAge
 //{
 //	{

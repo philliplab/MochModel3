@@ -100,6 +100,10 @@ class Parameters {
 		double	MInfectedMortShape;
 		double	MinInfWait;
 		double	MinSymptomWait;
+		double	MSymptomsMortScale;
+		double	MSymptomsMortShape;
+		double	MSymptomsScale;
+		double	MSymptomsShape;
 		int	StartingPopulationSize;
 };
 
@@ -367,10 +371,9 @@ class MotherTable {
 		double	tab8events;
 		double	tab9events;
 		double	tab10events;
+		double	tab10events0;
+		double	tab10events1;
 		double	tab11events;
-		double	tab11events0;
-		double	tab11events1;
-		double	tab12events;
 		//   group=float
 		real	tab6open0;
 		real	tab6close0;
@@ -382,22 +385,14 @@ class MotherTable {
 		real	tab9close0;
 		real	tab10open0;
 		real	tab10close0;
+		real	tab10prev0;
 		real	tab10open1;
 		real	tab10close1;
-		real	tab10open2;
-		real	tab10close2;
-		real	tab10open3;
-		real	tab10close3;
+		real	tab10prev1;
 		real	tab11open0;
 		real	tab11close0;
-		real	tab11prev0;
 		real	tab11open1;
 		real	tab11close1;
-		real	tab11prev1;
-		real	tab12open0;
-		real	tab12close0;
-		real	tab12open1;
-		real	tab12close1;
 		//   group=long
 		//   group=ulong
 		index	tab6cell;
@@ -412,8 +407,6 @@ class MotherTable {
 		index	tab10total_cell;
 		index	tab11cell;
 		index	tab11total_cell;
-		index	tab12cell;
-		index	tab12total_cell;
 		//   group=int
 		//   group=uint
 		logical	tab6dim_filter : 1;
@@ -422,7 +415,6 @@ class MotherTable {
 		logical	tab9dim_filter : 1;
 		logical	tab10dim_filter : 1;
 		logical	tab11dim_filter : 1;
-		logical	tab12dim_filter : 1;
 		//   group=short
 		//   group=ushort
 		//   group=char
@@ -507,8 +499,6 @@ class Mother : public ActorClass {
 		double	case_seed;
 		double	inf_mortality_draw;
 		TIME	time;
-		TIME	duration__max_value_out;
-		TIME	duration__min_value_out;
 		//   group=float
 		real	value_at_entrances_disease_status_INFECTED_age_event;
 		//   group=long
@@ -525,12 +515,10 @@ class Mother : public ActorClass {
 		VAN_DER_PAAL_INDX	vdp_age_at_infection : 3;
 		VAN_DER_PAAL_INDX	vdp_age_at_symptoms : 3;
 		logical	actorset_filter_asAllMother : 1;
-		logical	alive_value_in : 1;
 		logical	final_tracking : 1;
 		LIFE	integer_age : 7;
 		LIFE	number_children_link : 7;
 		logical	table_filter_ageAtBirth : 1;
-		logical	table_filter_DurationOfLife : 1;
 		logical	table_filter_FertDetails : 1;
 		logical	table_filter_FertDetailsLink : 1;
 		logical	table_filter_FertDetailsSum : 1;
@@ -581,18 +569,12 @@ return poParent->time = value; };
 		VAN_DER_PAAL_INDX	Set_vdp_age_at_infection( VAN_DER_PAAL_INDX value );
 		VAN_DER_PAAL_INDX	Set_vdp_age_at_symptoms( VAN_DER_PAAL_INDX value );
 		logical	Set_actorset_filter_asAllMother( logical value );
-		logical	Set_alive_value_in( logical value );
-		TIME	Set_duration__max_value_out( TIME value );
-		TIME	Get_duration__max_value_out();
-		TIME	Set_duration__min_value_out( TIME value );
-		TIME	Get_duration__min_value_out();
 		counter	Set_entrances_disease_status_INFECTED_event( counter value );
-		logical	Set_final_tracking( logical value ){ if ( poParent->final_tracking != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 55, value );
+		logical	Set_final_tracking( logical value ){ if ( poParent->final_tracking != value && poParent->bUpdates ) if ( poParent->tracking ) TrackChange( poParent->actor_id, (double) poParent->__time, 51, value );
 return poParent->final_tracking = value; };
 		LIFE	Set_integer_age( LIFE value );
 		LIFE	Set_number_children_link( LIFE value );
 		logical	Set_table_filter_ageAtBirth( logical value );
-		logical	Set_table_filter_DurationOfLife( logical value );
 		logical	Set_table_filter_FertDetails( logical value );
 		logical	Set_table_filter_FertDetailsLink( logical value );
 		logical	Set_table_filter_FertDetailsSum( logical value );
@@ -612,8 +594,6 @@ class MotherDerivedStates {
 
 		// derived state variables and their special functions
 		counter	Set_changes_number_children( counter value );
-		TIME	Set_duration_( TIME value );
-		TIME	Get_duration_() { return duration_ + poParent->__time - duration__time; };
 		counter	Set_entrances_alive_FALSE( counter value );
 		counter	Set_entrances_disease_status_INFECTED( counter value );
 		counter	Set_ssint_age( counter value );
@@ -626,8 +606,6 @@ class MotherDerivedStates {
 		// begin MembersDump
 		//   group=<unknown token type>
 		//   group=double
-		TIME	duration_;
-		TIME	duration__time;
 		TIME	ssint_age_time;
 		TIME	sssplit_age_INFECTION_AGES_time;
 		TIME	sssplit_age_VAN_DER_PAAL_AGES_time;

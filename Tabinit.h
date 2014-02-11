@@ -20,11 +20,7 @@ double	Tab7Expr0( XTable *prTable, int nIndex );
 double	Tab8Expr0( XTable *prTable, int nIndex );
 double	Tab9Expr0( XTable *prTable, int nIndex );
 double	Tab10Expr0( XTable *prTable, int nIndex );
-double	Tab10Expr1( XTable *prTable, int nIndex );
-double	Tab10Expr2( XTable *prTable, int nIndex );
-double	Tab10Expr3( XTable *prTable, int nIndex );
 double	Tab11Expr0( XTable *prTable, int nIndex );
-double	Tab12Expr0( XTable *prTable, int nIndex );
-double	Tab12Expr1( XTable *prTable, int nIndex );
+double	Tab11Expr1( XTable *prTable, int nIndex );
 
 } // namespace 

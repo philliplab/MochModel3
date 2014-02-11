@@ -6,6 +6,8 @@ namespace mm {
 //{
 //	double MinSymptomWait;
 //	double MaxSymptomWait;
+//	double MSymptomsShape;
+//	double MSymptomsScale;
 //};
 
 //parameter_group MotherSymptoms
@@ -18,11 +20,27 @@ namespace mm {
 //	event timeSymptomEvent, SymptomEvent;
 //};
 
+double InvWeibull2(double y, double kappa, double lambda, double phi)
+{
+	// Lambda is Scale and Kappa is Shape
+	double x = 0;
+	if (phi == 1000){ // SIGH - this is not a pretty hack - no construct like R's Inf in C++?
+		x = pow(10, 10);
+	} else
+	{
+		x = (phi * lambda) * pow(-log(y), 1/kappa);
+	};
+	return(x);
+};
+
 TIME Mother::timeSymptomEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	double draw = RandUniform(6);
-	tEventTime = gprParam->MinSymptomWait + (gprParam->MaxSymptomWait - gprParam->MinSymptomWait) * draw;
+	if ( disease_status == INFECTED)
+	{
+		tEventTime = InvWeibull2(draw, gprParam->MSymptomsShape, gprParam->MSymptomsScale, gprParam->MInfectedMortPhi[CHKBND(vdp_age_at_infection ,5,"MInfectedMortPhi",0)]);
+	}
 	tEventTime = WAIT(tEventTime);
 	return tEventTime;
 };
