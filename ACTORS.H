@@ -85,6 +85,8 @@ class Parameters {
 		double	MaxInfWait;
 		double	MaxLife;
 		double	MinBirthWait;
+		double	MInfectedMortScale;
+		double	MInfectedMortShape;
 		double	MinInfWait;
 		int	StartingPopulationSize;
 };

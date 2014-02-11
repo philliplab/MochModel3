@@ -2,8 +2,11 @@
 static int HaveAGoodDay;
 namespace mm {
 #line 1 "C:/Users/Administrator/Documents/Visual Studio 2010/Projects/MochModel3/MMortality.mpp"
-//parameters{
+//parameters
+//{
 //	double MaxLife;
+//	double MInfectedMortShape;
+//	double MInfectedMortScale;
 //};
 
 //actor Mother            //EN Individual
@@ -33,6 +36,7 @@ void Mother::InfMortRNGEvent()
 
 double InvWeibull(double y, double kappa, double lambda, double phi)
 {
+	// Lambda is Scale and Kappa is Shape
 	double x = 0;
 	x = (phi * lambda) * pow(-log(y), 1/kappa);
 	return(x);
@@ -40,7 +44,6 @@ double InvWeibull(double y, double kappa, double lambda, double phi)
 
 TIME Mother::timeMortalityEvent()
 {
-
 	TIME tEventTime = TIME_INFINITE;
 	
 	switch(disease_status )
@@ -52,7 +55,7 @@ TIME Mother::timeMortalityEvent()
 		break;
 	case INFECTED:
 		{
-			tEventTime = InvWeibull(inf_mortality_draw , 2, 10, 1);
+			tEventTime = InvWeibull(inf_mortality_draw , gprParam->MInfectedMortShape, gprParam->MInfectedMortScale, 1);
 		}
 	default:
 		break;
