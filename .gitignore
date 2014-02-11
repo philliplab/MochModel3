@@ -5,3 +5,11 @@
 *.pdb
 Debug/*
 *.opensdf
+Base*txt
+*.scvx
+*.CPP
+*.H
+*.h
+*.mdb
+*.suo
+*.INF
