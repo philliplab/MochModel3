@@ -73,6 +73,19 @@ table Mother FertDetails //EN Number of children per mother
 	}	//EN Demographic characteristics
 };
 
+table Mother Trans1Count
+{
+	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
+	*
+	{
+		unit,
+		undergone_transition(disease_status, HEALTHY, DEAD),
+		undergone_transition(disease_status, HEALTHY, INFECTED),
+		exits(disease_status, HEALTHY)
+	}
+};
+
+
 ///////////////////////////////////////////////////////////////
 // Table Groups
 
@@ -84,4 +97,9 @@ table_group CHILD
 table_group MOTHER
 {
 	MotherEventAges, MotherEventHist, ageAtBirth, FertDetails
+};
+
+table_group TEST_TRANS1
+{
+	Trans1Count
 };
