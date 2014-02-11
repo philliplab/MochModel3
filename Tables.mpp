@@ -73,7 +73,7 @@ table Mother FertDetails //EN Number of children per mother
 	}	//EN Demographic characteristics
 };
 
-table Mother Trans1Count
+table Mother Trans1_2Count //EN Transitions 1 and 2
 {
 	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
 	*
@@ -82,6 +82,19 @@ table Mother Trans1Count
 		undergone_transition(disease_status, HEALTHY, DEAD),
 		undergone_transition(disease_status, HEALTHY, INFECTED),
 		exits(disease_status, HEALTHY)
+	}
+};
+
+table Mother Trans3_6_7Count //EN Transitions 3, 6 and 7
+{
+	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
+	*
+	{
+		unit,
+		undergone_transition(disease_status, INFECTED, DEAD),
+		undergone_transition(disease_status, INFECTED, SYMPTOMS),
+		undergone_transition(disease_status, INFECTED, TREATED),
+		exits(disease_status, INFECTED)
 	}
 };
 
@@ -99,7 +112,7 @@ table_group MOTHER
 	MotherEventAges, MotherEventHist, ageAtBirth, FertDetails
 };
 
-table_group TEST_TRANS1
+table_group TEST_TRANSITIONS
 {
-	Trans1Count
+	Trans1_2Count, Trans3_6_7Count
 };
