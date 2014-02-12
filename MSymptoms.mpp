@@ -15,6 +15,10 @@ parameter_group MotherSymptoms
 
 actor Mother            //EN Individual
 {
+	logical symptom_time_drawn = {FALSE};
+	TIME symp_event_time = {TIME_INFINITE};
+
+	event timeSymptomTimeEvent, SymptomTimeEvent;
 	event timeSymptomEvent, SymptomEvent;
 };
 
@@ -31,15 +35,35 @@ double InvWeibull2(double y, double kappa, double lambda, double phi)
 	return(x);
 };
 
-TIME Mother::timeSymptomEvent()
+TIME Mother::timeSymptomTimeEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
+	if (disease_status == INFECTED && symptom_time_drawn == FALSE)
+	{
+		tEventTime = 0;
+	};
+	tEventTime = WAIT(tEventTime);
+	return tEventTime;
+};
+
+void Mother::SymptomTimeEvent()
+{
 	double draw = RandUniform(6);
-	double symp_par = (1 - MIMort_Symp_Corr) * draw + MIMort_Symp_Corr * inf_mortality_draw;
+	double symp_par;
+	symp_par = ((1 - MIMort_Symp_Corr) * draw) + (MIMort_Symp_Corr * inf_mortality_draw);
 
 	if (disease_status == INFECTED)
 	{
-		tEventTime = InvWeibull2(symp_par, MSymptomsShape, MSymptomsScale, MInfectedMortPhi[vdp_age_at_infection]);
+		symp_event_time = InvWeibull2(symp_par, MSymptomsShape, MSymptomsScale, MInfectedMortPhi[vdp_age_at_infection]);
+	};
+	symptom_time_drawn = TRUE;
+};
+
+TIME Mother::timeSymptomEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (symptom_time_drawn == TRUE && disease_status == INFECTED){
+		tEventTime = symp_event_time;
 	}
 	tEventTime = WAIT(tEventTime);
 	return tEventTime;
