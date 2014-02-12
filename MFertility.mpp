@@ -2,15 +2,13 @@ link Child.lMother Mother.mlChild[];
 
 parameters 
 {
-	double MinBirthWait;
-	double MaxBirthWait;
 	int MaxChildren;
 	double FertilityRates[LIFE];
 };
 
 parameter_group MotherFertility
 { //EN Mothers' Mortality Parameters
-	MinBirthWait, MaxBirthWait, MaxChildren, FertilityRates
+	MaxChildren, FertilityRates
 };
 
 partition TIME_PART

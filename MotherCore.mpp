@@ -1,16 +1,6 @@
-/*
-table approach
-Just a systematic approach and understand each table - thats all.
-*/
-
 range LIFE
 {
 	0, 100
-};
-
-partition INFECTION_AGES
-{
-	0,1,2,3,4,5,10,20,30,40,50,75,100
 };
 
 partition VAN_DER_PAAL_AGES

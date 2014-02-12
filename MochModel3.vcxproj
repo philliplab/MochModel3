@@ -96,7 +96,9 @@
   <ItemGroup>
     <None Include="app.ico" />
     <None Include="Base(MotherCore).dat" />
-    <None Include="Base.scex" />
+    <None Include="Base.scex">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ChildCore.mpp" />
     <None Include="CMortality.mpp" />
     <None Include="MFertility.mpp" />

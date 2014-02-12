@@ -3,6 +3,11 @@ partition BIRTH_AGES
 	10, 15, 20, 25, 30, 35, 40, 50, 60
 };
 
+partition INFECTION_AGES
+{
+	0,1,2,3,4,5,10,20,30,40,50,75,100
+};
+
 table Child DurationOfLifeChild //EN Duration of Life Child
 {
 	{

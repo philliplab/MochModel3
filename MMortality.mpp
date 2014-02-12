@@ -81,7 +81,7 @@ TIME Mother::timeMortalityEvent()
 		break;
 	case SYMPTOMS:
 		{
-			tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_infection]);
+			tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_symptoms]);
 		}
 		break;
 	case TREATED:
