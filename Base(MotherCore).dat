@@ -51,4 +51,8 @@ parameters {
 	double MHealthyMortShape = 2.9064;
 	double MHealthyMortScale = 71.6442442;
 
+	double MTreatedMortShape = 2.5;
+	double MTreatedMortScale = 30;
+
+
 };

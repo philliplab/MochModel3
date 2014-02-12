@@ -12,6 +12,9 @@ parameters
 	double MHealthyMortShape;
 	double MHealthyMortScale;
 
+	double MTreatedMortShape;
+	double MTreatedMortScale;
+
 	double MIMort_SMort_Corr;
 };
 
@@ -80,6 +83,12 @@ TIME Mother::timeMortalityEvent()
 		{
 			tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_infection]);
 		}
+		break;
+	case TREATED:
+		{
+			tEventTime = InvWeibull(draw, MTreatedMortShape, MTreatedMortScale, 1);
+		}
+		break;
 	default:
 		{
 			tEventTime = DefaultTimeToDeath;
