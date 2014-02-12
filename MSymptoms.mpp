@@ -4,6 +4,8 @@ parameters
 	double MaxSymptomWait;
 	double MSymptomsShape;
 	double MSymptomsScale;
+
+	double MIMort_Symp_Corr;
 };
 
 parameter_group MotherSymptoms
@@ -33,9 +35,11 @@ TIME Mother::timeSymptomEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	double draw = RandUniform(6);
+	double symp_par = (1 - MIMort_Symp_Corr) * draw + MIMort_Symp_Corr * inf_mortality_draw;
+
 	if (disease_status == INFECTED)
 	{
-		tEventTime = InvWeibull2(draw, MSymptomsShape, MSymptomsScale, MInfectedMortPhi[vdp_age_at_infection]);
+		tEventTime = InvWeibull2(symp_par, MSymptomsShape, MSymptomsScale, MInfectedMortPhi[vdp_age_at_infection]);
 	}
 	tEventTime = WAIT(tEventTime);
 	return tEventTime;

@@ -8,6 +8,8 @@ parameters
 
 	double MSymptomsMortShape;
 	double MSymptomsMortScale;
+
+	double MIMort_SMort_Corr;
 };
 
 parameter_group MotherMortality
@@ -57,6 +59,7 @@ TIME Mother::timeMortalityEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	double draw = RandUniform(7);
+	double symp_mort_par = (1 - MIMort_SMort_Corr) * draw + MIMort_SMort_Corr * inf_mortality_draw;
 	
 	switch(disease_status)
 	{
@@ -72,7 +75,7 @@ TIME Mother::timeMortalityEvent()
 		break;
 	case SYMPTOMS:
 		{
-			tEventTime = InvWeibull(draw, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_infection]);
+			tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_infection]);
 		}
 	default:
 		{
