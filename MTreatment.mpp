@@ -1,13 +1,16 @@
 actor Mother
 {
+	TIME treat_event_time = {TIME_INFINITE};
+	logical not_yet_treated = {TRUE};
 	event timeTreatmentEvent, TreatmentEvent;
 };
 
 TIME Mother::timeTreatmentEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (disease_status == INFECTED){
-		tEventTime = 10;
+	if (not_yet_treated == TRUE)
+	{
+		tEventTime = treat_event_time;
 	};
 	tEventTime = WAIT(tEventTime);
 	return (tEventTime);
@@ -16,6 +19,7 @@ TIME Mother::timeTreatmentEvent()
 void Mother::TreatmentEvent()
 {
 	disease_status = TREATED;
+	not_yet_treated = FALSE;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

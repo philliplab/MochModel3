@@ -44,4 +44,7 @@ parameters {
 
 	double MIMort_SMort_Corr = 0;
 	double MIMort_Symp_Corr = 0;
+
+	double MTreatShape = 2;
+	double MTreatScaleOffset = 0;
 };
