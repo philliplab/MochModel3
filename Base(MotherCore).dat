@@ -1,8 +1,6 @@
 parameters {
 	int	StartingPopulationSize = 1000; //EN StartingPopulationSize
-	double	MinBirthWait = 1; //EN MinBirthWait
-	double	MaxBirthWait = 10; //EN MaxBirthWait
-	int	MaxChildren = 2; //EN MaxChildren
+
 
 	double	MinInfWait = 5; //EN MinInfWait
 	double	MaxInfWait = 5; //EN MaxInfWait
@@ -11,7 +9,6 @@ parameters {
 	double	MaxLife = 90; //EN MaxLife
 
 	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
-
 
 	double MInfectedMortShape = 2.5;
 	double MInfectedMortScale = 11.1123;
