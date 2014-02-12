@@ -47,4 +47,8 @@ parameters {
 
 	double MTreatShape = 2;
 	double MTreatScaleOffset = 0;
+
+	double MHealthyMortShape = 2.9064;
+	double MHealthyMortScale = 71.6442442;
+
 };

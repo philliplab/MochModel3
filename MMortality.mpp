@@ -9,6 +9,9 @@ parameters
 	double MSymptomsMortShape;
 	double MSymptomsMortScale;
 
+	double MHealthyMortShape;
+	double MHealthyMortScale;
+
 	double MIMort_SMort_Corr;
 };
 
@@ -65,7 +68,7 @@ TIME Mother::timeMortalityEvent()
 	{
 	case HEALTHY:
 		{
-			tEventTime = MaxLife;
+			tEventTime = InvWeibull(draw, MHealthyMortShape, MHealthyMortScale, 1);
 		}
 		break;
 	case INFECTED:
