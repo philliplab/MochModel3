@@ -13,7 +13,6 @@ parameter_group MotherFertility
 actor Mother            //EN Individual
 {
 	LIFE number_children = {0};
-	LIFE number_children_link = count(mlChild);
 	event timeBirthEvent, BirthEvent;
 };
 
