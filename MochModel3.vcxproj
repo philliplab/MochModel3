@@ -106,6 +106,7 @@
     <None Include="ModelStrings.mpp" />
     <None Include="MotherCore.mpp" />
     <None Include="MSymptoms.mpp" />
+    <None Include="MTreatment.mpp" />
     <None Include="parse.inf" />
     <None Include="ReadMe.txt" />
     <None Include="Tables.mpp" />
@@ -123,6 +124,7 @@
     <ClCompile Include="ModelStrings.cpp" />
     <ClCompile Include="MotherCore.cpp" />
     <ClCompile Include="MSymptoms.cpp" />
+    <ClCompile Include="MTreatment.cpp" />
     <ClCompile Include="Tabinit.cpp" />
     <ClCompile Include="Tables.cpp" />
     <ClCompile Include="TickerCore.cpp" />

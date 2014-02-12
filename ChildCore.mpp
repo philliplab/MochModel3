@@ -8,6 +8,7 @@ actor Child            //EN Individual
 	void Mother_Infect();
 	void Mother_Die();
 	void Mother_Symptoms();
+	void Mother_Treat();
 	void Start();
 	void Finish();
 };
@@ -25,6 +26,11 @@ void Child::Mother_Die()
 void Child::Mother_Symptoms()
 {
 	mother_disease_status_fm = SYMPTOMS;
+};
+
+void Child::Mother_Treat()
+{
+	mother_disease_status_fm = TREATED;
 };
 
 void Child::Start()

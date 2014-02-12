@@ -1,0 +1,25 @@
+actor Mother
+{
+	event timeTreatmentEvent, TreatmentEvent;
+};
+
+TIME Mother::timeTreatmentEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (disease_status == INFECTED){
+		tEventTime = 10;
+	};
+	tEventTime = WAIT(tEventTime);
+	return (tEventTime);
+};
+
+void Mother::TreatmentEvent()
+{
+	disease_status = TREATED;
+	int nIndex = {-1};
+	Child *prChild = {NULL};
+	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))
+	{
+		prChild->Mother_Treat();
+	}
+};
