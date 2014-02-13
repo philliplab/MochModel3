@@ -1,9 +1,9 @@
 parameters
 {
-	double MaxLife;
 	double MInfectedMortShape;
 	double MInfectedMortScale;
 	double MInfectedMortPhi[VAN_DER_PAAL_INDX];
+
 	double DefaultTimeToDeath;
 
 	double MSymptomsMortShape;
@@ -20,7 +20,8 @@ parameters
 
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
-	MaxLife, MInfectedMortShape, MInfectedMortScale
+	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, DefaultTimeToDeath, MSymptomsMortShape, 
+	MSymptomsMortScale, MHealthyMortShape, MHealthyMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr;
 };
 
 actor Mother            //EN Individual

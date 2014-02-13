@@ -3,7 +3,6 @@ parameters {
 
 	double	ChildMortParamMH = 0.03; //EN ChildMortParamMH
 	double	ChildMortParamMI = 0.2; //EN ChildMortParamMI
-	double	MaxLife = 90; //EN MaxLife
 
 	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
 
