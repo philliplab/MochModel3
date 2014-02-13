@@ -1,0 +1,17 @@
+
+actor Mother
+{
+	logical diagnosed = {FALSE};
+
+	event timeDiagnosisEvent, diagnosisEvent;
+};
+
+TIME Mother::timeDiagnosisEvent()
+{
+	return(TIME_INFINITE);
+};
+
+void Mother::diagnosisEvent()
+{
+	diagnosed = TRUE;
+}
