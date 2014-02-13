@@ -4,6 +4,7 @@ actor Child            //EN Individual
 {
 	REPORT_TIME report_time = { 0 };
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
+	logical mother_showing_symptoms = {FALSE};
 
 	void Mother_Infect();
 	void Mother_Die();
@@ -25,12 +26,13 @@ void Child::Mother_Die()
 
 void Child::Mother_Symptoms()
 {
-	mother_disease_status_fm = SYMPTOMS;
+	mother_showing_symptoms = TRUE;
 };
 
 void Child::Mother_Treat()
 {
 	mother_disease_status_fm = TREATED;
+	mother_showing_symptoms = FALSE;
 };
 
 void Child::Start()

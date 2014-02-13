@@ -27,7 +27,6 @@ classification DISEASE_STATE
 {
 	HEALTHY,
 	INFECTED,
-	SYMPTOMS,
 	TREATED,
 	DEAD
 };
@@ -44,6 +43,7 @@ actor Mother            //EN Individual
 	VAN_DER_PAAL_INDX vdp_age_at_symptoms = {4};
 	logical alive = {TRUE};
 	double inf_mortality_draw = {-1};
+	logical showing_symptoms = {FALSE};
 
 	void Start();
 	void Finish();

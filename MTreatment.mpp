@@ -19,6 +19,7 @@ TIME Mother::timeTreatmentEvent()
 void Mother::TreatmentEvent()
 {
 	disease_status = TREATED;
+	showing_symptoms = FALSE;
 	not_yet_treated = FALSE;
 	int nIndex = {-1};
 	Child *prChild = {NULL};

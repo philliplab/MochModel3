@@ -41,7 +41,7 @@ table Mother MotherEventAges //EN Avg Age of mother at events
 {
 	{
 		event(value_at_entrances(disease_status, INFECTED, age)) / event(entrances(disease_status, INFECTED)), //EN Age at Infection
-		event(value_at_entrances(disease_status, SYMPTOMS, age)) / event(entrances(disease_status, SYMPTOMS)), //EN Age at Symptoms
+		event(value_at_entrances(showing_symptoms, TRUE, age)) / event(entrances(showing_symptoms, TRUE)), //EN Age at Symptoms
 		event(value_at_entrances(disease_status, TREATED, age)) / event(entrances(disease_status, TREATED)), //EN Age at Treatment
 		event(value_at_entrances(disease_status, DEAD, age)) / event(entrances(disease_status, DEAD)) //EN Age at Death
 	}
@@ -53,7 +53,7 @@ table Mother MotherEventHist //EN Histogram of mother age at events
 	*
 	{
 		entrances(disease_status, INFECTED), //EN Age at Infection
-		entrances(disease_status, SYMPTOMS), //EN Age at Symptoms
+		entrances(showing_symptoms, TRUE), //EN Age at Symptoms
 		entrances(disease_status, TREATED), //EN Age at Treatment
 		entrances(disease_status, DEAD) //EN Age at Death
 	}
@@ -97,21 +97,22 @@ table Mother Trans3_6_7Count //EN Transitions 3, 6 and 7
 	{
 		unit,
 		undergone_transition(disease_status, INFECTED, DEAD),
-		undergone_transition(disease_status, INFECTED, SYMPTOMS),
+		undergone_transition(showing_symptoms, FALSE, TRUE),
 		undergone_transition(disease_status, INFECTED, TREATED),
 		exits(disease_status, INFECTED)
 	}
 };
 
 table Mother Trans4_9Count //EN Transitions 4 and 9
+[showing_symptoms == TRUE]
 {
 	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
 	*
 	{
 		unit,
-		undergone_transition(disease_status, SYMPTOMS, DEAD),
-		undergone_transition(disease_status, SYMPTOMS, TREATED),
-		exits(disease_status, SYMPTOMS)
+		undergone_transition(disease_status, INFECTED, DEAD),
+		undergone_transition(disease_status, INFECTED, TREATED),
+		exits(disease_status, INFECTED)
 	}
 };
 

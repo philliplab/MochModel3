@@ -56,16 +56,17 @@ TIME Mother::timeMortalityEvent()
 		break;
 	case INFECTED:
 		{
-			tEventTime = InvWeibull(inf_mortality_draw, MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi[vdp_age_at_infection]);
-		}
-		break;
-	case SYMPTOMS:
-		{
-			// get prev time
-			// return the prev time again
-			// see what happens if return null
-			double symp_mort_par = (1 - MIMort_SMort_Corr) * draw + MIMort_SMort_Corr * inf_mortality_draw;
-			tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_symptoms]);
+			if (showing_symptoms == TRUE)
+			{
+				// get prev time
+				// return the prev time again
+				// see what happens if return null
+				double symp_mort_par = (1 - MIMort_SMort_Corr) * draw + MIMort_SMort_Corr * inf_mortality_draw;
+				tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_symptoms]);
+			} else
+			{
+				tEventTime = InvWeibull(inf_mortality_draw, MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi[vdp_age_at_infection]);
+			};
 		}
 		break;
 	case TREATED:

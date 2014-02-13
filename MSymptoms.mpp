@@ -19,7 +19,7 @@ actor Mother            //EN Individual
 TIME Mother::timeSymptomEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (disease_status == INFECTED){
+	if (disease_status == INFECTED && showing_symptoms == FALSE){
 		tEventTime = symp_event_time;
 	}
 	tEventTime = WAIT(tEventTime);
@@ -28,7 +28,7 @@ TIME Mother::timeSymptomEvent()
 
 void Mother::SymptomEvent()
 {
-	disease_status = SYMPTOMS;
+	showing_symptoms = TRUE;
 	vdp_age_at_symptoms = vdp_age_int;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
