@@ -7,7 +7,7 @@ parameters
 
 parameter_group MotherSymptoms
 { //EN Mothers' Symptom Parameters
-	MSymptomShape, MSymptomScale, MIMort_Symp_Corr	
+	MSymptomsShape, MSymptomsScale, MIMort_Symp_Corr
 };
 
 actor Mother            //EN Individual
