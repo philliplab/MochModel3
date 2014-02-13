@@ -21,32 +21,12 @@ parameters
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
 	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, DefaultTimeToDeath, MSymptomsMortShape, 
-	MSymptomsMortScale, MHealthyMortShape, MHealthyMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr;
+	MSymptomsMortScale, MHealthyMortShape, MHealthyMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr
 };
 
 actor Mother            //EN Individual
 {
-	logical inf_mortality_rng = {FALSE};
-	double inf_mortality_draw = {-1};
-
-	event timeInfMortRNGEvent, InfMortRNGEvent;
 	event timeMortalityEvent, MortalityEvent;	//EN Mortality event
-};
-
-TIME Mother::timeInfMortRNGEvent()
-{
-	TIME tEventTime = TIME_INFINITE;
-	if (inf_mortality_rng == FALSE){
-		tEventTime = 0;
-	};
-	tEventTime = WAIT(tEventTime);
-	return(tEventTime);
-};
-
-void Mother::InfMortRNGEvent()
-{
-	inf_mortality_rng = TRUE;
-	inf_mortality_draw = RandUniform(3);
 };
 
 double InvWeibull(double y, double kappa, double lambda, double phi)
