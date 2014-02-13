@@ -60,11 +60,13 @@ void Mother::InfectionEvent()
 {
 	disease_status = INFECTED;
 
+	// Produce symptom event time
 	double symp_draw = RandUniform(6);
 	double symp_par;
 	symp_par = ((1 - MIMort_Symp_Corr) * symp_draw) + (MIMort_Symp_Corr * inf_mortality_draw);
 	symp_event_time = InvWeibull2(symp_par, MSymptomsShape, MSymptomsScale, MInfectedMortPhi[vdp_age_at_infection]);
 
+	// Produce treatment event time
 	double MTreatScale;
 	MTreatScale = symp_event_time + MTreatScaleOffset;
 	if (MTreatScale <= 0.1)

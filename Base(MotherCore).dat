@@ -35,8 +35,6 @@ parameters {
 		(15) 0, (8) 0.5, (7) 0.1, (71) 0, 
 	};
 
-	double MinSymptomWait = 5;
-	double MaxSymptomWait = 10;
 	double DefaultTimeToDeath = 5;
 
 	double MIMort_SMort_Corr = 0;

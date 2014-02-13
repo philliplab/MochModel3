@@ -1,7 +1,5 @@
 parameters
 {
-	double MinSymptomWait;
-	double MaxSymptomWait;
 	double MSymptomsShape;
 	double MSymptomsScale;
 	double MIMort_Symp_Corr;
@@ -9,7 +7,7 @@ parameters
 
 parameter_group MotherSymptoms
 { //EN Mothers' Symptom Parameters
-	MinSymptomWait, MaxSymptomWait	
+	MSymptomShape, MSymptomScale, MIMort_Symp_Corr	
 };
 
 actor Mother            //EN Individual
