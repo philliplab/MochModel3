@@ -1,9 +1,6 @@
 parameters {
 	int	StartingPopulationSize = 1000; //EN StartingPopulationSize
 
-
-	double	MinInfWait = 5; //EN MinInfWait
-	double	MaxInfWait = 5; //EN MaxInfWait
 	double	ChildMortParamMH = 0.03; //EN ChildMortParamMH
 	double	ChildMortParamMI = 0.2; //EN ChildMortParamMI
 	double	MaxLife = 90; //EN MaxLife
