@@ -1,16 +1,26 @@
+parameters
+{
+	double TreatmentRateSymptoms;
+	double TreatmentRateDiagnosed;
+};
+
 actor Mother
 {
-	TIME treat_event_time = {TIME_INFINITE};
-	logical not_yet_treated = {TRUE};
 	event timeTreatmentEvent, TreatmentEvent;
 };
 
 TIME Mother::timeTreatmentEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (not_yet_treated == TRUE)
+	if (disease_status == INFECTED && diagnosed == TRUE)
 	{
-		tEventTime = treat_event_time;
+		if (showing_symptoms == TRUE)
+		{
+			tEventTime = log(RandUniform(10)) / -TreatmentRateSymptoms;
+		} else
+		{
+			tEventTime = log(RandUniform(11)) / -TreatmentRateDiagnosed;
+		};
 	};
 	tEventTime = WAIT(tEventTime);
 	return (tEventTime);
@@ -20,7 +30,6 @@ void Mother::TreatmentEvent()
 {
 	disease_status = TREATED;
 	showing_symptoms = FALSE;
-	not_yet_treated = FALSE;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

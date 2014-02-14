@@ -46,4 +46,7 @@ parameters {
 	double MTreatedMortScale = 30;
 
 	double DiagnosisRate = .2;
+
+	double TreatmentRateSymptoms = 1;
+	double TreatmentRateDiagnosed = 0.5;
 };
