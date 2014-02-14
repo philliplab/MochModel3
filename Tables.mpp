@@ -92,7 +92,7 @@ table Mother OutOfHealthy //EN Out Of Healthy
 
 table Mother OutOfInfected //EN Out Of Infected
 {
-	self_scheduling_split(duration(disease_status_detailed, INFECTED_), INFECTION_AGES)+ //EN Time intfected
+	self_scheduling_split(duration(disease_status_detailed, INFECTED_), INFECTION_AGES)+ //EN Time since infection
 	*
 	{
 		unit,
@@ -105,7 +105,7 @@ table Mother OutOfInfected //EN Out Of Infected
 
 table Mother OutOfSymptoms //EN Out Of Symptoms
 {
-	self_scheduling_split(duration(disease_status_detailed, SYMPTOMS_), INFECTION_AGES)+ //EN Time intfected
+	self_scheduling_split(duration(disease_status_detailed, SYMPTOMS_), INFECTION_AGES)+ //EN Time since Symptoms
 	*
 	{
 		unit,
@@ -117,7 +117,7 @@ table Mother OutOfSymptoms //EN Out Of Symptoms
 
 table Mother OutOfDiagnosed //EN Out Of Diagnosis
 {
-	self_scheduling_split(duration(disease_status_detailed, DIAGNOSED_), INFECTION_AGES)+ //EN Time intfected
+	self_scheduling_split(duration(disease_status_detailed, DIAGNOSED_), INFECTION_AGES)+ //EN Time since diagnosis
 	*
 	{
 		unit,
@@ -130,7 +130,7 @@ table Mother OutOfDiagnosed //EN Out Of Diagnosis
 
 table Mother OutOfTreated //EN Out Of Treated
 {
-	self_scheduling_split(duration(disease_status_detailed, TREATED_), INFECTION_AGES)+ //EN Mother Age
+	self_scheduling_split(duration(disease_status_detailed, TREATED_), INFECTION_AGES)+ //EN Time since first treatment
 	*
 	{
 		unit,
