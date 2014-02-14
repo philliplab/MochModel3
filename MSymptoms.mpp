@@ -29,6 +29,7 @@ TIME Mother::timeSymptomEvent()
 void Mother::SymptomEvent()
 {
 	showing_symptoms = TRUE;
+	diagnosed = TRUE;
 	vdp_age_at_symptoms = vdp_age_int;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
