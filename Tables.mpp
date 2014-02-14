@@ -98,7 +98,7 @@ table Mother Trans3_6_7Count //EN Transitions 3, 6 and 7
 		unit,
 		undergone_transition(disease_status, INFECTED, DEAD),
 		undergone_transition(showing_symptoms, FALSE, TRUE),
-		undergone_transition(disease_status, INFECTED, TREATED),
+		undergone_transition(diagnosed, FALSE, TRUE),
 		exits(disease_status, INFECTED)
 	}
 };

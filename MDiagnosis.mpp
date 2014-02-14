@@ -1,3 +1,7 @@
+parameters
+{
+	double DiagnosisRate;
+};
 
 actor Mother
 {
@@ -8,10 +12,16 @@ actor Mother
 
 TIME Mother::timeDiagnosisEvent()
 {
-	return(TIME_INFINITE);
+	TIME tEventTime = TIME_INFINITE;
+	if (disease_status == INFECTED && diagnosed == FALSE)
+	{
+		tEventTime = log(RandUniform(9)) / -DiagnosisRate;
+	}
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
 };
 
 void Mother::diagnosisEvent()
 {
 	diagnosed = TRUE;
-}
+};

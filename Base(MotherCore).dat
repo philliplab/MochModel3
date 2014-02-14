@@ -45,5 +45,5 @@ parameters {
 	double MTreatedMortShape = 2.5;
 	double MTreatedMortScale = 30;
 
-
+	double DiagnosisRate = .2;
 };
