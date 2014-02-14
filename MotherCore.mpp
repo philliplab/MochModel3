@@ -31,6 +31,16 @@ classification DISEASE_STATE
 	DEAD
 };
 
+classification DISEASE_STATE_DETAILED
+{
+	HEALTHY_,
+	INFECTED_,
+	SYMPTOMS_,
+	DIAGNOSED_,
+	TREATED_,
+	DEAD_
+};
+
 actor_set Mother asAllMother; //EN All Mother actors
 
 actor Mother            //EN Individual
