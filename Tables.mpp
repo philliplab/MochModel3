@@ -78,41 +78,6 @@ table Mother FertDetails //EN Number of children per mother
 	}	//EN Demographic characteristics
 };
 
-table Mother Trans3_6_7Count //EN Transitions 3, 6 and 7
-{
-	self_scheduling_split(duration(disease_status_detailed, INFECTED_), INFECTION_AGES)+ //EN Time intfected
-	*
-	{
-		unit,
-		undergone_transition(disease_status_detailed, INFECTED_, DEAD_),
-		undergone_transition(disease_status_detailed, INFECTED_, SYMPTOMS_),		
-		undergone_transition(disease_status_detailed, INFECTED_, DIAGNOSED_),		
-		exits(disease_status_detailed, INFECTED_)
-	}
-};
-
-table Mother Trans8Count //EN Transitions 8
-{
-	self_scheduling_split(duration(disease_status, TREATED), INFECTION_AGES)+ //EN Mother Age
-	*
-	{
-		unit,
-		undergone_transition(disease_status, TREATED, DEAD),
-		exits(disease_status, TREATED)
-	}
-};
-
-table Mother Trans8CountDet //EN Transitions 8 Detailed
-{
-	self_scheduling_split(duration(disease_status_detailed, TREATED_), INFECTION_AGES)+ //EN Mother Age
-	*
-	{
-		unit,
-		undergone_transition(disease_status_detailed, TREATED_, DEAD_),
-		exits(disease_status_detailed, TREATED_)
-	}
-};
-
 table Mother OutOfHealthy //EN Out Of Healthy
 {
 	self_scheduling_split(duration(disease_status_detailed, HEALTHY_), BIRTH_AGES)+ //EN Mother Age
@@ -125,15 +90,52 @@ table Mother OutOfHealthy //EN Out Of Healthy
 	}
 };
 
+table Mother OutOfInfected //EN Out Of Infected
+{
+	self_scheduling_split(duration(disease_status_detailed, INFECTED_), INFECTION_AGES)+ //EN Time intfected
+	*
+	{
+		unit,
+		undergone_transition(disease_status_detailed, INFECTED_, DEAD_),
+		undergone_transition(disease_status_detailed, INFECTED_, SYMPTOMS_),		
+		undergone_transition(disease_status_detailed, INFECTED_, DIAGNOSED_),		
+		exits(disease_status_detailed, INFECTED_)
+	}
+};
+
+table Mother OutOfSymptoms //EN Out Of Symptoms
+{
+	self_scheduling_split(duration(disease_status_detailed, SYMPTOMS_), INFECTION_AGES)+ //EN Time intfected
+	*
+	{
+		unit,
+		undergone_transition(disease_status_detailed, SYMPTOMS_, DEAD_),		
+		undergone_transition(disease_status_detailed, SYMPTOMS_, TREATED_),		
+		exits(disease_status_detailed, SYMPTOMS_)
+	}
+};
+
 table Mother OutOfDiagnosed //EN Out Of Diagnosis
 {
 	self_scheduling_split(duration(disease_status_detailed, DIAGNOSED_), INFECTION_AGES)+ //EN Time intfected
 	*
 	{
 		unit,
+		undergone_transition(disease_status_detailed, DIAGNOSED_, DEAD_),	
 		undergone_transition(disease_status_detailed, DIAGNOSED_, SYMPTOMS_),		
 		undergone_transition(disease_status_detailed, DIAGNOSED_, TREATED_),		
 		exits(disease_status_detailed, DIAGNOSED_)
+	}
+};
+
+table Mother OutOfTreated //EN Out Of Treated
+{
+	self_scheduling_split(duration(disease_status_detailed, TREATED_), INFECTION_AGES)+ //EN Mother Age
+	*
+	{
+		unit,
+		undergone_transition(disease_status_detailed, TREATED_, DEAD_),
+		exits(disease_status_detailed, TREATED_)
 	}
 };
 
@@ -150,7 +152,7 @@ table_group MOTHER
 	MotherEventAges, MotherEventHist, ageAtBirth, FertDetails
 };
 
-table_group TEST_TRANSITIONS
+table_group OUT_OF_TABLES
 {
-	OutOfHealthy, Trans3_6_7Count, Trans8Count
+	OutOfHealthy, OutOfInfected, OutOfSymptoms, OutOfDiagnosed, OutOfTreated
 };
