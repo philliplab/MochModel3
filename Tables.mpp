@@ -105,14 +105,14 @@ table Mother Trans3_6_7Count //EN Transitions 3, 6 and 7
 
 table Mother Trans3_6_7Count2 //EN Transitions 3, 6 and 7 v2
 {
-	self_scheduling_split(duration(disease_status, INFECTED), INFECTION_AGES)+ //EN Time intfected
+	self_scheduling_split(duration(disease_status_detailed, INFECTED_), INFECTION_AGES)+ //EN Time intfected
 	*
 	{
 		unit,
-		undergone_transition(disease_status, INFECTED, DEAD),
-		undergone_transition(showing_symptoms, FALSE, TRUE),
-		undergone_transition(diagnosed, FALSE, TRUE) - undergone_transition(showing_symptoms, FALSE, TRUE),
-		exits(disease_status, INFECTED)
+		undergone_transition(disease_status_detailed, INFECTED_, DEAD_),
+		undergone_transition(disease_status_detailed, INFECTED_, SYMPTOMS_),		
+		undergone_transition(disease_status_detailed, INFECTED_, DIAGNOSED_),		
+		exits(disease_status_detailed, INFECTED_)
 	}
 };
 

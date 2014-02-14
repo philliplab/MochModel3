@@ -4,6 +4,16 @@ parameters
 	double TreatmentRateDiagnosed;
 };
 
+classification DISEASE_STATE_DETAILED
+{
+	HEALTHY_,
+	INFECTED_,
+	SYMPTOMS_,
+	DIAGNOSED_,
+	TREATED_,
+	DEAD_
+};
+
 actor Mother
 {
 	event timeTreatmentEvent, TreatmentEvent;
@@ -29,7 +39,7 @@ TIME Mother::timeTreatmentEvent()
 void Mother::TreatmentEvent()
 {
 	disease_status = TREATED;
-	disease_status_detailed = TREATED;
+	disease_status_detailed = TREATED_;
 	showing_symptoms = FALSE;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
