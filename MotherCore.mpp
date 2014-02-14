@@ -31,11 +31,22 @@ classification DISEASE_STATE
 	DEAD
 };
 
+classification DISEASE_STATE_DETAILED
+{
+	HEALTHY,
+	INFECTED,
+	SYMPTOMS,
+	DIAGNOSED,
+	TREATED,
+	DEAD
+};
+
 actor_set Mother asAllMother; //EN All Mother actors
 
 actor Mother            //EN Individual
 {
 	DISEASE_STATE disease_status = {HEALTHY};
+	DISEASE_STATE_DETAILED disease_status_details = {HEALTHY};
 	REPORT_TIME report_time = { 0 };
 	LIFE integer_age = self_scheduling_int(age);
 	VAN_DER_PAAL_INDX vdp_age_int = self_scheduling_split(age, VAN_DER_PAAL_AGES);

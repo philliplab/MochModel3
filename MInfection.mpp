@@ -39,6 +39,7 @@ TIME Mother::timeInfectionEvent()
 void Mother::InfectionEvent()
 {
 	disease_status = INFECTED;
+	disease_status_detailed = INFECTED;
 
 	vdp_age_at_infection = vdp_age_int;
 

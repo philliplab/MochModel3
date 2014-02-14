@@ -24,4 +24,5 @@ TIME Mother::timeDiagnosisEvent()
 void Mother::diagnosisEvent()
 {
 	diagnosed = TRUE;
+	disease_status_detailed = DIAGNOSED;
 };
