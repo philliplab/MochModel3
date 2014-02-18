@@ -45,5 +45,6 @@ parameters {
 	double	CHealthyMortShape = 2.9064; //EN CHealthyMortShape
 	double	CHealthyMortScale = 71.6442442; //EN CHealthyMortScale
 
+	CHILD_MODEL_TYPE ChildModelType = SCHOOLING;
 };
 
