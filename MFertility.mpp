@@ -32,7 +32,7 @@ TIME Mother::timeFirstBirthSchedEvent()
 	return(tEventTime);
 };
 
-double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status)
+double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status, double prev_birth_time_of_year)
 {
 	double x = RandUniform(12);
 	double not_birth_prob = 1;
@@ -46,13 +46,14 @@ double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status)
 	if (not_birth_prob <= x){
 	    wait_time = indx + RandUniform(13);
 	};
+	wait_time = wait_time + prev_birth_time_of_year;
 	return(wait_time);
 };
 
 void Mother::FirstBirthSchedEvent()
 {
 	birth_scheduled = TRUE;
-	wait_till_next_birth = next_birth_time(integer_age, disease_status);
+	wait_till_next_birth = next_birth_time(integer_age, disease_status, 0);
 }
 
 TIME Mother::timeBirthEvent()
@@ -69,7 +70,7 @@ void Mother::BirthEvent()
 {
 	number_children++;
 
-	wait_till_next_birth = next_birth_time(integer_age+1, disease_status);
+	wait_till_next_birth = next_birth_time(integer_age+1, disease_status, age - integer_age);
 
 	Child *prChild = new Child();
 	mlChild->Add(prChild);
