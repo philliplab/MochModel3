@@ -37,15 +37,15 @@ double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status, double p
 	double x = RandUniform(12);
 	double not_birth_prob = 1;
 	double wait_time = pow(10, 10);
-	int indx = 1;
+	int indx = 0;
 	if (prev_birth_time_of_year > 0.5)
 	{
 		curr_age++;
 	};
-	while ((curr_age + indx <= 51) && not_birth_prob > x)
+	while ((curr_age + indx <= 50) && not_birth_prob > x)
 	{
-		not_birth_prob = not_birth_prob * (1-FertilityRates[curr_age + indx]*DiseaseFertMultipliers[curr_disease_status]);
 		indx++;
+		not_birth_prob = not_birth_prob * (1-FertilityRates[curr_age + indx]*DiseaseFertMultipliers[curr_disease_status]);
 	}
 	if (not_birth_prob <= x){
 	    wait_time = indx + RandUniform(13);
