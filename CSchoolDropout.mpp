@@ -1,0 +1,29 @@
+range SCHOOL_YEARS
+{
+	6, 17
+};
+
+parameters
+{
+	double DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS];
+};
+
+actor Child
+{
+	event timeDropOutEvent, DropOutEvent;
+};
+
+TIME Child::timeDropOutEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (school_status == IN_SCHOOL){
+		tEventTime = RandUniform(17) * 50;
+	}
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Child::DropOutEvent()
+{
+	school_status = DROPOUT;
+};

@@ -71,6 +71,9 @@
     <None Include="CSchoolGraduation.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
+    <None Include="CSchoolDropout.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MochModel3.cpp">
@@ -125,6 +128,9 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="CSchoolGraduation.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSchoolDropout.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
   </ItemGroup>

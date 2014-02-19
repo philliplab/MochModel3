@@ -101,6 +101,7 @@
     </None>
     <None Include="ChildCore.mpp" />
     <None Include="CMortality.mpp" />
+    <None Include="CSchoolDropout.mpp" />
     <None Include="CSchoolGraduation.mpp" />
     <None Include="CSchoolStart.mpp" />
     <None Include="MDiagnosis.mpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Actors.cpp" />
     <ClCompile Include="ChildCore.cpp" />
     <ClCompile Include="CMortality.cpp" />
+    <ClCompile Include="CSchoolDropout.cpp" />
     <ClCompile Include="CSchoolGraduation.cpp" />
     <ClCompile Include="CSchoolStart.cpp" />
     <ClCompile Include="MDiagnosis.cpp" />

@@ -157,6 +157,7 @@ table Child OutOfInSchool //EN Out Of In School
 	{
 		unit,
 		undergone_transition(school_status, IN_SCHOOL, GRADUATED),
+		undergone_transition(school_status, IN_SCHOOL, DROPOUT),
 		exits(school_status, IN_SCHOOL)
 	}
 };
