@@ -65,6 +65,9 @@
     <None Include="MDiagnosis.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
+    <None Include="CSchoolStart.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MochModel3.cpp">
@@ -113,6 +116,9 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="MDiagnosis.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSchoolStart.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
   </ItemGroup>

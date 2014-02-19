@@ -139,6 +139,17 @@ table Mother OutOfTreated //EN Out Of Treated
 	}
 };
 
+table Child OutOfNotInSchool //EN Out Of Not In School
+{
+	integer_age+ //EN Time since first treatment
+	*
+	{
+		unit,
+		undergone_transition(school_status, NOT_IN_SCHOOL, IN_SCHOOL),
+		exits(school_status, NOT_IN_SCHOOL)
+	}
+};
+
 ///////////////////////////////////////////////////////////////
 // Table Groups
 
@@ -152,7 +163,12 @@ table_group MOTHER
 	MotherEventAges, MotherEventHist, ageAtBirth, FertDetails
 };
 
-table_group OUT_OF_TABLES
+table_group M_OUT_OF_TABLES
 {
 	OutOfHealthy, OutOfInfected, OutOfSymptoms, OutOfDiagnosed, OutOfTreated
+};
+
+table_group C_OUT_OF_TABLES
+{
+	OutOfNotInSchool
 };

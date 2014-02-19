@@ -21,6 +21,7 @@ actor Child            //EN Individual
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 	logical mother_showing_symptoms = {FALSE};
 	GENDER gender;
+	LIFE integer_age = self_scheduling_int(age);
 
 	void Mother_Infect();
 	void Mother_Die();
@@ -59,6 +60,7 @@ void Child::Start()
 	} else {
 		gender = F;
 	};
+	school_start_time = 5.5 + (RandUniform(16) * 1.5);
 };
 
 void Child::Finish()

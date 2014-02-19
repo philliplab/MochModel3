@@ -1,0 +1,31 @@
+classification SCHOOL_STATE
+{
+	NOT_IN_SCHOOL,
+	IN_SCHOOL,
+	DROPOUT,
+	GRADUATED
+};
+
+actor Child
+{
+	SCHOOL_STATE school_status = {NOT_IN_SCHOOL};
+	double school_start_time;
+
+	event timeSchoolStartEvent, SchoolStartEvent;
+};
+
+TIME Child::timeSchoolStartEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (school_status == NOT_IN_SCHOOL)
+	{
+		tEventTime = school_start_time;
+	}
+	tEventTime = WAIT(tEventTime);
+	return (tEventTime);
+};
+
+void Child::SchoolStartEvent()
+{
+	school_status = IN_SCHOOL;
+};
