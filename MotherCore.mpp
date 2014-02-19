@@ -13,9 +13,15 @@ range VAN_DER_PAAL_INDX
 	0,4
 };
 
+classification SOCIO_ECONOMIC_STATE
+{
+	LOW, HIGH
+};
+
 parameters 
 {
 	int		StartingPopulationSize;
+	SOCIO_ECONOMIC_STATE socio_economic_status;
 };
 
 parameter_group MothCore

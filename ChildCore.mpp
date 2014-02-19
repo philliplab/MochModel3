@@ -65,3 +65,10 @@ void Child::Start()
 void Child::Finish()
 {
 };
+
+track Child
+	[actor_id % 50 == 0, GetReplicate() == 0 ]
+{
+	all_base_states,
+	all_derived_states
+};

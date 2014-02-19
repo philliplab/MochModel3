@@ -46,5 +46,6 @@ parameters {
 	double	CHealthyMortScale = 71.6442442; //EN CHealthyMortScale
 
 	CHILD_MODEL_TYPE ChildModelType = SCHOOLING;
+	SOCIO_ECONOMIC_STATE socio_economic_status = LOW;
 };
 
