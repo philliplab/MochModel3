@@ -9,7 +9,6 @@ classification SCHOOL_STATE
 actor Child
 {
 	SCHOOL_STATE school_status = {NOT_IN_SCHOOL};
-	double school_start_time;
 
 	event timeSchoolStartEvent, SchoolStartEvent;
 };
@@ -17,9 +16,9 @@ actor Child
 TIME Child::timeSchoolStartEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (school_status == NOT_IN_SCHOOL)
+	if (school_status == NOT_IN_SCHOOL && ChildModelType == SCHOOLING)
 	{
-		tEventTime = school_start_time;
+		tEventTime = 5.5 + (RandUniform(16) * 1.5);
 	}
 	tEventTime = WAIT(tEventTime);
 	return (tEventTime);

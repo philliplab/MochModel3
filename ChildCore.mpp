@@ -60,7 +60,6 @@ void Child::Start()
 	} else {
 		gender = F;
 	};
-	school_start_time = 5.5 + (RandUniform(16) * 1.5);
 };
 
 void Child::Finish()
