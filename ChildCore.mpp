@@ -10,7 +10,7 @@ classification CHILD_MODEL_TYPE
 
 classification GENDER
 {
-	M, F
+	F, M
 };
 
 actor_set Child asAllChild; //EN All Child actors

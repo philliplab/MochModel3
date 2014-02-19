@@ -13,31 +13,40 @@ actor Child
 	event timeDropOutEvent, DropOutEvent;
 };
 
-double dropoutTime()
+double dropoutTime(SCHOOL_YEARS curr_age)
 {
 	double x = RandUniform(17);
 	int indx = -1;
 	double dropoutProb = 1;
 	double prevDropoutProb = 1;
-	double drop_out_time = 0;
-	while (x <= dropoutProb)
+	double drop_out_time = pow(10,10);
+	int school_age_indx = curr_age - 6;
+	if (school_age_indx < 0)
+	{
+		school_age_indx = 0;
+	};
+	if (school_age_indx > 11)
+	{
+		school_age_indx = 11;
+	};
+	while (x <= dropoutProb && school_age_indx + indx < 11)
 	{
 		indx++;
 		prevDropoutProb = dropoutProb;
-		dropoutProb = dropoutProb * 0.9;
+		dropoutProb = dropoutProb * (1 - DropOutRates[F][LOW][HEALTHY_][school_age_indx + indx]);
 	};
-	if (x <= dropoutProb)
+	if (x > dropoutProb)
 	{
-		drop_out_time = x - dropoutProb / (dropoutProb - prevDropoutProb);
+		drop_out_time = indx + ((x - dropoutProb) / (dropoutProb - prevDropoutProb));
 	};
-	return(indx);
+	return(drop_out_time);
 };
 
 TIME Child::timeDropOutEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == IN_SCHOOL){
-		tEventTime = dropoutTime();
+		tEventTime = dropoutTime(integer_age);
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);

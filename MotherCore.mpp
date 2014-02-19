@@ -15,7 +15,7 @@ range VAN_DER_PAAL_INDX
 
 classification SOCIO_ECONOMIC_STATE
 {
-	LOW, HIGH
+	HIGH, LOW
 };
 
 parameters 
