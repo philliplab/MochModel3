@@ -13,11 +13,17 @@ actor Child
 	event timeDropOutEvent, DropOutEvent;
 };
 
+double dropoutTime()
+{
+	double x = RandUniform(17) * 50;
+	return(x);
+};
+
 TIME Child::timeDropOutEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == IN_SCHOOL){
-		tEventTime = RandUniform(17) * 50;
+		tEventTime = dropoutTime();
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);
