@@ -33,7 +33,7 @@ double dropoutTime(SCHOOL_YEARS curr_age)
 	{
 		indx++;
 		prevDropoutProb = dropoutProb;
-		dropoutProb = dropoutProb * (1 - DropOutRates[F][LOW][HEALTHY_][school_age_indx + indx]);
+		dropoutProb = dropoutProb * (1 - DropOutRates[F][socio_economic_status][HEALTHY_][school_age_indx + indx]);
 	};
 	if (x > dropoutProb)
 	{
