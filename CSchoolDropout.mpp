@@ -13,7 +13,7 @@ actor Child
 	event timeDropOutEvent, DropOutEvent;
 };
 
-double dropoutTime(SCHOOL_YEARS curr_age)
+double dropoutTime(SCHOOL_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal)
 {
 	double x = RandUniform(17);
 	int indx = -1;
@@ -33,7 +33,7 @@ double dropoutTime(SCHOOL_YEARS curr_age)
 	{
 		indx++;
 		prevDropoutProb = dropoutProb;
-		dropoutProb = dropoutProb * (1 - DropOutRates[F][socio_economic_status][HEALTHY_][school_age_indx + indx]);
+		dropoutProb = dropoutProb * (1 - DropOutRates[gender_internal][socio_economic_status][mother_disease_status_detailed_fm_internal][school_age_indx + indx]);
 	};
 	if (x > dropoutProb)
 	{
@@ -46,7 +46,7 @@ TIME Child::timeDropOutEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == IN_SCHOOL){
-		tEventTime = dropoutTime(integer_age);
+		tEventTime = dropoutTime(integer_age, gender, mother_disease_status_detailed_fm);
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);

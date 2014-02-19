@@ -1,6 +1,7 @@
 parameters
 {
 	CHILD_MODEL_TYPE ChildModelType;
+	double PropChildrenFemale;
 };
 
 classification CHILD_MODEL_TYPE
@@ -19,6 +20,7 @@ actor Child            //EN Individual
 {
 	REPORT_TIME report_time = { 0 };
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
+	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm = {HEALTHY_};
 	logical mother_showing_symptoms = {FALSE};
 	GENDER gender;
 	LIFE integer_age = self_scheduling_int(age);
@@ -34,28 +36,32 @@ actor Child            //EN Individual
 void Child::Mother_Infect()
 {
 	mother_disease_status_fm = INFECTED;
+	mother_disease_status_detailed_fm = INFECTED_;
 };
 
 void Child::Mother_Die()
 {
 	mother_disease_status_fm = DEAD;
+	mother_disease_status_detailed_fm = DEAD_;
 };
 
 void Child::Mother_Symptoms()
 {
 	mother_showing_symptoms = TRUE;
+	mother_disease_status_detailed_fm = SYMPTOMS_;
 };
 
 void Child::Mother_Treat()
 {
 	mother_disease_status_fm = TREATED;
 	mother_showing_symptoms = FALSE;
+	mother_disease_status_detailed_fm = TREATED_;
 };
 
 void Child::Start()
 {
 	age = 0;
-	if (RandUniform(15) > 0.5){
+	if (RandUniform(15) > PropChildrenFemale){
 		gender = M;
 	} else {
 		gender = F;
