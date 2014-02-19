@@ -8,6 +8,11 @@ classification CHILD_MODEL_TYPE
 	SCHOOLING
 };
 
+classification GENDER
+{
+	M, F
+};
+
 actor_set Child asAllChild; //EN All Child actors
 
 actor Child            //EN Individual
@@ -15,6 +20,7 @@ actor Child            //EN Individual
 	REPORT_TIME report_time = { 0 };
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 	logical mother_showing_symptoms = {FALSE};
+	GENDER gender;
 
 	void Mother_Infect();
 	void Mother_Die();
@@ -48,8 +54,13 @@ void Child::Mother_Treat()
 void Child::Start()
 {
 	age = 0;
-}
+	if (RandUniform(15) > 0.5){
+		gender = M;
+	} else {
+		gender = F;
+	};
+};
 
 void Child::Finish()
 {
-}
+};
