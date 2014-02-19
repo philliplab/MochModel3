@@ -15,8 +15,22 @@ actor Child
 
 double dropoutTime()
 {
-	double x = RandUniform(17) * 50;
-	return(x);
+	double x = RandUniform(17);
+	int indx = -1;
+	double dropoutProb = 1;
+	double prevDropoutProb = 1;
+	double drop_out_time = 0;
+	while (x <= dropoutProb)
+	{
+		indx++;
+		prevDropoutProb = dropoutProb;
+		dropoutProb = dropoutProb * 0.9;
+	};
+	if (x <= dropoutProb)
+	{
+		drop_out_time = x - dropoutProb / (dropoutProb - prevDropoutProb);
+	};
+	return(indx);
 };
 
 TIME Child::timeDropOutEvent()
