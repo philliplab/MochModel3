@@ -1,0 +1,20 @@
+actor Child
+{
+	event timeSchoolGraduationEvent, SchoolGraduationEvent;
+};
+
+TIME Child::timeSchoolGraduationEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (school_status == IN_SCHOOL && ChildModelType == SCHOOLING)
+	{
+		tEventTime = 12;
+	}
+	tEventTime = WAIT(tEventTime);
+	return (tEventTime);
+};
+
+void Child::SchoolGraduationEvent()
+{
+	school_status = GRADUATED;
+};
