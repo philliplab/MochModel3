@@ -21,6 +21,7 @@ actor Child            //EN Individual
 	REPORT_TIME report_time = { 0 };
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm = {HEALTHY_};
+	DISEASE_STATE_DETAILED mother_dsd_at_dropout;
 	logical mother_showing_symptoms = {FALSE};
 	GENDER gender;
 	LIFE integer_age = self_scheduling_int(age);

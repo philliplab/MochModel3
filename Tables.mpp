@@ -162,6 +162,28 @@ table Child OutOfInSchool //EN Out Of In School
 	}
 };
 
+table Child MDSDdropout //EN MDSD_dropout
+{
+	integer_age+ //EN Time since school start
+	*
+	{
+		unit,
+		undergone_transition(school_status, IN_SCHOOL, GRADUATED),
+		undergone_transition(school_status, IN_SCHOOL, DROPOUT),
+		undergone_transition(mother_dsd_at_dropout, HEALTHY_, INFECTED_),
+		undergone_transition(mother_dsd_at_dropout, HEALTHY_, DIAGNOSED_),
+		undergone_transition(mother_dsd_at_dropout, HEALTHY_, SYMPTOMS_),
+		undergone_transition(mother_dsd_at_dropout, HEALTHY_, TREATED_),
+		undergone_transition(mother_dsd_at_dropout, HEALTHY_, DEAD_),
+		undergone_transition(school_status, IN_SCHOOL, DROPOUT) - 
+			(undergone_transition(mother_dsd_at_dropout, HEALTHY_, INFECTED_) +
+			undergone_transition(mother_dsd_at_dropout, HEALTHY_, DIAGNOSED_) +
+			undergone_transition(mother_dsd_at_dropout, HEALTHY_, SYMPTOMS_) +
+			undergone_transition(mother_dsd_at_dropout, HEALTHY_, TREATED_) +
+			undergone_transition(mother_dsd_at_dropout, HEALTHY_, DEAD_)) // EN Healthy
+	}
+};
+
 ///////////////////////////////////////////////////////////////
 // Table Groups
 
