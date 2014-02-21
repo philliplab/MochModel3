@@ -1,3 +1,9 @@
+parameters
+{
+	double MinSchoolStart;
+	double MaxSchoolStart;
+};
+
 classification SCHOOL_STATE
 {
 	NOT_IN_SCHOOL,
@@ -18,7 +24,7 @@ TIME Child::timeSchoolStartEvent()
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == NOT_IN_SCHOOL && ChildModelType == SCHOOLING)
 	{
-		tEventTime = 5.5 + (RandUniform(16) * 1.5);
+		tEventTime = MinSchoolStart + (RandUniform(16) * (MaxSchoolStart - MinSchoolStart));
 	}
 	tEventTime = WAIT(tEventTime);
 	return (tEventTime);
