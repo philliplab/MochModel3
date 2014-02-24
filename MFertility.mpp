@@ -8,7 +8,7 @@ parameters
 
 parameter_group MotherFertility
 { //EN Mothers' Mortality Parameters
-	FertilityRates
+	FertilityRates, DiseaseFertMultipliers
 };
 
 actor Mother            //EN Individual

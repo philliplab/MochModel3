@@ -4,6 +4,11 @@ parameters
 	double MaxSchoolStart;
 };
 
+parameter_group ChildSchoolStart
+{ //EN Child School Start Parameters
+	MinSchoolStart, MaxSchoolStart
+};
+
 classification SCHOOL_STATE
 {
 	NOT_IN_SCHOOL,

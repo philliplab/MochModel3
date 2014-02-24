@@ -167,7 +167,9 @@ table Child MDSDdropout //EN MDSD_dropout
 	integer_age+ //EN Time since school start
 	*
 	{
-		unit,
+		unit, //EN Children alive
+		duration(school_status, IN_SCHOOL),
+		entrances(school_status, IN_SCHOOL),
 		undergone_transition(school_status, IN_SCHOOL, GRADUATED),
 		undergone_transition(school_status, IN_SCHOOL, DROPOUT),
 		undergone_transition(mother_dsd_at_dropout, HEALTHY_, INFECTED_),
@@ -180,7 +182,7 @@ table Child MDSDdropout //EN MDSD_dropout
 			undergone_transition(mother_dsd_at_dropout, HEALTHY_, DIAGNOSED_) +
 			undergone_transition(mother_dsd_at_dropout, HEALTHY_, SYMPTOMS_) +
 			undergone_transition(mother_dsd_at_dropout, HEALTHY_, TREATED_) +
-			undergone_transition(mother_dsd_at_dropout, HEALTHY_, DEAD_)) // EN Healthy
+			undergone_transition(mother_dsd_at_dropout, HEALTHY_, DEAD_)) //EN Healthy
 	}
 };
 

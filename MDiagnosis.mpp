@@ -1,6 +1,11 @@
 parameters
 {
-	double DiagnosisRate;
+	double MDiagnosisRate;
+};
+
+parameter_group MotherDiagnosis
+{ //EN Mothers' Mortality Parameters
+	MDiagnosisRate
 };
 
 actor Mother
@@ -15,7 +20,7 @@ TIME Mother::timeDiagnosisEvent()
 	TIME tEventTime = TIME_INFINITE;
 	if (disease_status == INFECTED && diagnosed == FALSE)
 	{
-		tEventTime = log(RandUniform(9)) / -DiagnosisRate;
+		tEventTime = log(RandUniform(9)) / -MDiagnosisRate;
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);
