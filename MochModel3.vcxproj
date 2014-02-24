@@ -104,6 +104,7 @@
     <None Include="CSchoolDropout.mpp" />
     <None Include="CSchoolGraduation.mpp" />
     <None Include="CSchoolStart.mpp" />
+    <None Include="MChronicIllness.mpp" />
     <None Include="MDiagnosis.mpp" />
     <None Include="MFertility.mpp" />
     <None Include="MInfection.mpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="CSchoolDropout.cpp" />
     <ClCompile Include="CSchoolGraduation.cpp" />
     <ClCompile Include="CSchoolStart.cpp" />
+    <ClCompile Include="MChronicIllness.cpp" />
     <ClCompile Include="MDiagnosis.cpp" />
     <ClCompile Include="MFertility.cpp" />
     <ClCompile Include="MInfection.cpp" />

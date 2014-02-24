@@ -1,5 +1,4 @@
 /*
-
 Steps:
 - Decide on survival curve shape or 'empirical survival curve' like fertility?
 - Decide on correlation - quick death = quick CI like with symptoms and death?
@@ -12,5 +11,4 @@ Steps:
 - Update the tables dealing with treatment and death of the mother to have the extra state
 - Update all the tables of the child that are influenced by the mother's disease state
 - Remember to run tests to check that your code works
-
 */
