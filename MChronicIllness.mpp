@@ -1,0 +1,16 @@
+/*
+
+Steps:
+- Decide on survival curve shape or 'empirical survival curve' like fertility?
+- Decide on correlation - quick death = quick CI like with symptoms and death?
+- Decide on which factors will affect rate of development of Chronic Illness
+- Once all these decisions has been made, copy and paste all the code from the event thats most similar to this one into this script
+- Update the parameter and function and method names to the appropriate event name
+- Add a boolean variable to track this state
+- Add the 'Chronic Illness' class to the DISEASE_STATE_DETAILED classification
+- Add the chronic illness method to the child and make the mother event call it
+- Update the tables dealing with treatment and death of the mother to have the extra state
+- Update all the tables of the child that are influenced by the mother's disease state
+- Remember to run tests to check that your code works
+
+*/
