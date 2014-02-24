@@ -32,8 +32,6 @@ parameters {
 	double	DefaultTimeToDeath = 5; //EN DefaultTimeToDeath
 	double	MIMort_SMort_Corr = 0; //EN MIMort_SMort_Corr
 	double	MIMort_Symp_Corr = 0; //EN MIMort_Symp_Corr
-	double	MTreatShape = 2; //EN MTreatShape
-	double	MTreatScaleOffset = 0; //EN MTreatScaleOffset
 	double	MHealthyMortShape = 2.9064; //EN MHealthyMortShape
 	double	MHealthyMortScale = 71.6442442; //EN MHealthyMortScale
 	double	MTreatedMortShape = 2.5; //EN MTreatedMortShape

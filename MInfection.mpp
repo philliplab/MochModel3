@@ -7,9 +7,6 @@ parameters
 {
 	INCIDENCE_RATES_SOURCE IncidenceRatesSource;
 	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE];
-
-	double MTreatShape;
-	double MTreatScaleOffset;
 };
 
 parameter_group MotherIncidence
