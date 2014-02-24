@@ -4,6 +4,11 @@ parameters
 	double TreatmentRateDiagnosed;
 };
 
+parameter_group MotherTreatment
+{ //EN Child's Dropout Parameters
+	TreatmentRateDiagnosed, TreatmentRateSymptoms
+};
+
 actor Mother
 {
 	event timeTreatmentEvent, TreatmentEvent;

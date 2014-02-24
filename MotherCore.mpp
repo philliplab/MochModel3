@@ -21,12 +21,12 @@ classification SOCIO_ECONOMIC_STATE
 parameters 
 {
 	int		StartingPopulationSize;
-	SOCIO_ECONOMIC_STATE socio_economic_status;
+	SOCIO_ECONOMIC_STATE SocioEconomicStatus;
 };
 
-parameter_group MothCore
+parameter_group MochCore
 { //EN Mothers' Mortality Parameters
-	StartingPopulationSize, ChildModelType
+	StartingPopulationSize, ChildModelType, PropChildrenFemale, SocioEconomicStatus
 };
 
 classification DISEASE_STATE

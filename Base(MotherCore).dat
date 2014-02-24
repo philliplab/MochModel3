@@ -43,7 +43,7 @@ parameters {
 	double	CHealthyMortScale = 71.6442442; //EN CHealthyMortScale
 	CHILD_MODEL_TYPE	ChildModelType = SCHOOLING; //EN ChildModelType
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale
-	SOCIO_ECONOMIC_STATE	socio_economic_status = LOW; //EN socio_economic_status
+	SOCIO_ECONOMIC_STATE	SocioEconomicStatus = LOW; //EN SocioEconomicStatus
 	double	MinSchoolStart = 6; //EN MinSchoolStart
 	double	MaxSchoolStart = 6; //EN MaxSchoolStart
 
