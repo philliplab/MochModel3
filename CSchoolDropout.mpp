@@ -26,14 +26,8 @@ double dropoutTime(SCHOOL_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_
 	double prevDropoutProb = 1;
 	double drop_out_time = pow(10,10);
 	int school_age_indx = curr_age - 6;
-	if (school_age_indx < 0)
-	{
-		school_age_indx = 0;
-	};
-	if (school_age_indx > 11)
-	{
-		school_age_indx = 11;
-	};
+	if (school_age_indx < 0) {school_age_indx = 0;};
+	if (school_age_indx > 11) {school_age_indx = 11;};
 	while (x <= dropoutProb && school_age_indx + indx < 11)
 	{
 		indx++;
@@ -42,7 +36,7 @@ double dropoutTime(SCHOOL_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_
 	};
 	if (x > dropoutProb)
 	{
-		drop_out_time = indx + ((x - dropoutProb) / (dropoutProb - prevDropoutProb));
+		drop_out_time = indx + ((x - dropoutProb) / (prevDropoutProb - dropoutProb));
 	};
 	return(drop_out_time);
 };
