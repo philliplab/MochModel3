@@ -14,20 +14,21 @@ parameter_group MotherFertility
 actor Mother            //EN Individual
 {
 	LIFE number_children = {0};
-	logical birth_scheduled = {FALSE};
-	TIME wait_till_next_birth = {TIME_INFINITE};
+	logical fertile = {FALSE};
+	TIME time_to_next_scheduling_event = {15};
+	TIME wait_till_next_birth = {0};
 
-	event timeFirstBirthSchedEvent, FirstBirthSchedEvent;
+	event timeBirthSchedEvent, BirthSchedEvent;
 	event timeBirthEvent, BirthEvent;
 };
 
-TIME Mother::timeFirstBirthSchedEvent()
+TIME Mother::timeBirthSchedEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (birth_scheduled == FALSE)
+	if (fertile == FALSE)
 	{
-		tEventTime = 15;
-	}
+		tEventTime = time_to_next_scheduling_event;
+	};
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);
 };
@@ -38,7 +39,7 @@ double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status, double p
 	double not_birth_prob = 1;
 	double prev_not_birth_prob = 1;
 	double wait_time = pow(10, 10);
-	int indx = 0;
+	int indx = -1;
 	if (prev_birth_time_of_year > 0.5)
 	{
 		curr_age++;
@@ -58,16 +59,16 @@ double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status, double p
 	return(wait_time);
 };
 
-void Mother::FirstBirthSchedEvent()
+void Mother::BirthSchedEvent()
 {
-	birth_scheduled = TRUE;
-	wait_till_next_birth = next_birth_time(integer_age, disease_status, 0);
+	fertile = TRUE;
+	wait_till_next_birth = next_birth_time(integer_age, disease_status, age - integer_age);
 }
 
 TIME Mother::timeBirthEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (birth_scheduled == TRUE){
+	if (fertile == TRUE){
 		tEventTime = wait_till_next_birth;
 	}
 	tEventTime = WAIT(tEventTime);
@@ -78,7 +79,8 @@ void Mother::BirthEvent()
 {
 	number_children++;
 
-	wait_till_next_birth = next_birth_time(integer_age+1, disease_status, age - integer_age);
+	fertile = FALSE;
+	time_to_next_scheduling_event = 1;
 
 	Child *prChild = new Child();
 	mlChild->Add(prChild);
