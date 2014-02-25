@@ -49,7 +49,7 @@ parameters {
 
 	 //EN ParityFertMultipliers
 	double	ParityFertMultipliers[PARITY] = {
-		10, (15) 1, 
+		(16) 1, 
 	};
 
 	 //EN DropOutRates

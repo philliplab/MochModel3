@@ -28,6 +28,16 @@ table Child MotherEventAgeHist_fm //EN Age of child at mother events
 	}
 };
 
+table Child InfectionAge //EN Age of child at infection
+{
+	self_scheduling_split(age, INFECTION_AGES)+
+	*
+	{
+		unit,
+		entrances(infected, TRUE)
+	}
+};
+
 table Child MotherEventCount_fm //EN Mother event experienced by children
 {
 	mother_disease_status_fm

@@ -9,7 +9,7 @@ parameters
 	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE];
 };
 
-parameter_group MotherIncidence
+parameter_group Incidence
 { //EN Mothers' Mortality Parameters
 	IncidenceRatesSource, IncidenceRates
 };

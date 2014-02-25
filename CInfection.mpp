@@ -1,0 +1,24 @@
+actor Child            //EN Individual
+{
+	logical infected = {FALSE};
+	event timeInfectionEvent, InfectionEvent;
+};
+
+TIME Child::timeInfectionEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (infected == FALSE){
+		double curr_incidence = IncidenceRates[IncidenceRatesSource][integer_age];
+		if (curr_incidence >= 1){
+			tEventTime = WAIT(0);
+		} else if (curr_incidence > 0){
+			tEventTime = WAIT(-log(RandUniform(1)) / -log(1 - curr_incidence));
+		};
+	};
+	return tEventTime;
+};
+
+void Child::InfectionEvent()
+{
+	infected = TRUE;
+};

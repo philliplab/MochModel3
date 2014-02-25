@@ -100,6 +100,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="ChildCore.mpp" />
+    <None Include="CInfection.mpp" />
     <None Include="CMortality.mpp" />
     <None Include="CSchoolDropout.mpp" />
     <None Include="CSchoolGraduation.mpp" />
@@ -122,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="Actors.cpp" />
     <ClCompile Include="ChildCore.cpp" />
+    <ClCompile Include="CInfection.cpp" />
     <ClCompile Include="CMortality.cpp" />
     <ClCompile Include="CSchoolDropout.cpp" />
     <ClCompile Include="CSchoolGraduation.cpp" />
