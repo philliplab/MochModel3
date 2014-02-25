@@ -99,6 +99,7 @@
     <None Include="Base.scex">
       <SubType>Designer</SubType>
     </None>
+    <None Include="CAbuse.mpp" />
     <None Include="ChildCore.mpp" />
     <None Include="CInfection.mpp" />
     <None Include="CMortality.mpp" />
@@ -122,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actors.cpp" />
+    <ClCompile Include="CAbuse.cpp" />
     <ClCompile Include="ChildCore.cpp" />
     <ClCompile Include="CInfection.cpp" />
     <ClCompile Include="CMortality.cpp" />

@@ -1,3 +1,8 @@
+partition SCHOOL_AGE_BINS
+{
+	5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+};
+
 partition BIRTH_AGES
 {
 	10, 15, 20, 25, 30, 35, 40, 50, 60
@@ -30,11 +35,12 @@ table Child MotherEventAgeHist_fm //EN Age of child at mother events
 
 table Child InfectionAge //EN Age of child at infection
 {
-	self_scheduling_split(age, INFECTION_AGES)+
+	self_scheduling_split(age, SCHOOL_AGE_BINS)+
 	*
 	{
 		unit,
-		entrances(infected, TRUE)
+		entrances(infected, TRUE),
+		entrances(abused, TRUE)
 	}
 };
 
