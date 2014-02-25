@@ -7,7 +7,7 @@ actor Child            //EN Individual
 TIME Child::timeInfectionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (infected == FALSE){
+	if (infected == FALSE & ChildModelType == INFECTION){
 		double curr_incidence = IncidenceRates[IncidenceRatesSource][integer_age];
 		if (curr_incidence >= 1){
 			tEventTime = WAIT(0);

@@ -20,7 +20,6 @@ classification SCHOOL_STATE
 actor Child
 {
 	SCHOOL_STATE school_status = {NOT_IN_SCHOOL};
-
 	event timeSchoolStartEvent, SchoolStartEvent;
 };
 

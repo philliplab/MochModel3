@@ -6,7 +6,8 @@ parameters
 
 classification CHILD_MODEL_TYPE
 {
-	SCHOOLING
+	SCHOOLING,
+	INFECTION
 };
 
 classification GENDER
