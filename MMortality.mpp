@@ -1,3 +1,13 @@
+range MORT_LIFE
+{
+	0,90
+};
+
+range MORT_TIME
+{
+	0,40
+};
+
 parameters
 {
 	double MInfectedMortShape;
@@ -16,6 +26,8 @@ parameters
 	double MTreatedMortScale;
 
 	double MIMort_SMort_Corr;
+
+	double HIVFreeLifeTable[GENDER][MORT_LIFE][MORT_TIME];
 };
 
 parameter_group MotherMortality
