@@ -1,0 +1,67 @@
+
+range DEPRESSION_YEARS
+{
+	12, 18
+};
+
+parameters
+{
+	double AbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS];
+	double NotAbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS];
+};
+
+parameter_group ChildAbuseDepression
+{ //EN Child's Abuse Parameters
+	AbuseRates, AbusedDepressionRates, NotAbusedDepressionRates
+};
+
+actor Child
+{
+	TIME wait_till_depression_age = {12};
+	logical depression_age = {FALSE};
+	event timeDepressionAgeEvent, DepressionAgeEvent;
+};
+
+double Child::timeDepressionAgeEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (ChildModelType == ABUSE_DEPRESSION)
+	{
+		tEventTime = WAIT(wait_till_depression_age);
+	};
+	return(tEventTime);
+};
+
+void Child::DepressionAgeEvent()
+{
+	depression_age = ((age >= 12) && (age < 19)) ? TRUE : FALSE;
+	if (age < 19)
+	{
+		wait_till_depression_age = 7;
+	} else {
+		wait_till_depression_age = TIME_INFINITE;
+	};
+};
+
+double depressionTime(DEPRESSION_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal)
+{
+	double x = RandUniform(8);
+	int indx = -1;
+	double notAbuseProb = 1;
+	double prevnotAbuseProb = 1;
+	double abuse_time = pow(10,10);
+	int depression_age_indx = curr_age - 12;
+	if (depression_age_indx < 0) {depression_age_indx = 0;};
+	if (depression_age_indx > 6) {depression_age_indx = 6;};
+	while (x <= notAbuseProb && depression_age_indx + indx < 6)
+	{
+		indx++;
+		prevnotAbuseProb = notAbuseProb;
+		notAbuseProb = notAbuseProb * (1 - AbuseRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx + indx]);
+	};
+	if (x > notAbuseProb)
+	{
+		abuse_time = indx + ((x - notAbuseProb) / (prevnotAbuseProb - notAbuseProb));
+	};
+	return(abuse_time);
+};

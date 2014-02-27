@@ -13,3 +13,4 @@ Base*txt
 *.suo
 *.INF
 *.mdb
+Release/*

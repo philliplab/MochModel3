@@ -83,6 +83,9 @@
     <None Include="CAbuse.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
+    <None Include="CDepression.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MochModel3.cpp">
@@ -149,6 +152,9 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="CAbuse.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDepression.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
   </ItemGroup>
