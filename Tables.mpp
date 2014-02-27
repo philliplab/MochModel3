@@ -40,7 +40,8 @@ table Child InfectionAge //EN Age of child at infection
 	{
 		unit,
 		entrances(infected, TRUE),
-		entrances(abused, TRUE)
+		entrances(abused, TRUE),
+		entrances(depressed, TRUE)
 	}
 };
 

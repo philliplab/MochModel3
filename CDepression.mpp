@@ -19,7 +19,9 @@ actor Child
 {
 	TIME wait_till_depression_age = {12};
 	logical depression_age = {FALSE};
+	logical depressed = {FALSE};
 	event timeDepressionAgeEvent, DepressionAgeEvent;
+	event timeDepressionEvent, DepressionEvent;
 };
 
 double Child::timeDepressionAgeEvent()
@@ -43,25 +45,40 @@ void Child::DepressionAgeEvent()
 	};
 };
 
-double depressionTime(DEPRESSION_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal)
+double depressionTime(DEPRESSION_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal, logical abused_internal)
 {
 	double x = RandUniform(8);
 	int indx = -1;
-	double notAbuseProb = 1;
-	double prevnotAbuseProb = 1;
-	double abuse_time = pow(10,10);
+	double notDeproProb = 1;
+	double prevnotDeproProb = 1;
+	double depro_time = pow(10,10);
 	int depression_age_indx = curr_age - 12;
 	if (depression_age_indx < 0) {depression_age_indx = 0;};
 	if (depression_age_indx > 6) {depression_age_indx = 6;};
-	while (x <= notAbuseProb && depression_age_indx + indx < 6)
+	while (x <= notDeproProb && depression_age_indx + indx < 6)
 	{
 		indx++;
-		prevnotAbuseProb = notAbuseProb;
-		notAbuseProb = notAbuseProb * (1 - AbuseRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx + indx]);
+		prevnotDeproProb = notDeproProb;
+		notDeproProb = notDeproProb * (1 - NotAbusedDepressionRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx + indx]);
 	};
-	if (x > notAbuseProb)
+	if (x > notDeproProb)
 	{
-		abuse_time = indx + ((x - notAbuseProb) / (prevnotAbuseProb - notAbuseProb));
+		depro_time = indx + ((x - notDeproProb) / (prevnotDeproProb - notDeproProb));
 	};
-	return(abuse_time);
+	return(depro_time);
+};
+
+TIME Child::timeDepressionEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (depression_age == TRUE){
+		tEventTime = depressionTime(integer_age, gender, mother_disease_status_detailed_fm, FALSE);
+	}
+	tEventTime = WAIT(tEventTime);
+	return(tEventTime);
+};
+
+void Child::DepressionEvent()
+{
+	depressed = TRUE;
 };
