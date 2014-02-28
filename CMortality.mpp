@@ -3,12 +3,12 @@ parameters
 	double		CHealthyMortScale;
 	double		CHealthyMortShape;
 };
-
+/*
 parameter_group ChildMortality
 { //EN Mothers' Mortality Parameters
 	CHealthyMortShape, CHealthyMortScale
 };
-
+*/
 actor Child            //EN Individual
 {
 	logical alive = {TRUE};
@@ -28,11 +28,28 @@ double InvWeibull3(double y, double kappa, double lambda, double phi)
 	return(x);
 };
 
+double CLifeTableDraw(double x)
+{
+	int indx = -1;
+	double prev_lx = 1;
+	double lx = 1;
+	int time_indx = 0;
+	while (x <= lx)
+	{
+		indx++;
+		time_indx = indx > 40 ? 40 : indx;
+		prev_lx = lx;
+		lx = HIVFreeLifeTable[F][indx][time_indx];
+	};
+	return(indx + ((x - lx) / (prev_lx - lx)));
+};
+
 TIME Child::timeMortalityEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	double draw = RandUniform(5);
-	tEventTime = InvWeibull3(draw, CHealthyMortShape, CHealthyMortScale, 1);
+	tEventTime = CLifeTableDraw(draw);
+//	tEventTime = InvWeibull3(draw, CHealthyMortShape, CHealthyMortScale, 1);
 	tEventTime = WAIT(tEventTime);
 	return tEventTime;
 };

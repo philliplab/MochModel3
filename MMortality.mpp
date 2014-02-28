@@ -33,7 +33,12 @@ parameters
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
 	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, DefaultTimeToDeath, MSymptomsMortShape, 
-	MSymptomsMortScale, MHealthyMortShape, MHealthyMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr
+	MSymptomsMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr
+};
+
+parameter_group Deprecated
+{
+	MHealthyMortShape, MHealthyMortScale, CHealthyMortShape, CHealthyMortScale
 };
 
 actor Mother            //EN Individual
