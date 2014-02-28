@@ -10,18 +10,21 @@ actor Child            //EN Individual
 	event timeMortalityEvent, MortalityEvent;	//EN Mortality event
 };
 
-double CLifeTableDraw(double x)
+double CLifeTableDraw(double x, int time_indx, GENDER gender_internal)
 {
 	int indx = -1;
 	double prev_lx = 1;
 	double lx = 1;
-	int time_indx = 0;
 	while (x <= lx)
 	{
 		indx++;
-		time_indx = indx > 40 ? 40 : indx;
+		time_indx++;
+		if (time_indx > 40)
+		{
+			time_indx = 40;
+		};
 		prev_lx = lx;
-		lx = HIVFreeLifeTable[F][indx][time_indx];
+		lx = HIVFreeLifeTable[gender_internal][indx][time_indx];
 	};
 	return(indx + ((x - lx) / (prev_lx - lx)));
 };
@@ -30,7 +33,7 @@ TIME Child::timeMortalityEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	double draw = RandUniform(5);
-	tEventTime = CLifeTableDraw(draw);
+	tEventTime = CLifeTableDraw(draw, mother_age_at_birth, gender);
 	tEventTime = WAIT(tEventTime);
 	return tEventTime;
 };
