@@ -85,6 +85,13 @@ table Mother ageAtBirth //EN Age of mother at birth of children
 	}
 };
 
+table Child momAgeAtBirth //EN Age of mother at birth of children fc
+{
+	{
+		mother_age_at_birth / unit //EN Avg mom age at birth
+	}
+};
+
 table Mother FertDetails //EN Number of children per mother
 [alive == FALSE]
 {

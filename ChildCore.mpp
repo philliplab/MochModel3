@@ -27,11 +27,13 @@ actor Child            //EN Individual
 	logical mother_showing_symptoms = {FALSE};
 	GENDER gender;
 	LIFE integer_age = self_scheduling_int(age);
+	double mother_age_at_birth = {0};
 
 	void Mother_Infect();
 	void Mother_Die();
 	void Mother_Symptoms();
 	void Mother_Treat();
+	void Set_Mother_Age(double m_age);
 	void Start();
 	void Finish();
 };
@@ -59,6 +61,11 @@ void Child::Mother_Treat()
 	mother_disease_status_fm = TREATED;
 	mother_showing_symptoms = FALSE;
 	mother_disease_status_detailed_fm = TREATED_;
+};
+
+void Child::Set_Mother_Age(double m_age)
+{
+	mother_age_at_birth = m_age;
 };
 
 void Child::Start()
