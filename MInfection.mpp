@@ -3,10 +3,16 @@ range INCIDENCE_RATES_SOURCE
 	0,2
 };
 
+range INCIDENCE_LIFE
+{
+	14, 59
+};
+
 parameters
 {
 	INCIDENCE_RATES_SOURCE IncidenceRatesSource;
-	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE];
+	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE]; //OLD
+	double IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME]; //NEW
 };
 
 parameter_group Incidence
