@@ -52,6 +52,10 @@ parameters {
 		(16) 1, 
 	};
 
+	double ChildIncidenceMultipliers[DISEASE_STATE_DETAILED] = {
+		1, 1, 1, 1, 1, 1
+	};
+
 	 //EN DropOutRates
 	double	DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS] = {
 		// F, HIGH
