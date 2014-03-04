@@ -11,13 +11,13 @@ range INCIDENCE_LIFE
 parameters
 {
 	INCIDENCE_RATES_SOURCE IncidenceRatesSource;
-	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE]; //OLD
-	double IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME]; //NEW
+	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE];
+	double IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME];
 };
 
 parameter_group Incidence
 { //EN Mothers' Mortality Parameters
-	IncidenceRatesSource, IncidenceRates
+	IncidenceTable
 };
 
 actor Mother            //EN Individual
@@ -25,18 +25,36 @@ actor Mother            //EN Individual
 	event timeInfectionEvent, InfectionEvent;
 };
 
+double IncidenceTableDraw(double x)
+{
+	double infection_time = pow(10,10);
+	int indx = -1; //indx = 0 means incidence life = 14
+	double prev_not_hiv_prob = 1;
+	double not_hiv_prob = 1;
+	double curr_not_hiv_prob = 1;
+	int time_indx = 0;
+	while (x <= not_hiv_prob & indx < 45)
+	{
+		indx++;
+		time_indx = indx > 40 ? 40 : indx;
+		prev_not_hiv_prob = not_hiv_prob;
+		curr_not_hiv_prob = IncidenceTable[F][indx][time_indx];
+		not_hiv_prob = not_hiv_prob * (1 - curr_not_hiv_prob);
+	};
+	if (x > not_hiv_prob)
+	{
+		infection_time = indx + ((x - not_hiv_prob) / (prev_not_hiv_prob + not_hiv_prob));
+	};
+	return(infection_time);
+};
+
 TIME Mother::timeInfectionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (disease_status == HEALTHY){
-		double curr_incidence = IncidenceRates[IncidenceRatesSource][integer_age];
-		if (curr_incidence >= 1){
-			tEventTime = WAIT(0);
-		} else if (curr_incidence > 0){
-			tEventTime = WAIT(-log(RandUniform(2)) / -log(1 - curr_incidence));
-		};
+			tEventTime = WAIT(IncidenceTableDraw(RandUniform(2)));
 	};
-	return tEventTime;
+	return(tEventTime);
 };
 
 void Mother::InfectionEvent()

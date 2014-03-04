@@ -38,7 +38,7 @@ parameter_group MotherMortality
 
 parameter_group Deprecated
 {
-	MHealthyMortShape, MHealthyMortScale, CHealthyMortShape, CHealthyMortScale
+	MHealthyMortShape, MHealthyMortScale, CHealthyMortShape, CHealthyMortScale, IncidenceRatesSource, IncidenceRates
 };
 
 actor Mother            //EN Individual
