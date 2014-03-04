@@ -1,6 +1,7 @@
 actor Child            //EN Individual
 {
 	logical infected = {FALSE};
+	int integer_time = self_scheduling_int(time);
 	event timeInfectionEvent, InfectionEvent;
 };
 
@@ -8,7 +9,17 @@ TIME Child::timeInfectionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (infected == FALSE & ChildModelType == INFECTION){
-		double curr_incidence = IncidenceRates[IncidenceRatesSource][integer_age];
+		int age_indx = integer_age - 14;
+		int time_indx = integer_time > 40 ? 40 : integer_time;
+		double curr_incidence = 0;
+		if (age_indx < 0)
+		{
+			curr_incidence = 0;
+		};
+		if (age_indx < 46 & age_indx >= 0)
+		{
+			curr_incidence = IncidenceTable[gender][age_indx][time_indx];
+		};
 		if (curr_incidence >= 1){
 			tEventTime = WAIT(0);
 		} else if (curr_incidence > 0){
