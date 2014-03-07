@@ -95,7 +95,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="app.ico" />
-    <None Include="Base(MotherCore).dat" />
     <None Include="Base.scex">
       <SubType>Designer</SubType>
     </None>
@@ -119,6 +118,7 @@
     <None Include="MTreatment.mpp" />
     <None Include="parse.inf" />
     <None Include="ReadMe.txt" />
+    <None Include="scenarios\Base(MotherCore).dat" />
     <None Include="Tables.mpp" />
     <None Include="TickerCore.mpp" />
   </ItemGroup>

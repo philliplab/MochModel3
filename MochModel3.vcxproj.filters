@@ -33,9 +33,6 @@
     <None Include="parse.inf">
       <Filter>C++ Files</Filter>
     </None>
-    <None Include="Base(MotherCore).dat">
-      <Filter>Scenarios</Filter>
-    </None>
     <None Include="Base.scex" />
     <None Include="ReadMe.txt" />
     <None Include="MFertility.mpp">
@@ -85,6 +82,9 @@
     </None>
     <None Include="CDepression.mpp">
       <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="scenarios\Base(MotherCore).dat">
+      <Filter>Scenarios</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
