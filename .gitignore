@@ -14,3 +14,4 @@ Base*txt
 *.INF
 *.mdb
 Release/*
+*.xls
