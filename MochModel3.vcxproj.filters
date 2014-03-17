@@ -74,9 +74,6 @@
     <None Include="MChronicIllness.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
-    <None Include="CInfection.mpp">
-      <Filter>Modules %28mpp%29</Filter>
-    </None>
     <None Include="CAbuse.mpp">
       <Filter>Modules %28mpp%29</Filter>
     </None>
@@ -146,9 +143,6 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="MChronicIllness.cpp">
-      <Filter>C++ Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CInfection.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="CAbuse.cpp">

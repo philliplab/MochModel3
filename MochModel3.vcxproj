@@ -101,7 +101,6 @@
     <None Include="CAbuse.mpp" />
     <None Include="CDepression.mpp" />
     <None Include="ChildCore.mpp" />
-    <None Include="CInfection.mpp" />
     <None Include="CMortality.mpp" />
     <None Include="CSchoolDropout.mpp" />
     <None Include="CSchoolGraduation.mpp" />
@@ -127,7 +126,6 @@
     <ClCompile Include="CAbuse.cpp" />
     <ClCompile Include="CDepression.cpp" />
     <ClCompile Include="ChildCore.cpp" />
-    <ClCompile Include="CInfection.cpp" />
     <ClCompile Include="CMortality.cpp" />
     <ClCompile Include="CSchoolDropout.cpp" />
     <ClCompile Include="CSchoolGraduation.cpp" />

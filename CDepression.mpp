@@ -26,7 +26,7 @@ actor Child
 double Child::timeDepressionAgeEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (ChildModelType == ABUSE_DEPRESSION)
+	if (ChildModelType == RISK_FACTORS)
 	{
 		tEventTime = WAIT(wait_till_depression_age);
 	};

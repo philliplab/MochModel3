@@ -39,7 +39,7 @@ table Child AgeAtBirthChild //EN Age of mother at birth of children on Child
 
 // make_all_transition_names('mother_disease_status_detailed_fm', c('HEALTHY_', 'INFECTED_', 'SYMPTOMS_', 'DIAGNOSED_', 'TREATED_', 'DEAD_'))
 
-table Child AllTransitionsChild
+table Child AllDiseaseTransitionsChild
 {
 	integer_age+ //EN Integer Age
 	*
@@ -77,6 +77,50 @@ table Child AllTransitionsChild
 	}
 };
 
+// make_all_transition_names('school_status', c('NOT_IN_SCHOOL', 'IN_SCHOOL', 'DROPOUT', 'GRADUATED'))
+
+table Child AllSchoolTransitionsChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( school_status, NOT_IN_SCHOOL, IN_SCHOOL ),
+		undergone_transition( school_status, NOT_IN_SCHOOL, DROPOUT ),
+		undergone_transition( school_status, NOT_IN_SCHOOL, GRADUATED ),
+		undergone_transition( school_status, IN_SCHOOL, NOT_IN_SCHOOL ),
+		undergone_transition( school_status, IN_SCHOOL, DROPOUT ),
+		undergone_transition( school_status, IN_SCHOOL, GRADUATED ),
+		undergone_transition( school_status, DROPOUT, NOT_IN_SCHOOL ),
+		undergone_transition( school_status, DROPOUT, IN_SCHOOL ),
+		undergone_transition( school_status, DROPOUT, GRADUATED ),
+		undergone_transition( school_status, GRADUATED, NOT_IN_SCHOOL ),
+		undergone_transition( school_status, GRADUATED, IN_SCHOOL ),
+		undergone_transition( school_status, GRADUATED, DROPOUT )
+	}
+};
+
+table Child AllAbuseTransitionsChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( abused, TRUE, FALSE ),
+		undergone_transition( abused, FALSE, TRUE )
+	}
+};
+
+table Child AllDepressionTransitionsChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( depressed, TRUE, FALSE ),
+		undergone_transition( depressed, FALSE, TRUE )
+	}
+};
+
+
+
 //Mother
 
 table Mother DurationOfLifeMother //EN Duration of Life of Mothers
@@ -100,7 +144,7 @@ table Mother AgeAtBirthMother //EN Age of mother at birth of children on Mother
 
 // make_all_transition_names('disease_status_detailed', c('HEALTHY_', 'INFECTED_', 'SYMPTOMS_', 'DIAGNOSED_', 'TREATED_', 'DEAD_'))
 
-table Mother AllTransitionsMother
+table Mother AllDiseaseTransitionsMother
 {
 	integer_age+ //EN Integer Age
 	*
@@ -147,18 +191,6 @@ table Child MotherEventAgeHist_fm //EN Age of child at mother events
 	{
 		entrances(alive, FALSE),
 		entrances(mother_disease_status_fm, INFECTED)
-	}
-};
-
-table Child InfectionAge //EN Age of child at infection
-{
-	self_scheduling_split(age, SCHOOL_AGE_BINS)+
-	*
-	{
-		unit,
-		entrances(infected, TRUE),
-		entrances(abused, TRUE),
-		entrances(depressed, TRUE)
 	}
 };
 
@@ -336,5 +368,6 @@ table_group C_OUT_OF_TABLES
 
 table_group TESTING
 {
-	AllTransitionsChild, AllTransitionsMother
+	AllDiseaseTransitionsChild, AllDiseaseTransitionsMother, AllSchoolTransitionsChild, 
+	AllAbuseTransitionsChild, AllDepressionTransitionsChild
 };

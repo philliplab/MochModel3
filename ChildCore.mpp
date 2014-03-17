@@ -7,8 +7,7 @@ parameters
 classification CHILD_MODEL_TYPE
 {
 	SCHOOLING,
-	INFECTION,
-	ABUSE_DEPRESSION
+	RISK_FACTORS
 };
 
 classification GENDER
