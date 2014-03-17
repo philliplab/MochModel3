@@ -33,6 +33,7 @@ actor Child            //EN Individual
 	void Mother_Die();
 	void Mother_Symptoms();
 	void Mother_Treat();
+	void Mother_Diagnose();
 	void Set_Mother_Age(double m_age);
 	void Start();
 	void Finish();
@@ -61,6 +62,11 @@ void Child::Mother_Treat()
 	mother_disease_status_fm = TREATED;
 	mother_showing_symptoms = FALSE;
 	mother_disease_status_detailed_fm = TREATED_;
+};
+
+void Child::Mother_Diagnose()
+{
+	mother_disease_status_detailed_fm = DIAGNOSED_;
 };
 
 void Child::Set_Mother_Age(double m_age)

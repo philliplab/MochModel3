@@ -5,33 +5,140 @@ partition SCHOOL_AGE_BINS
 
 partition BIRTH_AGES
 {
-	10, 15, 20, 25, 30, 35, 40, 50, 60
+	10, 15, 20, 25, 30, 35, 40, 50, 60, 90
 };
 
 partition INFECTION_AGES
 {
-	0,1,2,3,4,5,10,20,30,40,50,75,100
+	0, 1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 75, 100
 };
 
-table Child DurationOfLifeChild //EN Duration of Life Child
+//Tables that have been quality checked
+
+// Child
+
+table Child DurationOfLifeChild //EN Duration of Life of Children
 {
 	{
 		value_in(alive),				//EN Population size
-		min_value_out(duration()),		//EN Minimum duration of life decimals=4
-		max_value_out(duration()),		//EN Maximum duration of life decimals=4
-		duration() / value_in(alive)	//EN Life expectancy decimals=4
+		min_value_out(duration()),		//EN Minimum duration of life decimals=2
+		max_value_out(duration()),		//EN Maximum duration of life decimals=2
+		duration() / value_in(alive)	//EN Life expectancy decimals=2
 	}	//EN Demographic characteristics
 };
 
-table Mother DurationOfLifeMother //EN Duration of Life Mother
+table Child AgeAtBirthChild //EN Age of mother at birth of children on Child
+[mother_age_at_birth > 0]
+{
+	split(mother_age_at_birth, BIRTH_AGES)+ //EN Mother Age
+	*
+	{
+		unit //EN Number of Births
+	}
+};
+
+// make_all_transition_names('mother_disease_status_detailed_fm', c('HEALTHY_', 'INFECTED_', 'SYMPTOMS_', 'DIAGNOSED_', 'TREATED_', 'DEAD_'))
+
+table Child AllTransitionsChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition(mother_disease_status_detailed_fm, HEALTHY_, INFECTED_),
+		undergone_transition(mother_disease_status_detailed_fm, HEALTHY_, SYMPTOMS_),
+		undergone_transition(mother_disease_status_detailed_fm, HEALTHY_, DIAGNOSED_),
+		undergone_transition(mother_disease_status_detailed_fm, HEALTHY_, TREATED_),
+		undergone_transition(mother_disease_status_detailed_fm, HEALTHY_, DEAD_),
+		undergone_transition(mother_disease_status_detailed_fm, INFECTED_, HEALTHY_),
+		undergone_transition(mother_disease_status_detailed_fm, INFECTED_, SYMPTOMS_),
+		undergone_transition(mother_disease_status_detailed_fm, INFECTED_, DIAGNOSED_),
+		undergone_transition(mother_disease_status_detailed_fm, INFECTED_, TREATED_),
+		undergone_transition(mother_disease_status_detailed_fm, INFECTED_, DEAD_),
+		undergone_transition(mother_disease_status_detailed_fm, SYMPTOMS_, HEALTHY_),
+		undergone_transition(mother_disease_status_detailed_fm, SYMPTOMS_, INFECTED_),
+		undergone_transition(mother_disease_status_detailed_fm, SYMPTOMS_, DIAGNOSED_),
+		undergone_transition(mother_disease_status_detailed_fm, SYMPTOMS_, TREATED_),
+		undergone_transition(mother_disease_status_detailed_fm, SYMPTOMS_, DEAD_),
+		undergone_transition(mother_disease_status_detailed_fm, DIAGNOSED_, HEALTHY_),
+		undergone_transition(mother_disease_status_detailed_fm, DIAGNOSED_, INFECTED_),
+		undergone_transition(mother_disease_status_detailed_fm, DIAGNOSED_, SYMPTOMS_),
+		undergone_transition(mother_disease_status_detailed_fm, DIAGNOSED_, TREATED_),
+		undergone_transition(mother_disease_status_detailed_fm, DIAGNOSED_, DEAD_),
+		undergone_transition(mother_disease_status_detailed_fm, TREATED_, HEALTHY_),
+		undergone_transition(mother_disease_status_detailed_fm, TREATED_, INFECTED_),
+		undergone_transition(mother_disease_status_detailed_fm, TREATED_, SYMPTOMS_),
+		undergone_transition(mother_disease_status_detailed_fm, TREATED_, DIAGNOSED_),
+		undergone_transition(mother_disease_status_detailed_fm, TREATED_, DEAD_),
+		undergone_transition(mother_disease_status_detailed_fm, DEAD_, HEALTHY_),
+		undergone_transition(mother_disease_status_detailed_fm, DEAD_, INFECTED_),
+		undergone_transition(mother_disease_status_detailed_fm, DEAD_, SYMPTOMS_),
+		undergone_transition(mother_disease_status_detailed_fm, DEAD_, DIAGNOSED_),
+		undergone_transition(mother_disease_status_detailed_fm, DEAD_, TREATED_)
+	}
+};
+
+//Mother
+
+table Mother DurationOfLifeMother //EN Duration of Life of Mothers
 {
 	{
 		value_in(alive),				//EN Population size
-		min_value_out(duration()),		//EN Minimum duration of life decimals=4
-		max_value_out(duration()),		//EN Maximum duration of life decimals=4
-		duration() / value_in(alive)	//EN Life expectancy decimals=4
+		min_value_out(duration()),		//EN Minimum duration of life decimals=2
+		max_value_out(duration()),		//EN Maximum duration of life decimals=2
+		duration() / value_in(alive)	//EN Life expectancy decimals=2
 	}	//EN Demographic characteristics
 };
+
+table Mother AgeAtBirthMother //EN Age of mother at birth of children on Mother
+{
+	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
+	*
+	{
+		changes(number_children) //EN Number of Births
+	}
+};
+
+// make_all_transition_names('disease_status_detailed', c('HEALTHY_', 'INFECTED_', 'SYMPTOMS_', 'DIAGNOSED_', 'TREATED_', 'DEAD_'))
+
+table Mother AllTransitionsMother
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( disease_status_detailed, HEALTHY_, INFECTED_ ),
+		undergone_transition( disease_status_detailed, HEALTHY_, SYMPTOMS_ ),
+		undergone_transition( disease_status_detailed, HEALTHY_, DIAGNOSED_ ),
+		undergone_transition( disease_status_detailed, HEALTHY_, TREATED_ ),
+		undergone_transition( disease_status_detailed, HEALTHY_, DEAD_ ),
+		undergone_transition( disease_status_detailed, INFECTED_, HEALTHY_ ),
+		undergone_transition( disease_status_detailed, INFECTED_, SYMPTOMS_ ),
+		undergone_transition( disease_status_detailed, INFECTED_, DIAGNOSED_ ),
+		undergone_transition( disease_status_detailed, INFECTED_, TREATED_ ),
+		undergone_transition( disease_status_detailed, INFECTED_, DEAD_ ),
+		undergone_transition( disease_status_detailed, SYMPTOMS_, HEALTHY_ ),
+		undergone_transition( disease_status_detailed, SYMPTOMS_, INFECTED_ ),
+		undergone_transition( disease_status_detailed, SYMPTOMS_, DIAGNOSED_ ),
+		undergone_transition( disease_status_detailed, SYMPTOMS_, TREATED_ ),
+		undergone_transition( disease_status_detailed, SYMPTOMS_, DEAD_ ),
+		undergone_transition( disease_status_detailed, DIAGNOSED_, HEALTHY_ ),
+		undergone_transition( disease_status_detailed, DIAGNOSED_, INFECTED_ ),
+		undergone_transition( disease_status_detailed, DIAGNOSED_, SYMPTOMS_ ),
+		undergone_transition( disease_status_detailed, DIAGNOSED_, TREATED_ ),
+		undergone_transition( disease_status_detailed, DIAGNOSED_, DEAD_ ),
+		undergone_transition( disease_status_detailed, TREATED_, HEALTHY_ ),
+		undergone_transition( disease_status_detailed, TREATED_, INFECTED_ ),
+		undergone_transition( disease_status_detailed, TREATED_, SYMPTOMS_ ),
+		undergone_transition( disease_status_detailed, TREATED_, DIAGNOSED_ ),
+		undergone_transition( disease_status_detailed, TREATED_, DEAD_ ),
+		undergone_transition( disease_status_detailed, DEAD_, HEALTHY_ ),
+		undergone_transition( disease_status_detailed, DEAD_, INFECTED_ ),
+		undergone_transition( disease_status_detailed, DEAD_, SYMPTOMS_ ),
+		undergone_transition( disease_status_detailed, DEAD_, DIAGNOSED_ ),
+		undergone_transition( disease_status_detailed, DEAD_, TREATED_ )
+	}
+};
+
+// UNCHECKED TABLES
 
 table Child MotherEventAgeHist_fm //EN Age of child at mother events
 {
@@ -83,22 +190,6 @@ table Mother MotherEventHist //EN Histogram of mother age at events
 		entrances(showing_symptoms, TRUE), //EN Age at Symptoms
 		entrances(disease_status, TREATED), //EN Age at Treatment
 		entrances(disease_status, DEAD) //EN Age at Death
-	}
-};
-
-table Mother ageAtBirth //EN Age of mother at birth of children
-{
-	self_scheduling_split(age, BIRTH_AGES)+ //EN Mother Age
-	*
-	{
-		changes(number_children) //EN Number of Births
-	}
-};
-
-table Child momAgeAtBirth //EN Age of mother at birth of children fc
-{
-	{
-		mother_age_at_birth / unit //EN Avg mom age at birth
 	}
 };
 
@@ -220,31 +311,17 @@ table Child MDSDdropout //EN MDSD_dropout
 	}
 };
 
-table Child testtable //EN testtable
-{
-	gender+ //EN Gender
-	*	
-	integer_age+ //EN Time since school start
-	*
-	{
-		unit,
-		undergone_transition(school_status, IN_SCHOOL, GRADUATED),
-		undergone_transition(school_status, IN_SCHOOL, DROPOUT),
-		exits(school_status, IN_SCHOOL)
-	}
-};
-
 ///////////////////////////////////////////////////////////////
 // Table Groups
 
 table_group CHILD
 {
-	DurationOfLifeChild, MotherEventAgeHist_fm, MotherEventCount_fm
+	DurationOfLifeChild, MotherEventAgeHist_fm, MotherEventCount_fm, AgeAtBirthChild
 };
 
 table_group MOTHER
 {
-	DurationOfLifeMother, MotherEventAges, MotherEventHist, ageAtBirth, FertDetails
+	DurationOfLifeMother, MotherEventAges, MotherEventHist, AgeAtBirthMother, FertDetails
 };
 
 table_group M_OUT_OF_TABLES
@@ -255,4 +332,9 @@ table_group M_OUT_OF_TABLES
 table_group C_OUT_OF_TABLES
 {
 	OutOfNotInSchool, OutOfInSchool
+};
+
+table_group TESTING
+{
+	AllTransitionsChild, AllTransitionsMother
 };
