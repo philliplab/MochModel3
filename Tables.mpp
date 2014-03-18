@@ -119,8 +119,6 @@ table Child AllDepressionTransitionsChild
 	}
 };
 
-
-
 //Mother
 
 table Mother DurationOfLifeMother //EN Duration of Life of Mothers
@@ -179,6 +177,21 @@ table Mother AllDiseaseTransitionsMother
 		undergone_transition( disease_status_detailed, DEAD_, SYMPTOMS_ ),
 		undergone_transition( disease_status_detailed, DEAD_, DIAGNOSED_ ),
 		undergone_transition( disease_status_detailed, DEAD_, TREATED_ )
+	}
+};
+
+table Mother MotherLifeTable //EN Mother life Table
+{
+	integer_age //EN Age
+	*
+	{
+		unit, //EN lx
+		entrances(disease_status_detailed, DEAD_), //EN Deaths
+		entrances(disease_status_detailed, INFECTED_), //EN New_Infections
+		duration(disease_status_detailed, INFECTED_) + 
+			duration(disease_status_detailed, DIAGNOSED_) +
+			duration(disease_status_detailed, SYMPTOMS_) + 
+			duration(disease_status_detailed, TREATED_) //EN Infected
 	}
 };
 
@@ -353,7 +366,7 @@ table_group CHILD
 
 table_group MOTHER
 {
-	DurationOfLifeMother, MotherEventAges, MotherEventHist, AgeAtBirthMother, FertDetails
+	DurationOfLifeMother, MotherEventAges, MotherEventHist, AgeAtBirthMother, FertDetails, MotherLifeTable
 };
 
 table_group M_OUT_OF_TABLES
