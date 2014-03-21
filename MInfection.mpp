@@ -22,7 +22,23 @@ parameter_group Incidence
 
 actor Mother            //EN Individual
 {
+	logical infectible = {FALSE};
+	event timeBecomeInfectibleEvent, BecomeInfectibleEvent;
 	event timeInfectionEvent, InfectionEvent;
+};
+
+TIME Mother::timeBecomeInfectibleEvent()
+{
+	TIME tEventTime = TIME_INFINITE;
+	if (infectible == FALSE){
+			tEventTime = WAIT(15);
+	};
+	return(tEventTime);
+};
+
+void Mother::BecomeInfectibleEvent()
+{
+	infectible = TRUE;
 };
 
 double IncidenceTableDraw(double x)
@@ -51,7 +67,7 @@ double IncidenceTableDraw(double x)
 TIME Mother::timeInfectionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (disease_status == HEALTHY){
+	if (disease_status == HEALTHY & infectible == TRUE){
 			tEventTime = WAIT(IncidenceTableDraw(RandUniform(2)));
 	};
 	return(tEventTime);

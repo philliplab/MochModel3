@@ -185,7 +185,7 @@ table Mother MotherLifeTable //EN Mother life Table
 	integer_age //EN Age
 	*
 	{
-		unit, //EN lx
+		unit, //EN Alive
 		entrances(disease_status_detailed, DEAD_), //EN Deaths
 		entrances(disease_status_detailed, INFECTED_), //EN New_Infections
 		duration(disease_status_detailed, INFECTED_) + 
