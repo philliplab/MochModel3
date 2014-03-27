@@ -115,9 +115,6 @@
     <ClCompile Include="MMortality.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
-    <ClCompile Include="MInf_Mortality.cpp">
-      <Filter>C++ Files</Filter>
-    </ClCompile>
     <ClCompile Include="CMortality.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>

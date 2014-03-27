@@ -4,6 +4,96 @@
 	This module contains core simulation functions and definitions.
 */
 
+//LABEL(model, EN) Model for HIV-affected Children
+
+/* NOTE(model, EN)
+    Purpose:
+	
+	This model explores the effect of a mother's HIV status on the mother's
+	children. Particularly the effect on the children's schooling and HIV
+	risk is explored.
+
+	State variables and scales:
+
+	Two types of agents are present in the model - mothers and children.
+
+	Mothers are characterized by these state variables:
+	- age
+	- disease status (disease_status_detailed)
+	- fertile
+	- infectible
+	- number of children (number_children)
+	- List of children (Mother.mlChild[])
+
+	The disease status of the mother is constructed from various other variables (For example showing_symptoms (True/False)).
+	Disease status was implemented in this way to allow finer control over when the various events that depend on
+	the disease status are rescheduled.
+
+	Children are characterized by these state variables:
+	- age
+	- gender
+	- alive
+	- Age of the mother at the birth of the child (mother_age_at_birth)
+	- Mother's disease status (mother_disease_status_detailed_fm)
+	- school_status
+	- abused
+	- depressed
+	- Mother (Child.lMother)
+
+	All mothers are born at exactly the same time and the model is run for 100 years after the mothers are born. 
+	This is long enough to ensure that all children have become adults. Children cannot have children of their own.
+
+	Process overview and scheduling
+
+	The model is implemented in continuous time and is driven by events. Events compete with each other. If an event occurs,
+	the state of the agent is updated. Any previously scheduled events that depends on the states that were changed are
+	rescheduled. If the state change makes the agent eligible for any events that the agent were not previously eligible for,
+	these events are also scheduled as soon as the state of the actor is changed.
+
+	The following processes are present in the agents of the model:
+	- Disease progression of the mother (Uninfected, infected, diagnosed, showing symptoms, treated, death)
+	- Birth of children
+	- School status of the child
+	- Abuse status of the child
+	- Depression status of the child
+	- Death of the child
+
+	Design concepts:
+	
+	Emergence: 
+	
+	Proportions of children that complete school or dropout and the risk behaviours of the child emerge from the
+	way the status of the mothers affect the children. However, the lives of both the mother and the children are
+	completely specified as probabilities.
+
+	Adaptation, fitness-seeking, and sensing:
+
+	The model does not use any of these concepts.
+
+	Interaction:
+
+	The only interaction present in the model is when mothers give birth to children. The associates a child with a mother
+	allowing the mother's disease status to affect the probabilities of the child to experience certain events.
+
+	Stochasticity:
+
+	All parameters are stochasically implemented as annual probabilities or are drawn from distributions.
+	- HIV-free mortality is implemented as life tables
+	- Infected and treated mortality is implemented using smooth survival curves given by 1 - (the CDF of weibull distributions)
+	- Fertility, Abuse, Depression and school dropout are implemented from tables of annual probabilities
+	- Diagnosis and treatment are implemented as exponential rates
+	- School start is implemented as a uniform distribution between 5.5 and 7
+
+	Observation:
+
+	Various tables accumulate counts and summary statistics of quantities of interest. 
+	For example frequency tables of the age at infection.
+
+	Initialization:
+	
+	TODO
+*/
+
 // The model version number
 version 1, 0, 0, 0;
 

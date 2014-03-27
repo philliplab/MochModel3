@@ -134,7 +134,6 @@
     <ClCompile Include="MDiagnosis.cpp" />
     <ClCompile Include="MFertility.cpp" />
     <ClCompile Include="MInfection.cpp" />
-    <ClCompile Include="MInf_Mortality.cpp" />
     <ClCompile Include="MMortality.cpp" />
     <ClCompile Include="MochModel3.cpp" />
     <ClCompile Include="ModelStrings.cpp" />
