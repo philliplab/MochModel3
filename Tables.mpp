@@ -119,6 +119,27 @@ table Child AllDepressionTransitionsChild
 	}
 };
 
+table Child RiskChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( abused, FALSE, TRUE ), //EN Became abused
+		undergone_transition( depressed, FALSE, TRUE ) //EN Became depressed
+	}
+};
+
+table Child SchoolChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( school_status, NOT_IN_SCHOOL, IN_SCHOOL ), //EN Starting School
+		undergone_transition( school_status, IN_SCHOOL, DROPOUT ), //EN Dropout
+		undergone_transition( school_status, IN_SCHOOL, GRADUATED ) //EN Graduated
+	}
+};
+
 //Mother
 
 table Mother DurationOfLifeMother //EN Duration of Life of Mothers
@@ -372,12 +393,12 @@ table Child MDSDdropout //EN MDSD_dropout
 
 table_group CHILD
 {
-	DurationOfLifeChild, MotherEventAgeHist_fm, MotherEventCount_fm, AgeAtBirthChild
+	DurationOfLifeChild, RiskChild, SchoolChild
 };
 
 table_group MOTHER
 {
-	DurationOfLifeMother, MotherEventAges, MotherEventHist, AgeAtBirthMother, FertDetails, MotherLifeTable
+	DurationOfLifeMother, FertDetails, MotherLifeTable
 };
 
 table_group M_OUT_OF_TABLES
@@ -394,4 +415,10 @@ table_group TESTING
 {
 	AllDiseaseTransitionsChild, AllDiseaseTransitionsMother, AllSchoolTransitionsChild, 
 	AllAbuseTransitionsChild, AllDepressionTransitionsChild, AllinfectibleTransitionsMother
+};
+
+table_group UNCATEGORIZED_TABLES
+{
+	MotherEventAgeHist_fm, MotherEventCount_fm, AgeAtBirthChild,
+	MotherEventAges, MotherEventHist, AgeAtBirthMother
 };

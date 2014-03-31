@@ -69,6 +69,9 @@ double depressionTime(DEPRESSION_YEARS curr_age, GENDER gender_internal, DISEASE
 	if (x > notDeproProb)
 	{
 		depro_time = indx + ((x - notDeproProb) / (prevnotDeproProb - notDeproProb));
+		if (depro_time + curr_age > 19){
+		    depro_time = pow(10,10);
+		};
 	};
 	return(depro_time);
 };

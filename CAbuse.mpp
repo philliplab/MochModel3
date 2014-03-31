@@ -55,6 +55,9 @@ double abuseTime(DEPRESSION_YEARS curr_age, GENDER gender_internal, DISEASE_STAT
 	if (x > notAbuseProb)
 	{
 		abuse_time = indx + ((x - notAbuseProb) / (prevnotAbuseProb - notAbuseProb));
+		if (abuse_time + curr_age > 19){
+		    abuse_time = pow(10,10);
+		};
 	};
 	return(abuse_time);
 };
