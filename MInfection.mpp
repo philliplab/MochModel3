@@ -1,3 +1,31 @@
+//LABEL(MInfection, EN) Infection events for Mothers
+
+/* NOTE(MInfection, EN)
+	This module contains all the incidence functions for the mothers. Infections
+	consists of two events. First a person must become infectible - this happens
+	at age 15. Once a person becomes infectible, an infection event is scheduled.
+
+	- Data source and assumptions
+
+	The incidence rates are obtained from the 2008 ASSA model. The ASSA model was
+	run for 40 years with the default inputs. The total population, the HIV+
+	population and the new infections were extracted for each age for each model 
+	year for each gender. Incidence (age, time and gender specific) was computed 
+	as the (new infections / (total population - HIV+ population))
+
+	- Implementation details
+
+	Upon birth, the 'become infectible' event is scheduled 15 years into the future.
+	Once a person becomes infectible, a curve depicting the probability of not
+	being infected is drawn for the subject. This curve is equivalent to a kaplan-meier
+	curve.
+
+	A random uniform number is drawn for a mother. This random number is
+	placed on the y axis of the curve and the age of infection
+	is read off from the x-axis. Linear interpolation is used to assign
+	ages on a continuous scale.
+*/
+
 range INCIDENCE_RATES_SOURCE
 {
 	0,2
@@ -31,7 +59,7 @@ TIME Mother::timeBecomeInfectibleEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (infectible == FALSE){
-			tEventTime = WAIT(15);
+			tEventTime = WAIT(14);
 	};
 	return(tEventTime);
 };
@@ -48,18 +76,21 @@ double IncidenceTableDraw(double x)
 	double prev_not_hiv_prob = 1;
 	double not_hiv_prob = 1;
 	double curr_not_hiv_prob = 1;
-	int time_indx = 0;
+	int time_indx = 14;
 	while (x <= not_hiv_prob & indx < 45)
 	{
 		indx++;
-		time_indx = indx > 40 ? 40 : indx;
+		time_indx++;
+		if (time_indx > 40){
+			time_indx = 40;
+		};
 		prev_not_hiv_prob = not_hiv_prob;
 		curr_not_hiv_prob = IncidenceTable[F][indx][time_indx];
 		not_hiv_prob = not_hiv_prob * (1 - curr_not_hiv_prob);
 	};
 	if (x > not_hiv_prob)
 	{
-		infection_time = indx + ((x - not_hiv_prob) / (prev_not_hiv_prob + not_hiv_prob));
+		infection_time = indx + ((x - not_hiv_prob) / (prev_not_hiv_prob - not_hiv_prob));
 	};
 	return(infection_time);
 };

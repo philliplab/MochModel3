@@ -91,7 +91,13 @@
 
 	Initialization:
 	
-	TODO
+	TODO - Complete this section
+
+	A number of mothers (specified by the StartingPopulation parameter) is created with age 0 at time 0.
+	Time 0 in the model corresponds to the year 1985 in the ASSA model.
+
+	An alternative approach might be to vary the ages of the mother according to the life table
+	of 1985 in the ASSA model?
 
 	Input
 

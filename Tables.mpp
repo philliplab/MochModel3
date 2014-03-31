@@ -10,7 +10,7 @@ partition BIRTH_AGES
 
 partition INFECTION_AGES
 {
-	0, 1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 75, 100
+	0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50, 75, 100
 };
 
 //Tables that have been quality checked
@@ -194,6 +194,17 @@ table Mother MotherLifeTable //EN Mother life Table
 			duration(disease_status_detailed, TREATED_) //EN Infected
 	}
 };
+
+table Mother AllinfectibleTransitionsMother
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( infectible, TRUE, FALSE ),
+		undergone_transition( infectible, FALSE, TRUE )
+	}
+};
+
 
 // UNCHECKED TABLES
 
@@ -382,5 +393,5 @@ table_group C_OUT_OF_TABLES
 table_group TESTING
 {
 	AllDiseaseTransitionsChild, AllDiseaseTransitionsMother, AllSchoolTransitionsChild, 
-	AllAbuseTransitionsChild, AllDepressionTransitionsChild
+	AllAbuseTransitionsChild, AllDepressionTransitionsChild, AllinfectibleTransitionsMother
 };
