@@ -1,4 +1,66 @@
+//LABEL(MMortality, EN) Mortality functions for Mothers
 
+/* NOTE(MMortality, EN)
+	This module contains all the mortality functions for the mothers. There
+	are three different types of mortality implemented:
+
+	- Mortality for Healthy Mothers
+	- Mortality for Infected Mothers
+	- Mortality for Treated Mothers
+
+	Mortality for Healthy Mothers
+
+	- Data source and assumptions
+
+	The 2008 ASSA model was used to obtain HIV-free mortality estimates. The
+	ASSA model was run with 0% chance of transmitting HIV. This means that
+	all the mortality that the model produced was due to factors other than
+	HIV. The model was run for 40 years (1985 to 2025). The populations of 
+	Males and Females were extracted from the Population worksheet. The
+	extract included ages 0 to 90. A life table was constructed for each
+	modelled year by assuming that the population at age 0 was the initial
+	population and the populations for each subsequent years are those
+	that survived to those respective ages. Is is assumed that all people
+	alive at age 90 die between ages 90 and 91 according to a uniform
+	distribution.
+
+	This is not a good way to construct mortality tables since it does not
+	account for new migrations or for imigrants currently in the population.
+
+	Another way to approach this might be to use the predicted deaths in
+	the population and to compare that to the population. That can then be
+	used to compute the probability of dying in each year. Migration might
+	again cause issues with this approch.
+
+	Perhaps the best would be to use the second apprach AND to switch off
+	migration? Or should one rather consult the documentation for the model
+	and use the same formulas to construct mortality functions instead?
+
+	Note another issue introduced in the description of the implementation
+	details below. I am now convinced that the best way to implement mortality
+	is with annual death probabilities and to redraw events each year.
+
+	- Implementation Details
+
+	A Kaplan-Meier curve was constructed using the life table from above.
+	This Kaplan-Meier curve depends on the gender of the subject. The curve
+	is constructed by reading of the lx value that the mother will be exposed
+	to in each year. This causes another issue namely, the Kaplan-Meier curve
+	is not neccesarily monotonically decreasing.
+
+	A random uniform number is drawn for a mother. This random number is
+	placed on the y axis of the Kaplan-Meier curve and the age of death
+	is read off from the x-axis. Linear interpolation is used to assign
+	ages on a continuous scale.
+
+	Mortality for Infected Mothers
+
+	TODO - detailed documentation (1 - Weibull CDF)
+
+    Mortality for Treated Mothers
+
+	TODO - detailed documentation (1 - Weibull CDF)	
+	*/
 
 range MORT_LIFE
 {
