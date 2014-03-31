@@ -92,6 +92,16 @@
 	Initialization:
 	
 	TODO
+
+	Input
+
+	TODO
+
+	Submodels:
+
+	The submodels are documented elsewhere. In modgen language a submodel is called 
+	a module. Follow the modules link below to a table of the modules. From there
+	you can access the documentation for each individual submodel.
 */
 
 // The model version number

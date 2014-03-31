@@ -1,3 +1,5 @@
+
+
 range MORT_LIFE
 {
 	0,90
@@ -72,6 +74,9 @@ double LifeTableDraw(double x)
 		prev_lx = lx;
 		lx = HIVFreeLifeTable[F][indx][time_indx];
 	};
+	if (indx == -1){
+		indx = 0;
+	}; // Small correction for when mother dies between ages 0 and 1.
 	return(indx + ((x - lx) / (prev_lx - lx)));
 };
 

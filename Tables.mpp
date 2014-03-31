@@ -21,8 +21,8 @@ table Child DurationOfLifeChild //EN Duration of Life of Children
 {
 	{
 		value_in(alive),				//EN Population size
-		min_value_out(duration()),		//EN Minimum duration of life decimals=2
-		max_value_out(duration()),		//EN Maximum duration of life decimals=2
+		min_value_out(duration()),		//EN Minimum duration of life decimals=5
+		max_value_out(duration()),		//EN Maximum duration of life decimals=5
 		duration() / value_in(alive)	//EN Life expectancy decimals=2
 	}	//EN Demographic characteristics
 };
@@ -125,8 +125,8 @@ table Mother DurationOfLifeMother //EN Duration of Life of Mothers
 {
 	{
 		value_in(alive),				//EN Population size
-		min_value_out(duration()),		//EN Minimum duration of life decimals=2
-		max_value_out(duration()),		//EN Maximum duration of life decimals=2
+		min_value_out(duration()),		//EN Minimum duration of life decimals=5
+		max_value_out(duration()),		//EN Maximum duration of life decimals=5
 		duration() / value_in(alive)	//EN Life expectancy decimals=2
 	}	//EN Demographic characteristics
 };
