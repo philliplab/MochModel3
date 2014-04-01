@@ -208,6 +208,8 @@ parameters {
 	The ulitmate mortality and the mortality improvement factors can also
 	be found in the 2008 ASSA model. For more details, see the documentation
 	of the 2008 ASSA model.
+	Data files: ASSA2008_incidence_and_mort.xls, Extracted_black_mortality.xlsx,
+	HIVFreeMortality.csv
 */
 
 	double	HIVFreeMortality[GENDER][MORT_LIFE][MORT_TIME] = {
