@@ -62,15 +62,28 @@
 	TODO - detailed documentation (1 - Weibull CDF)	
 	*/
 
-range MORT_LIFE
+range MORT_LIFE //EN Mortality Life Range
 {
 	0,90
 };
 
-range MORT_TIME
+/* NOTE(MORT_LIFE, EN)
+    The range of ages that the mortality data spans.
+	This conforms to the data specifications of the
+	2008 ASSA model.
+*/
+
+range MORT_TIME //EN ASSA model Time Range
 {
 	0,40
 };
+
+/* NOTE(MORT_TIME, EN)
+    The time range for the mortality and incidence source data.
+	The original source for this data is the
+	2008 ASSA model's black population. This model was
+	designed for a time span of 40 years.
+*/
 
 parameters
 {
@@ -91,8 +104,15 @@ parameters
 
 	double MIMort_SMort_Corr;
 
-	double HIVFreeLifeTable[GENDER][MORT_LIFE][MORT_TIME];
+	double HIVFreeMortality[GENDER][MORT_LIFE][MORT_TIME]; //EN HIV-Free Mortality
 };
+	
+/* NOTE (HIVFreeMortality, EN)
+    A table containing the qx values for the population being modelled.
+	qx is the probability of dying between ages x and x+1 given that
+	the person is currently precisely x years old (not x years and 5 days,
+	just x years and 0 days). This table is both time and gender specific.
+*/
 
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
@@ -134,7 +154,7 @@ double LifeTableDraw(double x)
 		indx++;
 		time_indx = indx > 40 ? 40 : indx;
 		prev_lx = lx;
-		lx = HIVFreeLifeTable[F][indx][time_indx];
+		lx = HIVFreeMortality[F][indx][time_indx];
 	};
 	if (indx == -1){
 		indx = 0;

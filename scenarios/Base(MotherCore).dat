@@ -196,8 +196,21 @@ parameters {
 		0.131917768, 0.145320035, 0.16441078, 0.185394198, 0.208298255, 0.233109906, 0.259768181, 
 	};
 
-	 //EN HIVFreeLifeTable
-	double	HIVFreeLifeTable[GENDER][MORT_LIFE][MORT_TIME] = {
+	//EN HIV-Free Mortality
+	
+/* NOTE (HIVFreeMortality, EN)
+    This table was obtained by extracting the input mortality rates
+	for the black population in the 2008 ASSA model. There rates covers
+	the period 1985 to 2007. This was expanded until 2025 with the
+	following formula: (a - b) * (c ^ (curr_year - 2007)) + b, 
+	where a is the current mortality, b is the ultimate mortality and
+	c is the mortality improvement factor.
+	The ulitmate mortality and the mortality improvement factors can also
+	be found in the 2008 ASSA model. For more details, see the documentation
+	of the 2008 ASSA model.
+*/
+
+	double	HIVFreeMortality[GENDER][MORT_LIFE][MORT_TIME] = {
 		// F
 		0.97415794, 0.98684231, 0.96946382, 0.96948871, 0.9695938, 0.96945302, 0.96291062, 0.96265857, 0.96131595, 0.9577003, 0.95793693, 0.96343092, 0.93547659, 0.98584061, 0.98766637, 0.98492521, 0.9856755, 0.97559236, 0.97838179, 0.99178384, 0.99295046, 0.99405062, 0.99510135, 0.98655925, 0.98728845, 0.98776737, 0.98822451, 0.9883876, 0.98844304, 0.98864644, 0.98887188, 0.98909003, 0.98925015, 0.98933761, 0.98947878, 0.98974047, 0.99009545, 0.99047669, 0.99081568, 0.99109504, 0.99133177, 
 		0.9486052, 0.97435228, 0.9705913, 0.95350445, 0.95343553, 0.9533506, 0.94680489, 0.93991616, 0.9395936, 0.93432052, 0.9315459, 0.93876621, 0.91107208, 0.92964611, 0.98357012, 0.98247389, 0.98029164, 0.97080395, 0.96333409, 0.97914313, 0.99356833, 0.99567185, 0.99766193, 0.98998949, 0.98205508, 0.98310878, 0.9838935, 0.98436745, 0.98444522, 0.98456697, 0.98486152, 0.98517377, 0.98542365, 0.9855459, 0.98565178, 0.98593364, 0.98643083, 0.9870495, 0.98765458, 0.9881605, 0.98856697, 
