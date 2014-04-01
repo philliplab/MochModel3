@@ -41,7 +41,7 @@ parameters {
 	double	TreatmentRateDiagnosed = 0.5; //EN TreatmentRateDiagnosed
 	double	CHealthyMortShape = 2.9064; //EN CHealthyMortShape
 	double	CHealthyMortScale = 71.6442442; //EN CHealthyMortScale
-	CHILD_MODEL_TYPE	ChildModelType = SCHOOLING; //EN ChildModelType
+	CHILD_MODEL_TYPE	ChildModelType = RISK_FACTORS; //EN ChildModelType
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale
 	SOCIO_ECONOMIC_STATE	SocioEconomicStatus = HIGH; //EN SocioEconomicStatus
 	double	MinSchoolStart = 6; //EN MinSchoolStart
