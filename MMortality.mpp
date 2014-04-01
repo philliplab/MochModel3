@@ -64,7 +64,7 @@
 
 range MORT_LIFE //EN Mortality Life Range
 {
-	0,90
+	0,91
 };
 
 /* NOTE(MORT_LIFE, EN)
@@ -154,7 +154,7 @@ double LifeTableDraw(double x)
 		indx++;
 		time_indx = indx > 40 ? 40 : indx;
 		prev_lx = lx;
-		lx = HIVFreeMortality[F][indx][time_indx];
+		lx = prev_lx * (1-HIVFreeMortality[F][indx][time_indx]);
 	};
 	if (indx == -1){
 		indx = 0;

@@ -24,7 +24,7 @@ double CLifeTableDraw(double x, int time_indx, GENDER gender_internal)
 			time_indx = 40;
 		};
 		prev_lx = lx;
-		lx = HIVFreeMortality[gender_internal][indx][time_indx];
+		lx = prev_lx * (1 - HIVFreeMortality[gender_internal][indx][time_indx]);
 	};
 	return(indx + ((x - lx) / (prev_lx - lx)));
 };
