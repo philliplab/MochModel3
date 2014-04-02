@@ -1,9 +1,3 @@
-parameters 
-{
-	double		CHealthyMortScale;
-	double		CHealthyMortShape;
-};
-
 actor Child            //EN Individual
 {
 	logical alive = {TRUE};

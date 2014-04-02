@@ -10,48 +10,37 @@
 
 	Mortality for Healthy Mothers
 
-	- Data source and assumptions
+	- Data requirements
 
-	The 2008 ASSA model was used to obtain HIV-free mortality estimates. The
-	ASSA model was run with 0% chance of transmitting HIV. This means that
-	all the mortality that the model produced was due to factors other than
-	HIV. The model was run for 40 years (1985 to 2025). The populations of 
-	Males and Females were extracted from the Population worksheet. The
-	extract included ages 0 to 90. A life table was constructed for each
-	modelled year by assuming that the population at age 0 was the initial
-	population and the populations for each subsequent years are those
-	that survived to those respective ages. Is is assumed that all people
-	alive at age 90 die between ages 90 and 91 according to a uniform
-	distribution.
-
-	This is not a good way to construct mortality tables since it does not
-	account for new migrations or for imigrants currently in the population.
-
-	Another way to approach this might be to use the predicted deaths in
-	the population and to compare that to the population. That can then be
-	used to compute the probability of dying in each year. Migration might
-	again cause issues with this approch.
-
-	Perhaps the best would be to use the second apprach AND to switch off
-	migration? Or should one rather consult the documentation for the model
-	and use the same formulas to construct mortality functions instead?
-
-	Note another issue introduced in the description of the implementation
-	details below. I am now convinced that the best way to implement mortality
-	is with annual death probabilities and to redraw events each year.
+    The q[x,y] values (probability of dying between ages x and x+1 given that you
+	survived until age x in the year y) by gender and time (model year).
 
 	- Implementation Details
 
-	A Kaplan-Meier curve was constructed using the life table from above.
-	This Kaplan-Meier curve depends on the gender of the subject. The curve
-	is constructed by reading of the lx value that the mother will be exposed
-	to in each year. This causes another issue namely, the Kaplan-Meier curve
-	is not neccesarily monotonically decreasing.
+	Using the mortality data, a survival curve S(a) is constructed for each mother.
+	Since death from the healthy state is only scheduled at the birth of the
+	mother, and all the mothers are assumed to be born simultaneously, all
+	mothers have exactly the same survival curve.
 
+	The curve is constructed by setting the survival probability equal to 1
+	at age 0. The value of the survival curve at age 1 is then set to
+	S(1) = S(0) * (1 - q[0,0]). A straight line was then used to connect
+	S(0) to S(1). This process was continued until the value of the
+	survival curve reached 0. 
+
+	Note that the mortality data only covers a 40 year time period. It is assumed
+	that mortality for all times after 40 years is the same as the mortality at time 40 years.
+	For example, S(42) = S(41) * (1 - q[41, 40]) and
+	S(50) = S(49) * (1 - q[49, 40]).
+	
+	To assign a time of death using this curve, the following is done:
 	A random uniform number is drawn for a mother. This random number is
-	placed on the y axis of the Kaplan-Meier curve and the age of death
-	is read off from the x-axis. Linear interpolation is used to assign
-	ages on a continuous scale.
+	placed on the y axis of the survival curve and the age of death
+	is read off from the x-axis.
+
+	The actual implementation is a slight optimization of the above process.
+	The random uniform number is draw first and the curve is then constructed
+	until the value of the curve reaches the randomly drawn number.
 
 	Mortality for Infected Mothers
 
@@ -94,9 +83,6 @@ parameters
 	double MSymptomsMortShape;
 	double MSymptomsMortScale;
 
-	double MHealthyMortShape;
-	double MHealthyMortScale;
-
 	double MTreatedMortShape;
 	double MTreatedMortScale;
 
@@ -106,21 +92,15 @@ parameters
 };
 
 /* NOTE (HIVFreeMortality, EN)
-    A table containing the qx values for the population being modelled.
-	qx is the probability of dying between ages x and x+1 given that
-	the person is currently precisely x years old (not x years and 5 days,
-	just x years and 0 days). This table is both time and gender specific.
+	The q[x,y] values (probability of dying between ages x and x+1 given that you
+	survived until age x in the year y) for the population being modelled by gender 
+	and time (model year).
 */
 
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
 	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, MSymptomsMortShape, 
 	MSymptomsMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr
-};
-
-parameter_group Deprecated
-{
-	MHealthyMortShape, MHealthyMortScale, CHealthyMortShape, CHealthyMortScale, IncidenceRatesSource, IncidenceRates
 };
 
 actor Mother            //EN Individual

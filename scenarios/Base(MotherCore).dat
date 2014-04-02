@@ -1,6 +1,5 @@
 parameters {
 	int	StartingPopulationSize = 1000; //EN StartingPopulationSize
-	INCIDENCE_RATES_SOURCE	IncidenceRatesSource = 1; //EN IncidenceRatesSource
 	double	MInfectedMortShape = 2.5; //EN MInfectedMortShape
 	double	MInfectedMortScale = 11.1123; //EN MInfectedMortScale
 /* NOTE ( Incidence_Multiplier, EN )
@@ -18,13 +17,6 @@ parameters {
 	double	MSymptomsShape = 1.5101; //EN MSymptomsShape
 	double	MSymptomsScale = 7.5251; //EN MSymptomsScale
 
-	 //EN IncidenceRates
-	double	IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE] = {
-		(15) 0, (5) 0.022, (5) 0.033, (5) 0.025, (5) 0.021, (5) 0.017, (5) 0.014, (5) 0.011, (5) 0.007, (5) 0.004, (41) 0, 
-		(15) 0, (5) 0.032, (5) 0.038, (5) 0.018, (5) 0.011, (5) 0.010, (5) 0.007, (5) 0.003, (5) 0.001, (5) 0.000, (41) 0, 
-		(100) 0.06, 0, 
-	};
-
 	 //EN FertilityRates
 	double	FertilityRates[LIFE] = {
 		(15) 0, (5) 0.054, (5) 0.119, (5) 0.122, (5) 0.103, (5) 0.068, (5) 0.027, (5) 0.007, (51) 0, 
@@ -36,15 +28,11 @@ parameters {
 	};
 	double	MIMort_SMort_Corr = 0; //EN MIMort_SMort_Corr
 	double	MIMort_Symp_Corr = 0; //EN MIMort_Symp_Corr
-	double	MHealthyMortShape = 2.9064; //EN MHealthyMortShape
-	double	MHealthyMortScale = 71.6442442; //EN MHealthyMortScale
 	double	MTreatedMortShape = 2.5; //EN MTreatedMortShape
 	double	MTreatedMortScale = 30; //EN MTreatedMortScale
 	double	MDiagnosisRate = .2; //EN MDiagnosisRate
 	double	TreatmentRateSymptoms = 1; //EN TreatmentRateSymptoms
 	double	TreatmentRateDiagnosed = 0.5; //EN TreatmentRateDiagnosed
-	double	CHealthyMortShape = 2.9064; //EN CHealthyMortShape
-	double	CHealthyMortScale = 71.6442442; //EN CHealthyMortScale
 	CHILD_MODEL_TYPE	ChildModelType = RISK_FACTORS; //EN ChildModelType
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale
 	SOCIO_ECONOMIC_STATE	SocioEconomicStatus = HIGH; //EN SocioEconomicStatus

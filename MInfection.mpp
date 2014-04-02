@@ -38,8 +38,6 @@ range INCIDENCE_LIFE
 
 parameters
 {
-	INCIDENCE_RATES_SOURCE IncidenceRatesSource;
-	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE];
 	double IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME];
 	double Incidence_Multiplier; //EN Incidence Multiplier
 };
