@@ -12,10 +12,9 @@ parameters {
 	double	MInfectedMortPhi[VAN_DER_PAAL_INDX] = {
 		1000, 1.22398, 0.95143, 0.58661, 0.52447, 
 	};
-	double	MSymptomsMortShape = 1.1030; //EN MSymptomsMortShape
-	double	MSymptomsMortScale = 4.2533; //EN MSymptomsMortScale
 	double	MSymptomsShape = 1.5101; //EN MSymptomsShape
 	double	MSymptomsScale = 7.5251; //EN MSymptomsScale
+	double MIMort_Symp_Corr = 0;
 
 	 //EN FertilityRates
 	double	FertilityRates[LIFE] = {
@@ -26,8 +25,6 @@ parameters {
 	double	DiseaseFertMultipliers[DISEASE_STATE] = {
 		1, 0.5, 0.9, 0, 
 	};
-	double	MIMort_SMort_Corr = 0; //EN MIMort_SMort_Corr
-	double	MIMort_Symp_Corr = 0; //EN MIMort_Symp_Corr
 	double	MTreatedMortShape = 2.5; //EN MTreatedMortShape
 	double	MTreatedMortScale = 30; //EN MTreatedMortScale
 	double	MDiagnosisRate = .2; //EN MDiagnosisRate

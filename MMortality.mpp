@@ -80,13 +80,8 @@ parameters
 	double MInfectedMortScale;
 	double MInfectedMortPhi[VAN_DER_PAAL_INDX];
 
-	double MSymptomsMortShape;
-	double MSymptomsMortScale;
-
 	double MTreatedMortShape;
 	double MTreatedMortScale;
-
-	double MIMort_SMort_Corr;
 
 	double HIVFreeMortality[GENDER][MORT_LIFE][MORT_TIME]; //EN HIV-Free Mortality
 };
@@ -99,8 +94,8 @@ parameters
 
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
-	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, MSymptomsMortShape, 
-	MSymptomsMortScale, MTreatedMortShape, MTreatedMortScale, MIMort_SMort_Corr
+	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, 
+	MTreatedMortShape, MTreatedMortScale
 };
 
 actor Mother            //EN Individual
@@ -154,17 +149,7 @@ TIME Mother::timeMortalityEvent()
 		break;
 	case INFECTED:
 		{
-			if (showing_symptoms == TRUE)
-			{
-				// get prev time
-				// return the prev time again
-				// see what happens if return null
-				double symp_mort_par = (1 - MIMort_SMort_Corr) * draw + MIMort_SMort_Corr * inf_mortality_draw;
-				tEventTime = InvWeibull(symp_mort_par, MSymptomsMortShape, MSymptomsMortScale, MInfectedMortPhi[vdp_age_at_symptoms]);
-			} else
-			{
-				tEventTime = InvWeibull(inf_mortality_draw, MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi[vdp_age_at_infection]);
-			};
+			tEventTime = InvWeibull(inf_mortality_draw, MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi[vdp_age_at_infection]);
 		}
 		break;
 	case TREATED:
