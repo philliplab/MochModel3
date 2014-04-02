@@ -7,7 +7,7 @@ parameters {
 	    Set to 1 because no modification of incidence rates is desired.
 */
 
-	double	Incidence_Multiplier = 1; //EN Incidence Multiplier
+	double	Incidence_Multiplier = 0; //EN Incidence Multiplier
 
 	 //EN MInfectedMortPhi
 	double	MInfectedMortPhi[VAN_DER_PAAL_INDX] = {
@@ -41,8 +41,8 @@ parameters {
 	double	MTreatedMortShape = 2.5; //EN MTreatedMortShape
 	double	MTreatedMortScale = 30; //EN MTreatedMortScale
 	double	MDiagnosisRate = .2; //EN MDiagnosisRate
-	double	TreatmentRateSymptoms = 0.2; //EN TreatmentRateSymptoms
-	double	TreatmentRateDiagnosed = 0.1; //EN TreatmentRateDiagnosed
+	double	TreatmentRateSymptoms = 1; //EN TreatmentRateSymptoms
+	double	TreatmentRateDiagnosed = 0.5; //EN TreatmentRateDiagnosed
 	double	CHealthyMortShape = 2.9064; //EN CHealthyMortShape
 	double	CHealthyMortScale = 71.6442442; //EN CHealthyMortScale
 	CHILD_MODEL_TYPE	ChildModelType = RISK_FACTORS; //EN ChildModelType

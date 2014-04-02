@@ -41,11 +41,17 @@ parameters
 	INCIDENCE_RATES_SOURCE IncidenceRatesSource;
 	double IncidenceRates[INCIDENCE_RATES_SOURCE][LIFE];
 	double IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME];
+	double Incidence_Multiplier; //EN Incidence Multiplier
 };
+
+/* NOTE (Incidence_Multiplier, EN)
+    Multiply the incidence rates by this before using them.
+	Set to 1 for no change; Set to 0 to prevent all infections
+*/
 
 parameter_group Incidence
 { //EN Mothers' Mortality Parameters
-	IncidenceTable
+	IncidenceTable, Incidence_Multiplier
 };
 
 actor Mother            //EN Individual
@@ -86,7 +92,7 @@ double IncidenceTableDraw(double x)
 		};
 		prev_not_hiv_prob = not_hiv_prob;
 		curr_not_hiv_prob = IncidenceTable[F][indx][time_indx];
-		not_hiv_prob = not_hiv_prob * (1 - curr_not_hiv_prob);
+		not_hiv_prob = not_hiv_prob * (1 - Incidence_Multiplier * curr_not_hiv_prob);
 	};
 	if (x > not_hiv_prob)
 	{
