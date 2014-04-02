@@ -3,7 +3,7 @@
 /* NOTE(MInfection, EN)
 	This module contains all the incidence functions for the mothers. Infections
 	consists of two events. First a person must become infectible - this happens
-	at age 15. Once a person becomes infectible, an infection event is scheduled.
+	at age 14. Once a person becomes infectible, an infection event is scheduled.
 
 	- Data source and assumptions
 
