@@ -26,11 +26,6 @@
 	ages on a continuous scale.
 */
 
-range INCIDENCE_RATES_SOURCE
-{
-	0,2
-};
-
 range INCIDENCE_LIFE
 {
 	14, 59

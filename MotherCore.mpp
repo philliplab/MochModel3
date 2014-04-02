@@ -8,10 +8,15 @@ partition VAN_DER_PAAL_AGES
 	13, 25, 35, 45
 };
 
-range VAN_DER_PAAL_INDX
+range VAN_DER_PAAL_INDX //EN Van der Paal Age Index
 {
 	0,4
 };
+
+/* NOTE(VAN_DER_PAAL_INDX, EN)
+    The survival curves presented in the Van der Paal article
+	is grouped in to 5 different groups bounded by 13, 25, 35, 45, and Infinity
+*/
 
 classification SOCIO_ECONOMIC_STATE
 {

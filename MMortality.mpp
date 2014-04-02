@@ -44,7 +44,28 @@
 
 	Mortality for Infected Mothers
 
-	TODO - detailed documentation (1 - Weibull CDF)
+	- Data requirements
+
+	The shape and scale for the weibull distribution whose CDF the survival curve is based on.
+	Furthermore, the surival is grouped in different age groups. For each age group, the
+	scale parameter is multiplied by a factor. This shifts the survival curve to the
+	right for younger mothers and to the left for older mothers.
+
+	- Implementation Details
+
+	The survival function is of the form: S(t) = (lambda) * pow(-log(t), 1/kappa) where
+	lambda is the scale parameter and kappa is the shape parameter and a is the time since infection.
+	Note that this is just 1 - the CDF of a weibull distribution.
+
+	Furthermore, to accomodate different age groups, the lamba parameter is multiplied by a factor 
+	called phi. Each of the different age groups used in the Van der Paal article must be given
+	a phi value.
+
+	A special note about the use of the phi factor. The Van der Paal article only provides survival
+	estimates for ages > 13. To ease the implementation, the first entry of the phi parameter corresponds
+	to ages smaller than or equal to 13. This value must always be 1000. This is a special marker
+	that will instruct the function to not assign a death date to people younger than 13.
+	Future versions of the model will include a better implemenation of this mechanism.
 
     Mortality for Treated Mothers
 
@@ -76,12 +97,12 @@ range MORT_TIME //EN ASSA model Time Range
 
 parameters
 {
-	double MInfectedMortShape;
-	double MInfectedMortScale;
-	double MInfectedMortPhi[VAN_DER_PAAL_INDX];
+	double MInfectedMortShape; //EN Infected Mother Survival Curve Shape - kappa
+	double MInfectedMortScale; //EN Infected Mother Survival Curve Scale - lambda
+	double MInfectedMortPhi[VAN_DER_PAAL_INDX]; //EN Infected Mother Survival Curve Age Modifier - phi
 
-	double MTreatedMortShape;
-	double MTreatedMortScale;
+	double MTreatedMortShape; //EN Treated Mother Survival Curve Shape - kappa
+	double MTreatedMortScale; //EN Treated Mother Survival Curve Scale - lambda
 
 	double HIVFreeMortality[GENDER][MORT_LIFE][MORT_TIME]; //EN HIV-Free Mortality
 };
@@ -90,6 +111,20 @@ parameters
 	The q[x,y] values (probability of dying between ages x and x+1 given that you
 	survived until age x in the year y) for the population being modelled by gender 
 	and time (model year).
+*/
+
+/* NOTE (MInfectedMortShape, EN)
+    The shape parameter for the survival curve of the Infected mother's survival curve
+*/
+
+/* NOTE (MInfectedMortScale, EN)
+    The scale parameter for the survival curve of the Infected mother's survival curve
+*/
+
+/* NOTE (MInfectedMortPhi, EN)
+	To accomodate different age groups, the scale parameter is multiplied by a this number. 
+	Each of the different age groups used in the Van der Paal article must have an entry in
+	this parameter.
 */
 
 parameter_group MotherMortality
