@@ -28,7 +28,7 @@ parameters {
 
 	double	Incidence_Multiplier = 1; //EN Incidence Multiplier
 
-	/* NOTE ( Incidence_Multiplier, EN )
+	/* NOTE ( MInfectedMortPhi, EN )
 		The Van der Paal article only provides survival
 	estimates for ages > 13. To ease the implementation, the first entry of the phi parameter corresponds
 	to ages smaller than or equal to 13. This value must always be 1000. This is a special marker
