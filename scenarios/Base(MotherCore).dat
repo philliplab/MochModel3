@@ -29,7 +29,6 @@ parameters {
 	double	DiseaseFertMultipliers[DISEASE_STATE] = {
 		1, 0.5, 0.9, 0, 
 	};
-	double	DefaultTimeToDeath = 5; //EN DefaultTimeToDeath
 	double	MIMort_SMort_Corr = 0; //EN MIMort_SMort_Corr
 	double	MIMort_Symp_Corr = 0; //EN MIMort_Symp_Corr
 	double	MHealthyMortShape = 2.9064; //EN MHealthyMortShape
