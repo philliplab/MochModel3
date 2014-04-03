@@ -5,25 +5,25 @@
 	consists of two events. First a person must become infectible - this happens
 	at age 14. Once a person becomes infectible, an infection event is scheduled.
 
-	- Data source and assumptions
+	- Data requirements
 
-	The incidence rates are obtained from the 2008 ASSA model. The ASSA model was
-	run for 40 years with the default inputs. The total population, the HIV+
-	population and the new infections were extracted for each age for each model 
-	year for each gender. Incidence (age, time and gender specific) was computed 
-	as the (new infections / (total population - HIV+ population))
+	A table containing the probability for a person without HIV to acquire it
+	in the year. The rates must be age, gender and time specific.
 
 	- Implementation details
 
-	Upon birth, the 'become infectible' event is scheduled 15 years into the future.
+	Upon birth, the 'become infectible' event is scheduled 14 years into the future.
 	Once a person becomes infectible, a curve depicting the probability of not
-	being infected is drawn for the subject. This curve is equivalent to a kaplan-meier
-	curve.
+	being not infected is drawn for the subject. This curve is constructed in
+	the same way as the curve for the mortality of healthy morthers is constructed.
 
 	A random uniform number is drawn for a mother. This random number is
 	placed on the y axis of the curve and the age of infection
-	is read off from the x-axis. Linear interpolation is used to assign
-	ages on a continuous scale.
+	is read off from the x-axis.
+
+	Infection is only scheduled once when the mother turns 14. Since all mothers
+	are born on the same date, all mothers have identical curves depicting
+	their probability of not being infected.
 */
 
 range INCIDENCE_LIFE
@@ -31,11 +31,22 @@ range INCIDENCE_LIFE
 	14, 59
 };
 
+/* NOTE (INCIDENCE_LIFE, EN)
+    According to the ASSA model someone can only be infected
+	between the ages of 14 and 60. Hence this range is needed
+	to index the incidence rate table
+*/
+
 parameters
 {
 	double IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME];
 	double Incidence_Multiplier; //EN Incidence Multiplier
 };
+
+/* NOTE (IncidenceTable, EN)
+    The probability of becoming infected in a year. This table
+	has dimensions for gender, current age and model year.
+*/
 
 /* NOTE (Incidence_Multiplier, EN)
     Multiply the incidence rates by this before using them.

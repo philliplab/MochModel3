@@ -446,6 +446,13 @@ parameters {
 		(41) 1, 
 	};
 
+	/* NOTE(IncidenceTable, EN)
+	    These incidence rates were obtained from the 2008 ASSA model.
+		They are the ratio of infections that happened in the year to
+		the number of HIV-FREE people there were at the start of the year.
+		(The ASSA model's years run from 1 of June). These rates are for the
+		black population only
+	*/
 	 //EN IncidenceTable
 	double	IncidenceTable[GENDER][INCIDENCE_LIFE][MORT_TIME] = {
 //Gender 0
