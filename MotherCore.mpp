@@ -25,9 +25,13 @@ classification SOCIO_ECONOMIC_STATE
 
 parameters 
 {
-	int		StartingPopulationSize;
+	int		StartingPopulationSize; //EN Starting Population Size
 	SOCIO_ECONOMIC_STATE SocioEconomicStatus;
 };
+
+/* NOTE(StartingPopulationSize, EN)
+    The number of mothers to simulate
+*/
 
 parameter_group MochCore
 { //EN Mothers' Mortality Parameters

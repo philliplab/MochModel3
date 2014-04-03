@@ -1,5 +1,16 @@
 parameters {
-	int	StartingPopulationSize = 1000; //EN StartingPopulationSize
+	/* NOTE (StartingPopulationSize, EN)
+	    By default it is set to 1000. On a powerful laptop from 2013 it
+		should run in about 10 seconds.
+
+		Computation time scales below linearly for this model. On the
+		same laptop, for 10000 mothers the run takes 24 seconds and for
+		100000 mothers the run takes about 3 mins.
+
+		Benchmarking was done with tracking and comprehensive tables
+		enabled (the estimates should be conservative)
+	*/
+	int	StartingPopulationSize = 1000; //EN Starting Population Size
 
 	/* NOTE ( MInfectedMortShape, EN )
 	    The R package nls was used to obtain the following fit to 
@@ -29,7 +40,7 @@ parameters {
 	double	Incidence_Multiplier = 1; //EN Incidence Multiplier
 
 	/* NOTE ( MInfectedMortPhi, EN )
-		The Van der Paal article only provides survival
+	The Van der Paal article only provides survival
 	estimates for ages > 13. To ease the implementation, the first entry of the phi parameter corresponds
 	to ages smaller than or equal to 13. This value must always be 1000. This is a special marker
 	that will instruct the function to not assign a death date to people younger than 13.
@@ -49,6 +60,16 @@ parameters {
 		1000, 1.22398, 0.95143, 0.58661, 0.52447, 
 	};
 
+	/* NOTE ( MTreatedMortShape, EN )
+	    Using the same number as the shape for the infected curves
+	*/
+	double MTreatedMortShape = 2.5; //EN Treated Mother Survival Curve Shape - kappa
+
+	/* NOTE ( MTreatedMortScale, EN )
+	    Arbitrarily chosen
+	*/
+	double MTreatedMortScale = 30; //EN Treated Mother Survival Curve Scale - lambda
+
 	double	MSymptomsShape = 1.5101; //EN MSymptomsShape
 	double	MSymptomsScale = 7.5251; //EN MSymptomsScale
 	double MIMort_Symp_Corr = 0;
@@ -62,8 +83,7 @@ parameters {
 	double	DiseaseFertMultipliers[DISEASE_STATE] = {
 		1, 0.5, 0.9, 0, 
 	};
-	double	MTreatedMortShape = 2.5; //EN MTreatedMortShape
-	double	MTreatedMortScale = 30; //EN MTreatedMortScale
+
 	double	MDiagnosisRate = .2; //EN MDiagnosisRate
 	double	TreatmentRateSymptoms = 1; //EN TreatmentRateSymptoms
 	double	TreatmentRateDiagnosed = 0.5; //EN TreatmentRateDiagnosed

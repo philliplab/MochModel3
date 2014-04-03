@@ -69,7 +69,12 @@
 
     Mortality for Treated Mothers
 
-	TODO - detailed documentation (1 - Weibull CDF)	
+	The mortality for the treated mothers are implemented identically to that of
+	the infected mothers. However, no provision is made for age specific mortality.
+	Hence the treated mothers does not have the phi factor.
+
+    Future version of the model should improve the handling of the mortality
+	for treated mothers.
 	*/
 
 range MORT_LIFE //EN Mortality Life Range
@@ -125,6 +130,14 @@ parameters
 	To accomodate different age groups, the scale parameter is multiplied by a this number. 
 	Each of the different age groups used in the Van der Paal article must have an entry in
 	this parameter.
+*/
+
+/* NOTE (MTreatedMortShape, EN)
+    The shape parameter for the survival curve of the treated mothers' survival curve
+*/
+
+/* NOTE (MTreatedMortScale, EN)
+    The scale parameter for the survival curve of the treated mothers' survival curve
 */
 
 parameter_group MotherMortality
