@@ -56,12 +56,17 @@
 	- Implementation Details
 
 	The survival function is of the form: S(t) = (lambda) * pow(-log(t), 1/kappa) where
-	lambda is the scale parameter and kappa is the shape parameter and a is the time since infection.
+	lambda is the scale parameter and kappa is the shape parameter and t is the time since infection.
 	Note that this is just 1 - the CDF of a weibull distribution.
 
 	Furthermore, to accomodate different age groups, the lamba parameter is multiplied by a factor 
 	called phi. Each of the different age groups used in the Van der Paal article must be given
 	a phi value.
+
+	To assign a time of death using this curve, the following is done:
+	A random uniform number is drawn for a mother. This random number is
+	placed on the y axis of the survival curve and the age of death
+	is read off from the x-axis.
 
 	A special note about the use of the phi factor. The Van der Paal article only provides survival
 	estimates for ages > 13. To ease the implementation, the first entry of the phi parameter corresponds
@@ -74,6 +79,11 @@
 	The mortality for the treated mothers are implemented identically to that of
 	the infected mothers. However, no provision is made for age specific mortality.
 	Hence the treated mothers does not have the phi factor.
+
+	To assign a time of death using this curve, the following is done:
+	A random uniform number is drawn for a mother. This random number is
+	placed on the y axis of the survival curve and the age of death
+	is read off from the x-axis.
 
     Future version of the model should improve the handling of the mortality
 	for treated mothers.
@@ -121,11 +131,11 @@ parameters
 */
 
 /* NOTE (MInfectedMortShape, EN)
-    The shape parameter for the survival curve of the Infected mother's survival curve
+    The shape parameter for the Infected mother's survival curve
 */
 
 /* NOTE (MInfectedMortScale, EN)
-    The scale parameter for the survival curve of the Infected mother's survival curve
+    The scale parameter for Infected mother's survival curve
 */
 
 /* NOTE (MInfectedMortPhi, EN)
@@ -135,11 +145,11 @@ parameters
 */
 
 /* NOTE (MTreatedMortShape, EN)
-    The shape parameter for the survival curve of the treated mothers' survival curve
+    The shape parameter for the treated mothers' survival curve
 */
 
 /* NOTE (MTreatedMortScale, EN)
-    The scale parameter for the survival curve of the treated mothers' survival curve
+    The scale parameter for the treated mothers' survival curve
 */
 
 parameter_group MotherMortality

@@ -70,8 +70,29 @@ parameters {
 	*/
 	double MTreatedMortScale = 30; //EN Treated Mother Survival Curve Scale - lambda
 
+	/* NOTE ( MSymptomsShape, EN )
+	    The R package nls was used to obtain the following fit to 
+		Figure 3 from the Van der Paal article.
+
+	    f(x) = exp(-(x/7.5251)^1.5101) 
+
+		From this formula, the choice for the shape parameter is 1.5101
+	*/
 	double	MSymptomsShape = 1.5101; //EN MSymptomsShape
+
+	/* NOTE ( MSymptomsScale, EN )
+	    The R package nls was used to obtain the following fit to 
+		Figure 3 from the Van der Paal article.
+
+	    f(x) = exp(-(x/7.5251)^1.5101) 
+
+		From this formula, the choice for the scale parameter is 7.5251
+	*/
 	double	MSymptomsScale = 7.5251; //EN MSymptomsScale
+
+	/* NOTE (MIMort_Symp_Corr, EN)
+	    TODO - estimate this correlation
+	*/
 	double MIMort_Symp_Corr = 0;
 
 	 //EN FertilityRates
