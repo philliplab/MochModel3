@@ -101,6 +101,16 @@ parameters {
 */
 	double	MDiagnosisRate = .2; //EN Diagnosis Rate of Mothers
 
+/* NOTE ( MTreatmentRateSymptoms, EN)
+    Arbitrarily chosen. Should yield an average time to treatment of 1 year.
+*/
+	double	MTreatmentRateSymptoms = 1; //EN Treatment Rate of Mothers showing symptoms
+
+/* NOTE ( MTreatmentRateDiagnosed, EN)
+    Arbitrarily chosen. Should yield an average time to treatment of 2 years.
+*/
+	double	MTreatmentRateDiagnosed = 0.5; //EN Treatment Rate of Diagnosed Mothers
+
 
 	 //EN FertilityRates
 	double	FertilityRates[LIFE] = {
@@ -112,8 +122,6 @@ parameters {
 		1, 0.5, 0.9, 0, 
 	};
 
-	double	TreatmentRateSymptoms = 1; //EN TreatmentRateSymptoms
-	double	TreatmentRateDiagnosed = 0.5; //EN TreatmentRateDiagnosed
 	CHILD_MODEL_TYPE	ChildModelType = SCHOOLING; //EN ChildModelType
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale
 	SOCIO_ECONOMIC_STATE	SocioEconomicStatus = HIGH; //EN SocioEconomicStatus

@@ -1,12 +1,45 @@
+//LABEL(MTreatment, EN) Determines when a diagnosed mother gets treatment
+
+/* NOTE(MTreatment, EN)
+	This module schedules and implements the event that transitions a mother
+	from the symptoms state and diagnosis state into the treated state. 
+	This transition competes with the transitions into the death state.
+	Due to the limited information on the rates of treatment, only a simple
+	exponential rate is implemented. Different rates can be specified for the
+	two source states (symptoms and diagnosis)
+
+	- Data requirements
+
+	A single exponential rate parameters must be specified for the rate of
+	access to treatment for mothers in the diagnosed state and the rate of
+	access to treatment for mothers in the symptoms state.
+
+	- Implementation details
+
+	A number, x, is drawn at random from a unifrom distribution. The transition
+	into diagnosis is scheduled log(x) / -(Rate_x) years after entering state x
+	where x can be symptoms or diagnosed.
+*/
+
+
 parameters
 {
-	double TreatmentRateSymptoms;
-	double TreatmentRateDiagnosed;
+	double MTreatmentRateSymptoms; //EN Treatment Rate of Mothers showing symptoms
+	double MTreatmentRateDiagnosed; //EN Treatment Rate of Diagnosed Mothers
 };
 
+/* NOTE(MTreatmentRateSymptoms, EN)
+    An exponential rate at which mothers access treatment
+	after they start to show symptoms.
+*/
+/* NOTE(MTreatmentRateDiagnosed, EN)
+    An exponential rate at which mothers access treatment
+	after they are diagnosed.
+*/
+
 parameter_group MotherTreatment
-{ //EN Child's Dropout Parameters
-	TreatmentRateDiagnosed, TreatmentRateSymptoms
+{ //EN Parameters controlling the Mother's access to Treatment
+	MTreatmentRateDiagnosed, MTreatmentRateSymptoms
 };
 
 actor Mother
@@ -21,10 +54,10 @@ TIME Mother::timeTreatmentEvent()
 	{
 		if (showing_symptoms == TRUE)
 		{
-			tEventTime = log(RandUniform(10)) / -TreatmentRateSymptoms;
+			tEventTime = log(RandUniform(10)) / -MTreatmentRateSymptoms;
 		} else
 		{
-			tEventTime = log(RandUniform(11)) / -TreatmentRateDiagnosed;
+			tEventTime = log(RandUniform(11)) / -MTreatmentRateDiagnosed;
 		};
 	};
 	tEventTime = WAIT(tEventTime);

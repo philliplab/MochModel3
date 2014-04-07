@@ -4,7 +4,10 @@
 	This module schedules and implements the event that transitions a mother
 	from the infected or diagnosed states into the symptoms state. It is
 	implemented in a similar fashion to the mortality from the infected
-	state for mothers.
+	state for mothers. Note that this transition is not affected by diagnosis,
+	hence a mother can become infected, transition into diagnosed and then
+	transition into symptoms via the event scheduled upon the mothers entrance
+	into the infected state.
 
 	- Data requirements
 
