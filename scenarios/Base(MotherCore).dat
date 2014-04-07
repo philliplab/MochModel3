@@ -96,6 +96,12 @@ parameters {
 
 	double	MIMort_Symp_Corr = 0; //EN Correlation between mortality and becoming symptomatic
 
+/* NOTE ( MDiagnosisRate, EN)
+    Arbitrarily chosen. Should yield an average time to diagnosis of 5 years.
+*/
+	double	MDiagnosisRate = .2; //EN Diagnosis Rate of Mothers
+
+
 	 //EN FertilityRates
 	double	FertilityRates[LIFE] = {
 		(15) 0, (5) 0.054, (5) 0.119, (5) 0.122, (5) 0.103, (5) 0.068, (5) 0.027, (5) 0.007, (51) 0, 
@@ -105,7 +111,7 @@ parameters {
 	double	DiseaseFertMultipliers[DISEASE_STATE] = {
 		1, 0.5, 0.9, 0, 
 	};
-	double	MDiagnosisRate = .2; //EN MDiagnosisRate
+
 	double	TreatmentRateSymptoms = 1; //EN TreatmentRateSymptoms
 	double	TreatmentRateDiagnosed = 0.5; //EN TreatmentRateDiagnosed
 	CHILD_MODEL_TYPE	ChildModelType = SCHOOLING; //EN ChildModelType
