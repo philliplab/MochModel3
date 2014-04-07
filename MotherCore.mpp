@@ -58,7 +58,7 @@ classification DISEASE_STATE_DETAILED
 
 actor_set Mother asAllMother; //EN All Mother actors
 
-actor Mother            //EN Individual
+actor Mother            //EN Mother
 {
 	DISEASE_STATE disease_status = {HEALTHY};
 	DISEASE_STATE_DETAILED disease_status_detailed = {HEALTHY_};
