@@ -7,6 +7,13 @@
 //LABEL(model, EN) Model for HIV-affected Children
 
 /* NOTE(model, EN)
+
+    The model description follows the ODD protocol for describing individual- and 
+	agent-based models (Grimm et al. 2006; Grimm and Railsback 2005) and consists 
+	of seven elements. The first three elements provide an overview, the fourth 
+	element explains general concepts underlying the model’s design, and the 
+	remaining three elements provide details.
+
     Purpose:
 	
 	This model explores the effect of a mother's HIV status on the mother's
