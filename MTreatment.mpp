@@ -21,7 +21,6 @@
 	where x can be symptoms or diagnosed.
 */
 
-
 parameters
 {
 	double MTreatmentRateSymptoms; //EN Treatment Rate of Mothers showing symptoms
