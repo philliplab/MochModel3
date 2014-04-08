@@ -1,3 +1,36 @@
+//LABEL(CSchoolDropout, EN) Controls when children drops out of school
+
+/* NOTE(CSchoolDropout, EN)
+	This module controls when a child drops out of school. Using a 
+	complicated dataset, 'survival probability' can be found for each
+	child for each school year based on various factors. Using these
+	rates a survival approach is used to schedule dropout
+
+	- Data Requirements
+
+	The dropout probabilities for children must be specified for various different states
+	for each of the years a child can be in school.
+
+	- Implementation Details
+
+	This event is first scheduled the moment when the child enters school. The event is
+	then rescheduled whenever one of the indices of the dropout rates table changes. The
+	child's gender and socioeconomic status cannot change in this model. The event is thus rescheduled 
+	every year when the child ages and everytime the mother's disease state changes.
+
+	The event is simply scheduled by drawing a random number from a uniform distribution
+	and dividing it by the dropout probability of the child.
+
+	In the case where the mother's disease progresses, the child's age will not be an integer.
+	This special case is handled by scheduling the child's dropout using the child's age
+	rounded down to the nearest integer to lookup the child's dropout probability. 
+	The event is then scheduled as previously.
+
+	TODO: explain why this is not an inconsistency in the model - must experience each
+	year's probability for a full year - hence interpolating between the two ages to
+	find the 'correct' dropout probability is not the correct approach.
+*/
+
 range SCHOOL_YEARS
 {
 	6, 17
@@ -5,47 +38,26 @@ range SCHOOL_YEARS
 
 parameters
 {
-	double DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS];
+	double DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS]; //EN Dropout Probabilities
 };
 
-parameter_group ChildDropout
-{ //EN Child's Dropout Parameters
-	DropOutRates
-};
+/* NOTE(DropOutRates, EN)
+    The probability of a child to drop out of school in the specific year given 
+	all the special circumstances used to index this data structure.
+*/
+
 
 actor Child
 {
 	event timeDropOutEvent, DropOutEvent;
 };
 
-double dropoutTime(SCHOOL_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal)
-{
-	double x = RandUniform(17);
-	int indx = -1;
-	double dropoutProb = 1;
-	double prevDropoutProb = 1;
-	double drop_out_time = pow(10,10);
-	int school_age_indx = curr_age - 6;
-	if (school_age_indx < 0) {school_age_indx = 0;};
-	if (school_age_indx > 11) {school_age_indx = 11;};
-	while (x <= dropoutProb && school_age_indx + indx < 11)
-	{
-		indx++;
-		prevDropoutProb = dropoutProb;
-		dropoutProb = dropoutProb * (1 - DropOutRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][school_age_indx + indx]);
-	};
-	if (x > dropoutProb)
-	{
-		drop_out_time = indx + ((x - dropoutProb) / (prevDropoutProb - dropoutProb));
-	};
-	return(drop_out_time);
-};
-
 TIME Child::timeDropOutEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == IN_SCHOOL){
-		tEventTime = dropoutTime(integer_age, gender, mother_disease_status_detailed_fm);
+        double do_rate = DropOutRates[gender][SocioEconomicStatus][mother_disease_status_detailed_fm][integer_age - 6];
+		tEventTime = RandUniform(17) / do_rate;
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);
