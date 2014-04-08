@@ -1,3 +1,10 @@
+//LABEL(MChronicIllness, EN) Placeholder for the Chronic Illness state
+
+/* NOTE(MChronicIllness, EN)
+	A possible expansion of the model would be to include a chronic illness state.
+	The MChronicIllness.mpp file contain some comments on how it can be implemented.
+*/
+
 /*
 Steps:
 - Decide on survival curve shape or 'empirical survival curve' like fertility?
