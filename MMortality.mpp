@@ -155,7 +155,7 @@ parameters
 parameter_group MotherMortality
 { //EN Mothers' Mortality Parameters
 	MInfectedMortShape, MInfectedMortScale, MInfectedMortPhi, 
-	MTreatedMortShape, MTreatedMortScale
+	MTreatedMortShape, MTreatedMortScale, HIVFreeMortality
 };
 
 actor Mother            //EN Individual
