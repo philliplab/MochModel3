@@ -149,45 +149,27 @@ parameters {
 	double	MaxSchoolStart = 6; //EN Oldest age at which children can start school
 
 /* NOTE(DropOutRates, EN)
-    The dropout probabilities from Chris and Faikah. Note some work needs to be done
-	to ensure that the disease states in the data matches the disease states
-	in the model
+    The dropout probabilities from Chris and Faikah. See more details in mochModelData R package
 */
-	//EN Dropout Probabilities
-	double	DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS] = {
-		// F, HIGH
-		(2) {
-			0.046044102, (6) 0.023022051, (3) 0.018417641, (2) 0.027626461, 
-		},
-		0.055252922, (6) 0.027626461, (3) 0.022101169, (2) 0.033151753, 
-		0.050648512, (6) 0.025324256, (3) 0.020259405, (2) 0.030389107, 
-		0.069066153, (6) 0.034533076, (3) 0.027626461, (2) 0.041439692, 
-		0.092088204, (6) 0.046044102, (3) 0.036835282, (2) 0.055252922, 
-		// F, LOW
-		(2) {
-			0.152584941, (6) 0.076292471, (3) 0.061033976, (2) 0.114438706, 
-		},
-		0.183101929, (6) 0.091550965, (3) 0.073240772, (2) 0.137326447, 
-		0.167843435, (6) 0.083921718, (3) 0.067137374, (2) 0.125882576, 
-		0.228877412, (6) 0.114438706, (3) 0.091550965, (2) 0.171658059, 
-		0.305169882, (6) 0.152584941, (3) 0.122067953, (2) 0.228877412, 
-		// M, HIGH
-		(2) {
-			0.046044102, (6) 0.023022051, (3) 0.018417641, (2) 0.027626461, 
-		},
-		0.055252922, (6) 0.027626461, (3) 0.022101169, (2) 0.033151753, 
-		0.050648512, (6) 0.025324256, (3) 0.020259405, (2) 0.030389107, 
-		0.075972768, (6) 0.037986384, (3) 0.030389107, (2) 0.045583661, 
-		0.092088204, (6) 0.046044102, (3) 0.036835282, (2) 0.055252922, 
-		// M, LOW
-		(2) {
-			0.152584941, (6) 0.076292471, (3) 0.061033976, (2) 0.114438706, 
-		},
-		0.183101929, (6) 0.091550965, (3) 0.073240772, (2) 0.137326447, 
-		0.167843435, (6) 0.083921718, (3) 0.067137374, (2) 0.125882576, 
-		0.251765153, (6) 0.125882576, (3) 0.100706061, (2) 0.188823865, 
-		0.305169882, (6) 0.152584941, (3) 0.122067953, (2) 0.228877412, 
+	 //EN Dropout Probabilities
+	double DropOutRates[SOCIO_ECONOMIC_STATE][SCHOOL_YEARS] = {
+	// 0
+0.0460441019, 0.023022051, 0.023022051, 0.023022051, 0.023022051, 0.023022051, 0.023022051, 0.0184176408, 0.0184176408, 0.0184176408, 0.0276264612, 0.0276264612
+// 1
+, 0.1525849412, 0.0762924706, 0.0762924706, 0.0762924706, 0.0762924706, 0.0762924706, 0.0762924706, 0.0610339765, 0.0610339765, 0.0610339765, 0.1144387059, 0.1144387059
 	};
+	
+/* NOTE(DropOutDiseaseMultipliers, EN)
+    Adapted from the rates used in the 'Schooling Data' worksheet of the 'child_outcomes_data.xlsx' file. Note a slight mismatch of the disease states
+*/
+	//EN Dropout Disease Multipliers
+	double DropOutDiseaseMultipliers[DISEASE_STATE_DETAILED] = {1, 1, 1.2, 1, 1.1, 2}; 
+
+/* NOTE(DropOutGenderMultipliers, EN)
+    No gender specific dropout rates are available
+*/
+	//EN Dropout Gender Multipliers
+	double DropOutGenderMultipliers[GENDER] = {1, 1}; 
 
 	CHILD_MODEL_TYPE	ChildModelType = SCHOOLING; //EN ChildModelType
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale

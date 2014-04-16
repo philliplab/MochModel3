@@ -1,20 +1,23 @@
 //LABEL(CSchoolDropout, EN) Controls when children drops out of school
 
 /* NOTE(CSchoolDropout, EN)
-	This module controls when a child drops out of school. Using a 
-	complicated dataset, 'survival probability' can be found for each
+	This module controls when a child drops out of school. Using various data
+	sources, 'survival probability' can be found for each
 	child for each school year based on various factors. Using these
 	rates a survival approach is used to schedule dropout
 
 	- Data Requirements
 
-	The dropout probabilities for children must be specified for various different states
-	for each of the years a child can be in school.
+	The dropout probabilities for children must be specified by age and by
+	socio_economic class. The effect of the mother's disease and the child's
+	gender must be specified in the form of factors that the probabilities
+	are multiplied by.
 
 	- Implementation Details
 
 	This event is first scheduled the moment when the child enters school. The event is
-	then rescheduled whenever one of the indices of the dropout rates table changes. The
+	then rescheduled whenever one of the indices of the dropout rates table changes or
+	one of the indices for the multiplicative factors changes (mother's disease state). The
 	child's gender and socioeconomic status cannot change in this model. The event is thus rescheduled 
 	every year when the child ages and everytime the mother's disease state changes.
 
@@ -25,10 +28,6 @@
 	This special case is handled by scheduling the child's dropout using the child's age
 	rounded down to the nearest integer to lookup the child's dropout probability. 
 	The event is then scheduled as previously.
-
-	TODO: explain why this is not an inconsistency in the model - must experience each
-	year's probability for a full year - hence interpolating between the two ages to
-	find the 'correct' dropout probability is not the correct approach.
 */
 
 range SCHOOL_YEARS
@@ -38,14 +37,25 @@ range SCHOOL_YEARS
 
 parameters
 {
-	double DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS]; //EN Dropout Probabilities
+	double DropOutRates[SOCIO_ECONOMIC_STATE][SCHOOL_YEARS]; //EN Dropout Probabilities
+	double DropOutDiseaseMultipliers[DISEASE_STATE_DETAILED]; //EN Dropout Disease Multipliers
+	double DropOutGenderMultipliers[GENDER]; //EN Dropout Gender Multipliers
 };
 
 /* NOTE(DropOutRates, EN)
     The probability of a child to drop out of school in the specific year given 
-	all the special circumstances used to index this data structure.
+	the socio economic status of the child
 */
 
+/* NOTE(DropOutDiseaseMultipliers, EN)
+    The factors by which a child's dropout probabilities gets multiplied
+	to account for the mother's disease state
+*/
+
+/* NOTE(DropOutGenderMultipliers, EN)
+    The factors by which a child's dropout probabilities gets multiplied
+	to account for the mother's disease state
+*/
 
 actor Child
 {
@@ -56,7 +66,9 @@ TIME Child::timeDropOutEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == IN_SCHOOL){
-        double do_rate = DropOutRates[gender][SocioEconomicStatus][mother_disease_status_detailed_fm][integer_age - 6];
+        double do_rate = DropOutRates[SocioEconomicStatus][integer_age - 6];
+		do_rate = do_rate * DropOutDiseaseMultipliers[mother_disease_status_detailed_fm];
+		do_rate = do_rate * DropOutGenderMultipliers[gender];
 		tEventTime = RandUniform(17) / do_rate;
 	}
 	tEventTime = WAIT(tEventTime);
@@ -68,3 +80,41 @@ void Child::DropOutEvent()
 	school_status = DROPOUT;
 	mother_dsd_at_dropout = mother_disease_status_detailed_fm;
 };
+
+/*
+	//EN Dropout Probabilities
+	double	DropOutRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][SCHOOL_YEARS] = {
+		// F, HIGH
+		(2) {
+			0.046044102, (6) 0.023022051, (3) 0.018417641, (2) 0.027626461, 
+		},
+		0.055252922, (6) 0.027626461, (3) 0.022101169, (2) 0.033151753, 
+		0.050648512, (6) 0.025324256, (3) 0.020259405, (2) 0.030389107, 
+		0.069066153, (6) 0.034533076, (3) 0.027626461, (2) 0.041439692, 
+		0.092088204, (6) 0.046044102, (3) 0.036835282, (2) 0.055252922, 
+		// F, LOW
+		(2) {
+			0.152584941, (6) 0.076292471, (3) 0.061033976, (2) 0.114438706, 
+		},
+		0.183101929, (6) 0.091550965, (3) 0.073240772, (2) 0.137326447, 
+		0.167843435, (6) 0.083921718, (3) 0.067137374, (2) 0.125882576, 
+		0.228877412, (6) 0.114438706, (3) 0.091550965, (2) 0.171658059, 
+		0.305169882, (6) 0.152584941, (3) 0.122067953, (2) 0.228877412, 
+		// M, HIGH
+		(2) {
+			0.046044102, (6) 0.023022051, (3) 0.018417641, (2) 0.027626461, 
+		},
+		0.055252922, (6) 0.027626461, (3) 0.022101169, (2) 0.033151753, 
+		0.050648512, (6) 0.025324256, (3) 0.020259405, (2) 0.030389107, 
+		0.075972768, (6) 0.037986384, (3) 0.030389107, (2) 0.045583661, 
+		0.092088204, (6) 0.046044102, (3) 0.036835282, (2) 0.055252922, 
+		// M, LOW
+		(2) {
+			0.152584941, (6) 0.076292471, (3) 0.061033976, (2) 0.114438706, 
+		},
+		0.183101929, (6) 0.091550965, (3) 0.073240772, (2) 0.137326447, 
+		0.167843435, (6) 0.083921718, (3) 0.067137374, (2) 0.125882576, 
+		0.251765153, (6) 0.125882576, (3) 0.100706061, (2) 0.188823865, 
+		0.305169882, (6) 0.152584941, (3) 0.122067953, (2) 0.228877412, 
+	};
+*/
