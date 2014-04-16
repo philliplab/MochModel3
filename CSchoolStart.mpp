@@ -23,7 +23,7 @@ parameters
 
 parameter_group ChildSchooling
 { //EN Child Schooling Parameters
-	MinSchoolStart, MaxSchoolStart, DropOutRates
+	MinSchoolStart, MaxSchoolStart, DropOutRates, DropOutDiseaseMultipliers, DropOutGenderMultipliers
 };
 
 classification SCHOOL_STATE

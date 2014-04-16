@@ -43,7 +43,7 @@ parameters
 };
 
 /* NOTE(DropOutRates, EN)
-    The probability of a child to drop out of school in the specific year given 
+    The probability of a child to drop out of school in the specific school year given 
 	the socio economic status of the child
 */
 
