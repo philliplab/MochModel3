@@ -23,22 +23,23 @@
 
 parameters
 {
-	double MTreatmentRateSymptoms; //EN Treatment Rate of Mothers showing symptoms
-	double MTreatmentRateDiagnosed; //EN Treatment Rate of Diagnosed Mothers
+	double MTreatmentMultiplierSymptoms; //EN Treatment Access Accelleration with Symptoms
+	double MTreatmentRatesDiagnosed[MORT_TIME]; //EN Treatment Rates of Diagnosed Mothers by year
 };
 
-/* NOTE(MTreatmentRateSymptoms, EN)
-    An exponential rate at which mothers access treatment
-	after they start to show symptoms.
+/* NOTE(MTreatmentMultiplierSymptoms, EN)
+	A Multiplier Describing how much Faster Mothers with Symptoms Access Treatment
 */
-/* NOTE(MTreatmentRateDiagnosed, EN)
-    An exponential rate at which mothers access treatment
-	after they are diagnosed.
+/* NOTE(MTreatmentRatesDiagnosed, EN)
+    Exponential rates at which mothers access treatment
+	after they are diagnosed. Since treatment access rates change with time, 
+	a seperate rate must be specified for each year between 1985 and 2025. After
+	2025, it is assumed that treatment rates stay at 2025 levels.
 */
 
 parameter_group MotherTreatment
 { //EN Parameters controlling the Mother's access to Treatment
-	MTreatmentRateDiagnosed, MTreatmentRateSymptoms
+	MTreatmentRatesDiagnosed, MTreatmentMultiplierSymptoms
 };
 
 actor Mother
@@ -48,16 +49,17 @@ actor Mother
 
 TIME Mother::timeTreatmentEvent()
 {
+	int time_indx = integer_age;
+	double multiplier = 1;
+	if (time_indx > 40){ time_indx = 40;};
 	TIME tEventTime = TIME_INFINITE;
 	if (disease_status == INFECTED && diagnosed == TRUE)
 	{
 		if (showing_symptoms == TRUE)
 		{
-			tEventTime = log(RandUniform(10)) / -MTreatmentRateSymptoms;
-		} else
-		{
-			tEventTime = log(RandUniform(11)) / -MTreatmentRateDiagnosed;
+			double multiplier = MTreatmentMultiplierSymptoms;
 		};
+		tEventTime = log(RandUniform(11)) / -MTreatmentRatesDiagnosed[time_indx] * multiplier;
 	};
 	tEventTime = WAIT(tEventTime);
 	return (tEventTime);

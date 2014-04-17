@@ -100,15 +100,20 @@ parameters {
 */
 
 	double	MDiagnosisRate = .2; //EN Diagnosis Rate of Mothers
-/* NOTE ( MTreatmentRateSymptoms, EN )
-    Arbitrarily chosen. Should yield an average time to treatment of 1 year.
-*/
+
 
 	double	MTreatmentRateSymptoms = 1; //EN Treatment Rate of Mothers showing symptoms
+
+
+/* NOTE ( MTreatmentMultiplierSymptoms, EN )
+    Arbitrarily chosen.
+*/
+	double MTreatmentMultiplierSymptoms = 1; //EN Treatment Access Accelleration with Symptoms
+	double MTreatmentRatesDiagnosed[MORT_TIME] = {(41) 0.4}; //EN Treatment Rates of Diagnosed Mothers by year
+
 /* NOTE ( MTreatmentRateDiagnosed, EN )
     Arbitrarily chosen. Should yield an average time to treatment of 2 years.
 */
-
 	double	MTreatmentRateDiagnosed = 0.5; //EN Treatment Rate of Diagnosed Mothers
 /* NOTE ( FertilityRates, EN )
     From Faikah
