@@ -1,13 +1,64 @@
+//LABEL(CDepression, EN) Implementation of Child Depression
+
+/* NOTE(CDepression, EN)
+	Sets a child's depression status.
+
+	- Data Requirements
+
+	The annual probabilities of becoming depressed is given by the AbusedDepressionRates
+	and the AbusedDepressionRates parameters in the case where the child is abused and
+	not abused respectively. A child's probability of becoming abused is further affected by:
+	- Gender
+	- Socio_economic_state
+	- The child's mother's disease state
+	- Age
+
+	A child can only become depressed from the day the child turns 12 until the day
+	before the child turns 19.
+
+	- Implementation Details
+
+	This event is first scheduled the moment when the child becomes 12. The event is
+	then rescheduled whenever one of the indices of the depression rates table changes or
+	the child's abuse status changes. The child's gender and socioeconomic status cannot 
+	change in this model. The event is thus rescheduled every year when the child ages 
+	and everytime the mother's disease state changes in addition to when the child's abuse
+	status changes.
+
+	The event is simply scheduled by drawing a random number from a uniform distribution
+	and dividing it by the depression probability of the child.
+
+	In the case where the mother's disease progresses, the child's age will not be an integer.
+	This special case is handled by scheduling the child's depression event using the child's age
+	rounded down to the nearest integer to lookup the child's depression probability. 
+	The event is then scheduled as previously.
+*/
+
 range DEPRESSION_YEARS
 {
 	12, 18
 };
 
+/* NOTE( DEPRESSION_YEARS, EN)
+    A child can only become depressed and/or abused from the day the child 
+	turns 12 until the day before the child turns 19.
+*/
+
 parameters
 {
-	double AbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS];
-	double NotAbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS];
+	double AbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS]; //EN Depression Probabilities in Presence of Abuse
+	double NotAbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS]; //EN Abuse Probabilities in Absence of Abuse
 };
+
+/* NOTE(AbusedDepressionRates, EN)
+    The probability of a child to become depressed based on his/her gender, socio economic status,
+	mother's disease state and age if the child is abused.
+*/
+
+/* NOTE(NotAbusedDepressionRates, EN)
+    The probability of a child to become abused based on his/her gender, socio economic status,
+	mother's disease state and age if the child is not abused.
+*/
 
 parameter_group ChildAbuseDepression
 { //EN Child's Abuse Parameters
@@ -16,77 +67,42 @@ parameter_group ChildAbuseDepression
 
 actor Child
 {
-	TIME wait_till_depression_age = {12};
-	logical depression_age = {FALSE};
 	logical depressed = {FALSE};
-	event timeDepressionAgeEvent, DepressionAgeEvent;
 	event timeDepressionEvent, DepressionEvent;
 };
 
-double Child::timeDepressionAgeEvent()
-{
-	TIME tEventTime = TIME_INFINITE;
-	if (ChildModelType == RISK_FACTORS)
-	{
-		tEventTime = WAIT(1);
-	};
-	return(tEventTime);
-};
-
-void Child::DepressionAgeEvent()
-{
-	depression_age = ((age >= 12) && (age < 19)) ? TRUE : FALSE;
-	if (age < 19)
-	{
-		wait_till_depression_age = 7;
-	} else {
-		wait_till_depression_age = TIME_INFINITE;
-	};
-};
-
 double depressionTime(DEPRESSION_YEARS curr_age, GENDER gender_internal, DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal, logical abused_internal)
-{
-	double x = RandUniform(8);
-	int indx = -1;
-	double notDeproProb = 1;
-	double prevnotDeproProb = 1;
-	double depro_time = pow(10,10);
+{	
 	int depression_age_indx = curr_age - 12;
 	if (depression_age_indx < 0) {depression_age_indx = 0;};
 	if (depression_age_indx > 6) {depression_age_indx = 6;};
-	while (x <= notDeproProb && depression_age_indx + indx < 6)
-	{
-		indx++;
-		prevnotDeproProb = notDeproProb;
-		double depro_rate;
-		if (abused_internal == TRUE){
-			depro_rate = AbusedDepressionRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx + indx];
-		} else {
-			depro_rate = NotAbusedDepressionRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx + indx];
-		};
-		notDeproProb = notDeproProb * (1 - depro_rate);
+	
+	double depro_rate;
+	if (abused_internal == TRUE){
+		depro_rate = AbusedDepressionRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx];
+	} else {
+		depro_rate = NotAbusedDepressionRates[gender_internal][SocioEconomicStatus][mother_disease_status_detailed_fm_internal][depression_age_indx];
 	};
-	if (x > notDeproProb)
-	{
-		depro_time = indx + ((x - notDeproProb) / (prevnotDeproProb - notDeproProb));
-		if (depro_time + curr_age > 19){
-		    depro_time = pow(10,10);
-		};
-	};
+
+	double depro_time = pow(10,10);
+	depro_time = RandUniform(8) / depro_rate;
+
 	return(depro_time);
 };
 
 TIME Child::timeDepressionEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
-	if (depression_age == TRUE){
+	if ((integer_age >= 12) && (integer_age <= 19)){
 		tEventTime = depressionTime(integer_age, gender, mother_disease_status_detailed_fm, abused);
-	}
+	};
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);
 };
 
 void Child::DepressionEvent()
 {
-	depressed = TRUE;
+	if ((age >= 12) && (age < 19)){
+		depressed = TRUE;
+	};
 };

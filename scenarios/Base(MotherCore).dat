@@ -170,7 +170,6 @@ parameters {
     No gender specific dropout rates are available
 */
 
-
 	 //EN Dropout Gender Multipliers
 	double	DropOutGenderMultipliers[GENDER] = {
 		(2) 1, 
@@ -179,6 +178,10 @@ parameters {
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale
 	SOCIO_ECONOMIC_STATE	SocioEconomicStatus = HIGH; //EN SocioEconomicStatus
 
+/* NOTE ( AbuseRates, EN )
+    Adapted from the rates found in the 'Abuse Data' worksheet of the 'child_outcomes_data.xlsx' file. 
+	A slight mismatch between the disease states in the dataset and the model was corrected.
+*/
 	 //EN AbuseRates
 	double	AbuseRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS] = {
 		// F, HIGH
@@ -215,6 +218,10 @@ parameters {
 		0.162587, 0.148866, 0.141053, 0.133529, 0.126296, 0.119355, 0.112705, 
 	};
 
+/* NOTE ( AbusedDepressionRates, EN )
+    Adapted from the rates found in the 'Depression' worksheet of the 'child_outcomes_data.xlsx' file. 
+	A slight mismatch between the disease states in the dataset and the model was corrected.
+*/
 	 //EN AbusedDepressionRates
 	double	AbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS] = {
 		// F, HIGH
@@ -250,7 +257,10 @@ parameters {
 		0.055092279, 0.057357719, 0.063334566, 0.06958108, 0.076042302, 0.082654542, 0.089347702, 
 		0.294532297, 0.305068019, 0.335814561, 0.367745442, 0.400557727, 0.433911608, 0.467443854, 
 	};
-
+/* NOTE ( NotAbusedDepressionRates, EN )
+    Adapted from the rates found in the 'Depression' worksheet of the 'child_outcomes_data.xlsx' file. 
+	A slight mismatch between the disease states in the dataset and the model was corrected.
+*/
 	 //EN NotAbusedDepressionRates
 	double	NotAbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS] = {
 		// F, HIGH
