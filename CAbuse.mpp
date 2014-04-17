@@ -49,13 +49,14 @@ actor Child
 
 double abuseTime(DEPRESSION_YEARS curr_age, 
 	GENDER gender_internal, 
-	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal)
+	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm_internal, 
+	SOCIO_ECONOMIC_STATE c_ses)
 {
 	double abuse_time = pow(10,10);
 	int depression_age_indx = curr_age - 12;
 	if (depression_age_indx < 0) {depression_age_indx = 0;};
 	if (depression_age_indx > 6) {depression_age_indx = 6;};
-	double curr_abuse_rate = AbuseRates[gender_internal][SocioEconomicStatus]
+	double curr_abuse_rate = AbuseRates[gender_internal][c_ses]
 	    [mother_disease_status_detailed_fm_internal][depression_age_indx];	
 	abuse_time = RandUniform(4) / curr_abuse_rate;
     if (abuse_time > 1){
@@ -68,7 +69,7 @@ TIME Child::timeAbuseEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if ((integer_age >= 12) && (integer_age <= 19)){
-		tEventTime = abuseTime(integer_age, gender, mother_disease_status_detailed_fm);
+		tEventTime = abuseTime(integer_age, gender, mother_disease_status_detailed_fm, ses);
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);

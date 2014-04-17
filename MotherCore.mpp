@@ -1,12 +1,23 @@
+//LABEL(ChildCore, EN) The Mother Actor
+
 range LIFE
 {
 	0, 100
 };
 
+/* NOTE(LIFE, EN)
+    Actors are only allowed to live to age 100
+*/
+
 partition VAN_DER_PAAL_AGES
 {
 	13, 25, 35, 45
 };
+
+/* NOTE(VAN_DER_PAAL_AGES, EN)
+    The survival curves presented in the Van der Paal article
+	is grouped in to 5 different groups bounded by 13, 25, 35, 45, and Infinity
+*/
 
 range VAN_DER_PAAL_INDX //EN Van der Paal Age Index
 {
@@ -23,10 +34,16 @@ classification SOCIO_ECONOMIC_STATE
 	HIGH, LOW
 };
 
+
+/* NOTE(SOCIO_ECONOMIC_STATE, EN)
+    The socioeconomic status of the mothers. It is assumed that this state cannot change. 
+*/
+
+
 parameters 
 {
 	int		StartingPopulationSize; //EN Starting Population Size
-	SOCIO_ECONOMIC_STATE SocioEconomicStatus;
+	double PercentageHighSES; //EN Percentage of Mothers in the High Socioeconomic class
 };
 
 /* NOTE(StartingPopulationSize, EN)
@@ -35,7 +52,7 @@ parameters
 
 parameter_group MochCore
 { //EN Mothers' Mortality Parameters
-	StartingPopulationSize, ChildModelType, PropChildrenFemale, SocioEconomicStatus
+	StartingPopulationSize, ChildModelType, PropChildrenFemale, PercentageHighSES
 };
 
 classification DISEASE_STATE
@@ -45,6 +62,13 @@ classification DISEASE_STATE
 	TREATED,
 	DEAD
 };
+
+/* NOTE(DISEASE_STATE, EN)
+    A simple classification of disease state of the mothers. This is only used internally
+	by the model. It is augmented with logical variables like showing_symptoms and diagnosed.
+	Having two different sets of disease states were required in order to have
+	fine enough control over the scheduling of the events.
+*/
 
 classification DISEASE_STATE_DETAILED
 {
@@ -56,10 +80,17 @@ classification DISEASE_STATE_DETAILED
 	DEAD_
 };
 
+/* NOTE(DISEASE_STATE_DETAILED, EN)
+    The disease states used in reporting. This includes all disease states and is not augmented with
+	any other variables. Having two different sets of disease states were required in order to have
+	fine enough control over the scheduling of the events.
+*/
+
 actor_set Mother asAllMother; //EN All Mother actors
 
 actor Mother            //EN Mother
 {
+	SOCIO_ECONOMIC_STATE ses = {LOW};
 	DISEASE_STATE disease_status = {HEALTHY};
 	DISEASE_STATE_DETAILED disease_status_detailed = {HEALTHY_};
 	REPORT_TIME report_time = { 0 };
@@ -80,6 +111,11 @@ void Mother::Start()
 	age = 0;
 	time = 0;
 	inf_mortality_draw = RandUniform(3);
+	if (RandUniform(13) > PercentageHighSES){
+	    ses = LOW;
+	} else {
+	    ses = HIGH;
+	};
 }
 
 void Mother::Finish()

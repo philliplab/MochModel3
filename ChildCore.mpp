@@ -1,3 +1,5 @@
+//LABEL(ChildCore, EN) The Child Actor
+
 parameters
 {
 	CHILD_MODEL_TYPE ChildModelType;
@@ -19,6 +21,7 @@ actor_set Child asAllChild; //EN All Child actors
 
 actor Child            //EN Individual
 {
+	SOCIO_ECONOMIC_STATE ses = {LOW};
 	REPORT_TIME report_time = { 0 };
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm = {HEALTHY_};
@@ -33,7 +36,7 @@ actor Child            //EN Individual
 	void Mother_Symptoms();
 	void Mother_Treat();
 	void Mother_Diagnose();
-	void Set_Mother_Age(double m_age);
+	void Set_Mother_Age_And_SES(double m_age, SOCIO_ECONOMIC_STATE m_ses);
 	void Start();
 	void Finish();
 };
@@ -68,9 +71,10 @@ void Child::Mother_Diagnose()
 	mother_disease_status_detailed_fm = DIAGNOSED_;
 };
 
-void Child::Set_Mother_Age(double m_age)
+void Child::Set_Mother_Age_And_SES(double m_age, SOCIO_ECONOMIC_STATE m_ses)
 {
 	mother_age_at_birth = m_age;
+	ses = m_ses;
 };
 
 void Child::Start()

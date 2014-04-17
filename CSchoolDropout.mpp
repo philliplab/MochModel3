@@ -66,7 +66,7 @@ TIME Child::timeDropOutEvent()
 {
 	TIME tEventTime = TIME_INFINITE;
 	if (school_status == IN_SCHOOL){
-        double do_rate = DropOutRates[SocioEconomicStatus][integer_age - 6];
+        double do_rate = DropOutRates[ses][integer_age - 6];
 		do_rate = do_rate * DropOutDiseaseMultipliers[mother_disease_status_detailed_fm];
 		do_rate = do_rate * DropOutGenderMultipliers[gender];
 		tEventTime = RandUniform(17) / do_rate;
