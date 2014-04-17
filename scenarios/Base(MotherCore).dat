@@ -38,7 +38,7 @@ parameters {
 	    Set to 1 because no modification of incidence rates is desired.
 */
 
-	double	Incidence_Multiplier = 0; //EN Incidence Multiplier
+	double	Incidence_Multiplier = 1; //EN Incidence Multiplier
 /* NOTE ( MInfectedMortPhi, EN )
 	The Van der Paal article only provides survival
 	estimates for ages > 13. To ease the implementation, the first entry of the phi parameter corresponds
