@@ -13,7 +13,42 @@ partition INFECTION_AGES
 	0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50, 75, 100
 };
 
-//Tables that have been quality checked
+table Child OverallMetricsSchool //EN Overall Metrics for School Model
+[integer_age < 19]
+{
+	{
+		value_in(alive),				//EN Population size
+		undergone_transition( integer_age, 17, 18),	//EN Number who reached age 18
+		duration(alive, TRUE), //EN Total number of child years
+		undergone_transition( school_status, IN_SCHOOL, DROPOUT ), //EN Total Dropouts
+		undergone_transition( school_status, IN_SCHOOL, GRADUATED ) //EN Total Graduations from School
+	}
+};
+
+table Child OverallMetricsRisk //EN Overall Metrics for Risk Model
+[integer_age < 19]
+{
+	{
+		value_in(alive),				//EN Population size
+		undergone_transition( integer_age, 17, 18),	//EN Number who reached age 18
+		duration(alive, TRUE), //EN Total number of child years
+		undergone_transition(abused, FALSE, TRUE ), //EN Total Number of children that experienced abuse
+		undergone_transition(depressed, FALSE, TRUE ), //EN Total Number of children who became depressed
+		duration(consistent_condom_user, TRUE), //EN Total years of consistent condom use
+		undergone_transition(sexually_experienced, FALSE, TRUE) //EN Number of early sexual debuts
+	}
+};
+
+table Mother OverallMetricsMothers //EN Overall Metrics Describing the Mothers
+{
+	{
+		value_in(alive),				//EN Population size
+		undergone_transition(disease_status_detailed, HEALTHY_, INFECTED_ ), //EN Number of Mothers who became infected
+		undergone_transition(disease_status_detailed, SYMPTOMS_, TREATED_ ) +
+		  undergone_transition(disease_status_detailed, DIAGNOSED_, TREATED_ ), //EN Number of Mothers who accessed treatment
+		duration(disease_status, INFECTED) //EN Total time mothers were infected, symtomatic or diagnosed without dying or treatment
+	}
+};
 
 // Child
 
@@ -109,6 +144,18 @@ table Child AllAbuseTransitionsChild
 	}
 };
 
+table Child AllCondomUseTransitionsChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( consistent_condom_user, TRUE, FALSE ),
+		undergone_transition( consistent_condom_user, FALSE, TRUE ),
+		duration( consistent_condom_user, TRUE),
+		duration( consistent_condom_user, FALSE)
+	}
+};
+
 table Child AllDepressionTransitionsChild
 {
 	integer_age+ //EN Integer Age
@@ -119,13 +166,26 @@ table Child AllDepressionTransitionsChild
 	}
 };
 
+table Child AllDebutTransitionsChild
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( sexually_experienced, TRUE, FALSE ),
+		undergone_transition( sexually_experienced, FALSE, TRUE )
+	}
+};
+
 table Child RiskChild
 {
 	integer_age+ //EN Integer Age
 	*
 	{
+		duration( alive, TRUE), //EN Number of child years
 		undergone_transition( abused, FALSE, TRUE ), //EN Became abused
-		undergone_transition( depressed, FALSE, TRUE ) //EN Became depressed
+		undergone_transition( depressed, FALSE, TRUE ), //EN Became depressed
+		undergone_transition( sexually_experienced, FALSE, TRUE ), //EN Early Sexual Debut
+		duration( consistent_condom_user, TRUE) //EN Consistent Condom Users
 	}
 };
 
@@ -134,9 +194,25 @@ table Child SchoolChild
 	integer_age+ //EN Integer Age
 	*
 	{
+		duration( alive, TRUE), //EN Number of child years
 		undergone_transition( school_status, NOT_IN_SCHOOL, IN_SCHOOL ), //EN Starting School
 		undergone_transition( school_status, IN_SCHOOL, DROPOUT ), //EN Dropout
 		undergone_transition( school_status, IN_SCHOOL, GRADUATED ) //EN Graduated
+	}
+};
+
+table Child DiseaseOfMother
+{
+	integer_age+
+	*
+	{
+		duration( alive, TRUE), //EN Number of child years
+		duration(mother_disease_status_detailed_fm, HEALTHY_), //EN Healthy Mother
+		duration(mother_disease_status_detailed_fm, INFECTED_), //EN Infected Mother
+		duration(mother_disease_status_detailed_fm, DIAGNOSED_), //EN Diagnosed Mother
+		duration(mother_disease_status_detailed_fm, SYMPTOMS_), //EN Symptomatic Mother
+		duration(mother_disease_status_detailed_fm, TREATED_), //EN Treated Mother
+		duration(mother_disease_status_detailed_fm, DEAD_) //EN Deceased Mother
 	}
 };
 
@@ -393,7 +469,7 @@ table Child MDSDdropout //EN MDSD_dropout
 
 table_group CHILD
 {
-	DurationOfLifeChild, RiskChild, SchoolChild
+	DurationOfLifeChild, RiskChild, SchoolChild, DiseaseOfMother
 };
 
 table_group MOTHER
@@ -401,24 +477,10 @@ table_group MOTHER
 	DurationOfLifeMother, FertDetails, MotherLifeTable
 };
 
-table_group M_OUT_OF_TABLES
-{
-	OutOfHealthy, OutOfInfected, OutOfSymptoms, OutOfDiagnosed, OutOfTreated
-};
-
-table_group C_OUT_OF_TABLES
-{
-	OutOfNotInSchool, OutOfInSchool
-};
-
 table_group TESTING
 {
 	AllDiseaseTransitionsChild, AllDiseaseTransitionsMother, AllSchoolTransitionsChild, 
-	AllAbuseTransitionsChild, AllDepressionTransitionsChild, AllinfectibleTransitionsMother
-};
-
-table_group UNCATEGORIZED_TABLES
-{
-	MotherEventAgeHist_fm, MotherEventCount_fm, AgeAtBirthChild,
-	MotherEventAges, MotherEventHist, AgeAtBirthMother
+	AllAbuseTransitionsChild, AllDepressionTransitionsChild, AllinfectibleTransitionsMother,
+	OutOfHealthy, OutOfInfected, OutOfSymptoms, OutOfDiagnosed, OutOfTreated, OutOfNotInSchool, 
+	OutOfInSchool
 };

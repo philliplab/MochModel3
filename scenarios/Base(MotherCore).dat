@@ -100,25 +100,16 @@ parameters {
 */
 
 	double	MDiagnosisRate = .2; //EN Diagnosis Rate of Mothers
-
-
-	double	MTreatmentRateSymptoms = 1; //EN Treatment Rate of Mothers showing symptoms
-
-
 /* NOTE ( MTreatmentMultiplierSymptoms, EN )
     Arbitrarily chosen.
 */
-	double MTreatmentMultiplierSymptoms = 1; //EN Treatment Access Accelleration with Symptoms
-	double MTreatmentRatesDiagnosed[MORT_TIME] = {(41) 0.4}; //EN Treatment Rates of Diagnosed Mothers by year
 
-/* NOTE ( MTreatmentRateDiagnosed, EN )
-    Arbitrarily chosen. Should yield an average time to treatment of 2 years.
-*/
-	double	MTreatmentRateDiagnosed = 0.5; //EN Treatment Rate of Diagnosed Mothers
-/* NOTE ( FertilityRates, EN )
-    From Faikah
-*/
+	double	MTreatmentMultiplierSymptoms = 1; //EN Treatment Access Accelleration with Symptoms
 
+	 //EN Treatment Rates of Diagnosed Mothers by year
+	double	MTreatmentRatesDiagnosed[MORT_TIME] = {
+		(41) 0.4, 
+	};
 
 	 //EN Fertility Rates
 	double	FertilityRates[LIFE] = {
@@ -180,23 +171,87 @@ parameters {
 	double	DropOutGenderMultipliers[GENDER] = {
 		(2) 1, 
 	};
-
-/* NOTE (ChildModelType, EN)
+/* NOTE ( ChildModelType, EN )
     Arbitrarily chosen
 */
+
 	CHILD_MODEL_TYPE	ChildModelType = RISK_FACTORS; //EN ChildModelType
-
-/* NOTE (PropChildrenFemale, EN)
+/* NOTE ( PropChildrenFemale, EN )
     Arbitrarily chosen
 */
+
 	double	PropChildrenFemale = 0.5; //EN PropChildrenFemale
-
-/* NOTE (PercentageHighSES, EN)
+/* NOTE ( PercentageHighSES, EN )
     Arbitrarily chosen
 */
+
 	double	PercentageHighSES = 0; //EN Percentage of Mothers in the High Socioeconomic class
+
+	 //EN Consistent Condom Usage Probabilities in Presence of Abuse
+	double	AbusedCondomUsageRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED] = {
+		// F
+		(6) 0.2724951, 
+		(6) 0.3402905, 
+		// M
+		(6) 0.3044915, 
+		(6) 0.3761317, 
+	};
+
+	 //EN Consistent Condom Usage Probabilities in Absence of Abuse
+	double	NotAbusedCondomUsageRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED] = {
+		// F
+		(6) 0.3872231, 
+		(6) 0.4653058, 
+		// M
+		(6) 0.4248243, 
+		(6) 0.5042499, 
+	};
+
+	 //EN Early Sexual Debut Probabilities in Presence of Abuse
+	double	AbusedDebutRates[DEBUT_YEARS][GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED] = {
+		// 13, F
+		0.0534033, 0.0181546, 0.0237053, 0.0534033, 0.0181546, 0.0237053, 
+		0.0359454, 0.0119021, 0.0153067, 0.0534033, 0.0181546, 0.0237053, 
+		// 13, M
+		0.0143782, 0.0047608, 0.0061227, 0.1540739, 0.0451743, 0.0544471, 
+		0.0534033, 0.0181546, 0.0237053, 0.0534033, 0.0181546, 0.0237053, 
+		// 14, F
+		0.0319321, 0.0106953, 0.0138454, 0.0534033, 0.0181546, 0.0237053, 
+		0.0127729, 0.0042781, 0.0055381, 0.054372, 0.0184586, 0.0240829, 
+		// 14, M
+		0.1516137, 0.0446203, 0.0538808, 0.1516137, 0.0446203, 0.0538808, 
+		0.0888506, 0.0251176, 0.0297364, 0.1516137, 0.0446203, 0.0538808, 
+		// 15, F
+		0.0355403, 0.010047, 0.0118946, 0.1540739, 0.0451743, 0.0544471, 
+		0.1359904, 0.0409815, 0.0500859, 0.1359904, 0.0409815, 0.0500859, 
+		// 15, M
+		0.0799481, 0.0232325, 0.0278773, 0.1359904, 0.0409815, 0.0500859, 
+		0.0319793, 0.009293, 0.0111509, 0.1382383, 0.0415179, 0.0506534, 
+	};
+
+	 //EN Early Sexual Debut Probabilities in Absence of Abuse
+	double	NotAbusedDebutRates[DEBUT_YEARS][GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED] = {
+		// 13, F
+		0.038531, 0.013376, 0.0176833, 0.038531, 0.013376, 0.0176833, 
+		0.0231105, 0.0079366, 0.0104251, 0.038531, 0.013376, 0.0176833, 
+		// 13, M
+		0.0092442, 0.0031746, 0.00417, 0.0392411, 0.0136089, 0.0179806, 
+		0.0340922, 0.0119088, 0.0158025, 0.0340922, 0.0119088, 0.0158025, 
+		// 14, F
+		0.020467, 0.0070812, 0.0093427, 0.0340922, 0.0119088, 0.0158025, 
+		0.0081868, 0.0028325, 0.0037371, 0.0347234, 0.0121186, 0.0160724, 
+		// 14, M
+		0.1005616, 0.0319422, 0.0401407, 0.1005616, 0.0319422, 0.0401407, 
+		0.059549, 0.0184047, 0.0227919, 0.1005616, 0.0319422, 0.0401407, 
+		// 15, F
+		0.0238196, 0.0073619, 0.0091168, 0.1022932, 0.0324098, 0.0406723, 
+		0.0896431, 0.0289313, 0.0366761, 0.0896431, 0.0289313, 0.0366761, 
+		// 15, M
+		0.0532025, 0.0167548, 0.0209576, 0.0896431, 0.0289313, 0.0366761, 
+		0.021281, 0.0067019, 0.008383, 0.0912058, 0.0293688, 0.0371841, 
+	};
 /* NOTE ( AbuseRates, EN )
-    Adapted from the rates found in the 'Abuse Data' worksheet of the 'child_outcomes_data.xlsx' file. 
+    Adapted from the rates found in the 'Abuse data' worksheet of the 'child_outcomes_data.xlsx' file. 
 	A slight mismatch between the disease states in the dataset and the model was corrected.
 */
 
@@ -283,7 +338,7 @@ parameters {
 */
 
 
-	 //EN Abuse Probabilities in Absence of Abuse
+	 //EN Depression Probabilities in Absence of Abuse
 	double	NotAbusedDepressionRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED][DEPRESSION_YEARS] = {
 		// F, HIGH
 		(2) {

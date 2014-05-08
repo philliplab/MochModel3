@@ -69,7 +69,11 @@ TIME Child::timeDropOutEvent()
         double do_rate = DropOutRates[ses][integer_age - 6];
 		do_rate = do_rate * DropOutDiseaseMultipliers[mother_disease_status_detailed_fm];
 		do_rate = do_rate * DropOutGenderMultipliers[gender];
-		tEventTime = RandUniform(17) / do_rate;
+		if (do_rate < 0.000001){
+			tEventTime = TIME_INFINITE;
+		} else {
+			tEventTime = RandUniform(17) / do_rate;
+		};
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);

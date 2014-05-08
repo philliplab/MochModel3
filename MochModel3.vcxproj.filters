@@ -83,6 +83,12 @@
     <None Include="scenarios\Base(MotherCore).dat">
       <Filter>Scenarios</Filter>
     </None>
+    <None Include="CCondomUsage.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
+    <None Include="CDebut.mpp">
+      <Filter>Modules %28mpp%29</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MochModel3.cpp">
@@ -146,6 +152,12 @@
       <Filter>C++ Files</Filter>
     </ClCompile>
     <ClCompile Include="CDepression.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CCondomUsage.cpp">
+      <Filter>C++ Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDebut.cpp">
       <Filter>C++ Files</Filter>
     </ClCompile>
   </ItemGroup>

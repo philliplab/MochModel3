@@ -1,4 +1,4 @@
-//LABEL(ChildCore, EN) The Mother Actor
+//LABEL(MotherCore, EN) The Mother Actor
 
 range LIFE
 {
@@ -90,7 +90,7 @@ actor_set Mother asAllMother; //EN All Mother actors
 
 actor Mother            //EN Mother
 {
-	SOCIO_ECONOMIC_STATE ses = {LOW};
+	SOCIO_ECONOMIC_STATE ses = {LOW}; //EN Socioeconomic Status
 	DISEASE_STATE disease_status = {HEALTHY};
 	DISEASE_STATE_DETAILED disease_status_detailed = {HEALTHY_};
 	REPORT_TIME report_time = { 0 };
@@ -99,12 +99,18 @@ actor Mother            //EN Mother
 	VAN_DER_PAAL_INDX vdp_age_at_infection = {4};
 	VAN_DER_PAAL_INDX vdp_age_at_symptoms = {4};
 	logical alive = {TRUE};
-	double inf_mortality_draw = {-1};
+	double inf_mortality_draw = {-1}; //EN Random Draw for Mortality after Infection
 	logical showing_symptoms = {FALSE};
 
 	void Start();
 	void Finish();
 };
+/* NOTE(Mother.inf_mortality_draw, EN)
+    The random number used to schedule death after infection. This draw must be available to the
+	module that schedules the transition into the symptoms state so that the two events can be
+	correlated. Hence this draw is saved as a property of the mother instead of just being
+	a local variable in the MMortality module.
+*/
 
 void Mother::Start()
 {

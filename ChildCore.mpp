@@ -21,7 +21,7 @@ actor_set Child asAllChild; //EN All Child actors
 
 actor Child            //EN Individual
 {
-	SOCIO_ECONOMIC_STATE ses = {LOW};
+	SOCIO_ECONOMIC_STATE ses = {LOW}; //EN Socioeconomic Status
 	REPORT_TIME report_time = { 0 };
 	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
 	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm = {HEALTHY_};
@@ -29,7 +29,7 @@ actor Child            //EN Individual
 	logical mother_showing_symptoms = {FALSE};
 	GENDER gender;
 	LIFE integer_age = self_scheduling_int(age);
-	double mother_age_at_birth = {0};
+	double mother_age_at_birth = {0}; //EN The age of the mother at her child's birth
 
 	void Mother_Infect();
 	void Mother_Die();
