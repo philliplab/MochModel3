@@ -100,14 +100,13 @@ parameters {
 */
 
 	double	MDiagnosisRate = .2; //EN Diagnosis Rate of Mothers
-/* NOTE ( MTreatmentMultiplierSymptoms, EN )
-    Arbitrarily chosen.
+/* NOTE ( MSymptomsDiagnosisRate, EN )
+    Arbitrarily chosen. Should yield an average time to diagnosis of 1 years after starting to show symptoms.
 */
+	double MSymptomsDiagnosisRate = 1; //EN Diagnosis Rate of Mothers Showing Symptoms
 
-	double	MTreatmentMultiplierSymptoms = 1; //EN Treatment Access Accelleration with Symptoms
-
-	 //EN Treatment Rates of Diagnosed Mothers by year
-	double	MTreatmentRatesDiagnosed[MORT_TIME] = {
+	 //EN Treatment Rates of Diagnosed Mothers showing symptoms by year
+	double	MTreatmentRates[MORT_TIME] = {
 		(41) 0.4, 
 	};
 
@@ -185,7 +184,7 @@ parameters {
     Arbitrarily chosen
 */
 
-	double	PercentageHighSES = 0; //EN Percentage of Mothers in the High Socioeconomic class
+	double	PercentageHighSES = 1; //EN Percentage of Mothers in the High Socioeconomic class
 
 	 //EN Consistent Condom Usage Probabilities in Presence of Abuse
 	double	AbusedCondomUsageRates[GENDER][SOCIO_ECONOMIC_STATE][DISEASE_STATE_DETAILED] = {
@@ -250,6 +249,11 @@ parameters {
 		0.0532025, 0.0167548, 0.0209576, 0.0896431, 0.0289313, 0.0366761, 
 		0.021281, 0.0067019, 0.008383, 0.0912058, 0.0293688, 0.0371841, 
 	};
+/* NOTE ( Abuse_Multiplier, EN )
+	    Set to 1 because no modification of abuse rates is desired.
+*/
+
+	double	Abuse_Multiplier = 1; //EN Abuse Multiplier
 /* NOTE ( AbuseRates, EN )
     Adapted from the rates found in the 'Abuse data' worksheet of the 'child_outcomes_data.xlsx' file. 
 	A slight mismatch between the disease states in the dataset and the model was corrected.

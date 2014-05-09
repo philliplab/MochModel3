@@ -45,7 +45,7 @@ table Mother OverallMetricsMothers //EN Overall Metrics Describing the Mothers
 		value_in(alive),				//EN Population size
 		undergone_transition(disease_status_detailed, HEALTHY_, INFECTED_ ), //EN Number of Mothers who became infected
 		undergone_transition(disease_status_detailed, SYMPTOMS_, TREATED_ ) +
-		  undergone_transition(disease_status_detailed, DIAGNOSED_, TREATED_ ), //EN Number of Mothers who accessed treatment
+		undergone_transition(disease_status_detailed, DIAGNOSED_, TREATED_ ), //EN Number of Mothers who accessed treatment
 		duration(disease_status, INFECTED) //EN Total time mothers were infected, symtomatic or diagnosed without dying or treatment
 	}
 };

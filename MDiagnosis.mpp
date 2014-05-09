@@ -20,6 +20,7 @@
 parameters
 {
 	double MDiagnosisRate; //EN Diagnosis Rate of Mothers
+	double MSymptomsDiagnosisRate; //EN Diagnosis Rate of Mothers Showing Symptoms
 };
 
 /* NOTE(MDiagnosisRate, EN)
@@ -29,7 +30,7 @@ parameters
 
 parameter_group MotherDiagnosis
 { //EN Mothers' Diagnosis Parameters
-	MDiagnosisRate
+	MDiagnosisRate, MSymptomsDiagnosisRate
 };
 
 actor Mother
@@ -44,7 +45,11 @@ TIME Mother::timeDiagnosisEvent()
 	TIME tEventTime = TIME_INFINITE;
 	if (disease_status == INFECTED && diagnosed == FALSE)
 	{
-		tEventTime = log(RandUniform(9)) / -MDiagnosisRate;
+		if (showing_symptoms == FALSE){
+			tEventTime = log(RandUniform(9)) / -MDiagnosisRate;
+		} else {
+			tEventTime = log(RandUniform(19)) / -MSymptomsDiagnosisRate;
+		}
 	}
 	tEventTime = WAIT(tEventTime);
 	return(tEventTime);
@@ -53,7 +58,9 @@ TIME Mother::timeDiagnosisEvent()
 void Mother::diagnosisEvent()
 {
 	diagnosed = TRUE;
-	disease_status_detailed = DIAGNOSED_;
+	if (showing_symptoms == FALSE){
+	    disease_status_detailed = DIAGNOSED_;
+	};
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))
