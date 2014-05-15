@@ -55,16 +55,17 @@ parameter_group MochCore
 	StartingPopulationSize, ChildModelType, PropChildrenFemale, PercentageHighSES
 };
 
-classification DISEASE_STATE
+classification DISEASE_STATE_DATA
 {
 	HEALTHY,
 	INFECTED,
-	TREATED,
+	SYMPTOMS,
 	DEAD
 };
 
-/* NOTE(DISEASE_STATE, EN)
-    A simple classification of disease state of the mothers. This is only used internally
+/* NOTE(DISEASE_STATE_DATA, EN)
+    A simple classification of disease state of the mothers. It matches the disease state used to
+	index the parameters affecting child transitions. This is only used internally
 	by the model. It is augmented with logical variables like showing_symptoms and diagnosed.
 	Having two different sets of disease states were required in order to have
 	fine enough control over the scheduling of the events.
@@ -76,29 +77,13 @@ classification DISEASE_STATE_DETAILED
 	INFECTED_,
 	SYMPTOMS_,
 	DIAGNOSED_,
+	SYMPTOMS_DIAGNOSED_,
 	TREATED_,
+	TREATMENT_STOPPED_,
 	DEAD_
 };
 
 /* NOTE(DISEASE_STATE_DETAILED, EN)
-    The disease states used in reporting. This includes all disease states and is not augmented with
-	any other variables. Having two different sets of disease states were required in order to have
-	fine enough control over the scheduling of the events.
-*/
-
-classification DISEASE_STATE_TEST
-{
-	HEALTHY_,
-	INFECTED_,
-	SYMPTOMS_,
-	DIAGNOSED_,
-	SYMPTOMS_DIAGNOSED_,
-	TREATED_,
-	DEAD_
-};
-
-/* NOTE(DISEASE_STATE_TEST, EN)
-    During an advanced stage of model development another disease state was added.
     The disease states used in reporting. This includes all disease states and is not augmented with
 	any other variables. Having two different sets of disease states were required in order to have
 	fine enough control over the scheduling of the events.
@@ -111,7 +96,6 @@ actor Mother            //EN Mother
 	SOCIO_ECONOMIC_STATE ses = {LOW}; //EN Socioeconomic Status
 	DISEASE_STATE disease_status = {HEALTHY};
 	DISEASE_STATE_DETAILED disease_status_detailed = {HEALTHY_};
-	DISEASE_STATE_TEST disease_status_test = {HEALTHY_};
 	REPORT_TIME report_time = { 0 };
 	LIFE integer_age = self_scheduling_int(age);
 	VAN_DER_PAAL_INDX vdp_age_int = self_scheduling_split(age, VAN_DER_PAAL_AGES);

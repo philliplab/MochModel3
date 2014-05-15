@@ -227,6 +227,7 @@ void Mother::MortalityEvent()
 	alive = FALSE;
 	disease_status = DEAD;
 	disease_status_detailed = DEAD_;
+	disease_status_test = DEADt;
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

@@ -109,6 +109,11 @@ TIME Mother::timeSymptomEvent()
 void Mother::SymptomEvent()
 {
 	disease_status_detailed = SYMPTOMS_;
+	if (diagnosed == TRUE){
+		disease_status_test = SYMPTOMS_DIAGNOSEDt;
+	} else {
+		disease_status_test = SYMPTOMSt;
+	}
 	showing_symptoms = TRUE;
 //	diagnosed = TRUE;
 	vdp_age_at_symptoms = vdp_age_int;

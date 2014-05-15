@@ -118,6 +118,7 @@ void Mother::InfectionEvent()
 {
 	disease_status = INFECTED;
 	disease_status_detailed = INFECTED_;
+	disease_status_test = INFECTEDt;
 
 	vdp_age_at_infection = vdp_age_int;
 

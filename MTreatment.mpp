@@ -60,6 +60,7 @@ void Mother::TreatmentEvent()
 {
 	disease_status = TREATED;
 	disease_status_detailed = TREATED_;
+	disease_status_test = TREATEDt;
 	showing_symptoms = FALSE;
 	int nIndex = {-1};
 	Child *prChild = {NULL};

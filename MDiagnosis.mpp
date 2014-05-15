@@ -60,7 +60,11 @@ void Mother::diagnosisEvent()
 	diagnosed = TRUE;
 	if (showing_symptoms == FALSE){
 	    disease_status_detailed = DIAGNOSED_;
+		disease_status_test = DIAGNOSEDt;
+	} else {
+	    disease_status_test = SYMPTOMS_DIAGNOSEDt;
 	};
+
 	int nIndex = {-1};
 	Child *prChild = {NULL};
 	while (prChild = mlChild->GetNext(nIndex+1, &nIndex))

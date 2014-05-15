@@ -286,9 +286,62 @@ table Mother MotherLifeTable //EN Mother life Table
 		entrances(disease_status_detailed, DEAD_), //EN Deaths
 		entrances(disease_status_detailed, INFECTED_), //EN New_Infections
 		duration(disease_status_detailed, INFECTED_) + 
-			duration(disease_status_detailed, DIAGNOSED_) +
-			duration(disease_status_detailed, SYMPTOMS_) + 
-			duration(disease_status_detailed, TREATED_) //EN Infected
+		duration(disease_status_detailed, DIAGNOSED_) +
+		duration(disease_status_detailed, SYMPTOMS_) + 
+		duration(disease_status_detailed, TREATED_) //EN Infected
+	}
+};
+
+table Mother MotherLifeTable2 //EN Mother life Table2
+{
+	integer_age //EN Age
+	*
+	{
+		unit, //EN Alive
+		entrances(disease_status_test, INFECTEDt), //EN Infected
+		entrances(disease_status_test, DIAGNOSEDt), //EN Diagnosed
+		entrances(disease_status_test, SYMPTOMSt), //EN Symptoms
+		entrances(disease_status_test, SYMPTOMS_DIAGNOSEDt), //EN Symptoms and Diagnosed
+		entrances(disease_status_test, TREATEDt), //EN Treated
+		entrances(disease_status_test, DEADt) //EN Deaths
+	}
+};
+
+table Mother MotherLifeTable3 //EN Mother life Table3
+{
+	integer_age //EN Age
+	*
+	{
+		unit, //EN Alive
+		duration(disease_status_test, INFECTEDt), //EN Infected
+		duration(disease_status_test, DIAGNOSEDt), //EN Diagnosed
+		duration(disease_status_test, SYMPTOMSt), //EN Symptoms
+		duration(disease_status_test, SYMPTOMS_DIAGNOSEDt), //EN Symptoms and Diagnosed
+		duration(disease_status_test, TREATEDt), //EN Treated
+		duration(disease_status_test, DEADt) //EN Deaths
+	}
+};
+
+table Mother MotherSelectedDiseaseTransitions
+{
+	integer_age+ //EN Integer Age
+	*
+	{
+		undergone_transition( disease_status_test, HEALTHYt, INFECTEDt ),
+		undergone_transition( disease_status_test, HEALTHYt, DEADt ),
+		undergone_transition( disease_status_test, INFECTEDt, SYMPTOMSt ),
+		undergone_transition( disease_status_test, INFECTEDt, DIAGNOSEDt ),
+		undergone_transition( disease_status_test, INFECTEDt, SYMPTOMS_DIAGNOSEDt ),
+		undergone_transition( disease_status_test, INFECTEDt, DEADt ),
+		undergone_transition( disease_status_test, SYMPTOMSt, DIAGNOSEDt ),
+		undergone_transition( disease_status_test, SYMPTOMSt, SYMPTOMS_DIAGNOSEDt ),
+		undergone_transition( disease_status_test, SYMPTOMSt, TREATEDt ),
+		undergone_transition( disease_status_test, SYMPTOMSt, DEADt ),
+		undergone_transition( disease_status_test, DIAGNOSEDt, SYMPTOMSt ),
+		undergone_transition( disease_status_test, DIAGNOSEDt, SYMPTOMS_DIAGNOSEDt ),
+		undergone_transition( disease_status_test, DIAGNOSEDt, TREATEDt ),
+		undergone_transition( disease_status_test, DIAGNOSEDt, DEADt ),
+		undergone_transition( disease_status_test, TREATEDt, DEADt )
 	}
 };
 
