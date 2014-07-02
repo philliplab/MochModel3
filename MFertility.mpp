@@ -54,7 +54,7 @@ range PARITY
 parameters 
 {
 	double FertilityRates[LIFE]; //EN Fertility Rates
-	double DiseaseFertMultipliers[DISEASE_STATE]; //EN Fertility Multipliers based on Disease State of Mother
+	double DiseaseFertMultipliers[DISEASE_STATE_DETAILED]; //EN Fertility Multipliers based on Disease State of Mother
 	double ParityFertMultipliers[PARITY]; //EN Fertility Multipliers based on Parity of Mother
 };
 
@@ -100,7 +100,7 @@ TIME Mother::timeBirthSchedEvent()
 	return(tEventTime);
 };
 
-double next_birth_time(int curr_age, DISEASE_STATE curr_disease_status, double prev_birth_time_of_year, PARITY number_children_internal)
+double next_birth_time(int curr_age, DISEASE_STATE_DETAILED curr_disease_status, double prev_birth_time_of_year, PARITY number_children_internal)
 {
 	double x = RandUniform(12);
 	double not_birth_prob = 1;

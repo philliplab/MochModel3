@@ -292,6 +292,7 @@ table Mother MotherLifeTable //EN Mother life Table
 	}
 };
 
+/*
 table Mother MotherLifeTable2 //EN Mother life Table2
 {
 	integer_age //EN Age
@@ -344,7 +345,7 @@ table Mother MotherSelectedDiseaseTransitions
 		undergone_transition( disease_status_test, TREATEDt, DEADt )
 	}
 };
-
+*/
 table Mother AllinfectibleTransitionsMother
 {
 	integer_age+ //EN Integer Age
@@ -376,7 +377,7 @@ table Child MotherEventCount_fm //EN Mother event experienced by children
 		unit
 	}
 };
-
+/*
 table Mother MotherEventAges //EN Avg Age of mother at events 
 {
 	{
@@ -398,7 +399,7 @@ table Mother MotherEventHist //EN Histogram of mother age at events
 		entrances(disease_status, DEAD) //EN Age at Death
 	}
 };
-
+*/
 table Mother FertDetails //EN Number of children per mother
 [alive == FALSE]
 {

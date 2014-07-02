@@ -23,7 +23,7 @@ actor Child            //EN Individual
 {
 	SOCIO_ECONOMIC_STATE ses = {LOW}; //EN Socioeconomic Status
 	REPORT_TIME report_time = { 0 };
-	DISEASE_STATE mother_disease_status_fm = {HEALTHY};
+	DISEASE_STATE_DATA mother_disease_status_fm = {HEALTHY};
 	DISEASE_STATE_DETAILED mother_disease_status_detailed_fm = {HEALTHY_};
 	DISEASE_STATE_DETAILED mother_dsd_at_dropout;
 	logical mother_showing_symptoms = {FALSE};
